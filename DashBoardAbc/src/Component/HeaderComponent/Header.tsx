@@ -43,7 +43,7 @@ const Header: React.FC<{ handleSide: (state: Boolean) => void }> = (props) => {
                             <GiSettingsKnobs />
                         </div>
                         <div>
-                            <IoIosLogOut />
+                            <IoIosLogOut onClick={()=>localStorage.clear()} />
                         </div>
                     </div>
                 </div>

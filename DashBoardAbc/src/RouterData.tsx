@@ -1,4 +1,4 @@
-import LoginPage from "./Component/LoginComponent/LoginPage"
+import LoginPage from "./Component/LoginComponent/SignupPage"
 import Appointment from "./Component/Views/Appointment/Appointment"
 import MainDashboard from "./Component/Views/MainDashboard/MainDashboard"
 import Patients from "./Component/Views/Patients/Patients"
