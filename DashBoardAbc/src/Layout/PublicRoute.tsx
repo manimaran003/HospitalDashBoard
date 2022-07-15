@@ -1,5 +1,5 @@
 import {Routes,Route} from 'react-router-dom'
-import LoginPage from '../Component/LoginComponent/LoginPage'
+import LoginPage from '../Component/LoginComponent/SignupPage'
 import { RouterData } from '../RouterData'
 const PublicRoute=()=>{
     const getRoutes=()=>{

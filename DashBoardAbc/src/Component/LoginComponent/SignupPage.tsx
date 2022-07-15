@@ -1,19 +1,29 @@
 import React, { useState } from 'react'
-import './LoginPage.scss';
+import './SignupPage.scss';
 import doctorImage from '../../Assets/doctor-medicine.svg';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store'
+import { SignupAction, LoginAction } from '../../Redux/AuthenticationSlice'
 import SigninComponent from './SigninComponent';
-const LoginPage = () => {
+
+const SignupPage = () => {
+    const SignupResponseData = useSelector((state: RootState) => state.users.SignupResponse)
+    const LoginResponseData = useSelector((state: RootState) => state.users.LoginResponse)
+    console.log(SignupResponseData, "signup")
+    console.log(LoginResponseData, "login")
+
+    const dispatch = useDispatch<AppDispatch>()
     interface Signup {
         username: string,
         password: string,
         email: string
     }
     interface Signin {
-        SigninPassword: string,
-        SigninEmail: string
+        email: string,
+        password: string
     }
 
 
@@ -29,7 +39,7 @@ const LoginPage = () => {
             )
             .required("Password is required"),
     })
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const [show, setShow] = useState<Boolean>(false)
     const GotoSignUp = (state: Boolean) => {
@@ -40,24 +50,25 @@ const LoginPage = () => {
     }
     const handleLoginSubmit = (data: Signin) => {
         console.log("signin", data)
-        navigate("/dashboard")
-        window.location.reload();
+        dispatch(LoginAction(data))
     }
 
     const handleSignUpSubmit = (values: Signup) => {
+        dispatch(SignupAction(values))
         storeLocalStorage(values)
+        navigate("/dashboard/maindashboard")
     }
-    const storeLocalStorage=(values:Signup)=>{
-        const localData=localStorage.getItem("signup")
-        if(localData){
-            let local=JSON.parse("signup")
+    const storeLocalStorage = (values: Signup) => {
+        const localData = localStorage.getItem("signup")
+        if (localData) {
+            let local = JSON.parse("signup")
             local.push(values)
         }
-        else{
-            localStorage.setItem("signup",JSON.stringify([values]))
+        else {
+            localStorage.setItem("signup", JSON.stringify([values]))
         }
     }
-  
+
 
     return (
         <div className="login--box">
@@ -120,4 +131,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default SignupPage
