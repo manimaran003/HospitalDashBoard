@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './SignupPage.scss';
 import doctorImage from '../../Assets/doctor-medicine.svg';
 import { Formik, Form } from 'formik';
@@ -6,15 +6,16 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store'
+import {toast} from 'react-toastify'
 import { SignupAction, LoginAction } from '../../Redux/AuthenticationSlice'
 import SigninComponent from './SigninComponent';
-
 const SignupPage = () => {
-    const SignupResponseData = useSelector((state: RootState) => state.users.SignupResponse)
-    const LoginResponseData = useSelector((state: RootState) => state.users.LoginResponse)
+    const SignupResponseData = useSelector((state: RootState) => state?.users.SignupResponse)
+    const LoginResponseData = useSelector((state: RootState) => state?.users.LoginResponse?.data)
+    const SignupError = useSelector((state: RootState) => state?.users.signupError)
     console.log(SignupResponseData, "signup")
     console.log(LoginResponseData, "login")
-
+    console.log(SignupError, "errpr")
     const dispatch = useDispatch<AppDispatch>()
     interface Signup {
         username: string,
@@ -25,6 +26,13 @@ const SignupPage = () => {
         email: string,
         password: string
     }
+
+    useEffect(()=>{
+        if(SignupError){
+            console.log("sign",SignupError)
+            toast(SignupError)
+        }
+    },[SignupError])
 
 
     const signupSchema = Yup.object().shape({
@@ -42,33 +50,20 @@ const SignupPage = () => {
     const navigate = useNavigate()
 
     const [show, setShow] = useState<Boolean>(false)
-    const GotoSignUp = (state: Boolean) => {
+    const GotoSignUp = (state: Boolean): void => {
         setShow(state)
     }
     const GotoLogin = () => {
         setShow(true)
     }
+
     const handleLoginSubmit = (data: Signin) => {
-        console.log("signin", data)
-        dispatch(LoginAction(data))
+        dispatch(LoginAction(data, navigate))
     }
 
     const handleSignUpSubmit = (values: Signup) => {
         dispatch(SignupAction(values))
-        storeLocalStorage(values)
-        navigate("/dashboard/maindashboard")
     }
-    const storeLocalStorage = (values: Signup) => {
-        const localData = localStorage.getItem("signup")
-        if (localData) {
-            let local = JSON.parse("signup")
-            local.push(values)
-        }
-        else {
-            localStorage.setItem("signup", JSON.stringify([values]))
-        }
-    }
-
 
     return (
         <div className="login--box">
@@ -79,6 +74,7 @@ const SignupPage = () => {
                             <img src={doctorImage} alt="medicalImage" />
                         </div>
                     </div>
+
                     <div className='col-sm-12 col-md-12 col-lg-6 col-xl-6 login--container-inactive d-flex justify-content-center align-items-center'>
                         <div className='p-5 account--container d-flex justify-content-center'>
                             {
@@ -127,6 +123,7 @@ const SignupPage = () => {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }
