@@ -1,16 +1,25 @@
 import './App.css';
-import { getStorageDetail } from './Layout/StorageDetail';
-import PrivateRoute from './Layout/PrivateRoute';
-import PublicRoute from './Layout/PublicRoute';
-
+import MainRoutes from "./Layout/MainRoutes";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
-  let data = getStorageDetail();
+  console.log("hai", process.env.REACT_APP_API_URL)
   return (
     <div className="App">
-     {
-      data ? <PrivateRoute/> : <PublicRoute/>
-     }
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <ToastContainer />
+      <MainRoutes />
     </div>
-  );
+  )
 }
 export default App;

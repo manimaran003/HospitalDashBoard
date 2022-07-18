@@ -10,13 +10,10 @@ import { BiCalendar } from 'react-icons/bi'
 import { BsChat } from 'react-icons/bs'
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { IoIosLogOut } from 'react-icons/io';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { AiOutlineSearch } from 'react-icons/ai'
-import { AiOutlineHome } from 'react-icons/ai'
+import { AiOutlineMenu,AiOutlineSearch,AiOutlineUser,AiOutlineHome } from 'react-icons/ai';
 import { GiSettingsKnobs } from 'react-icons/gi'
 import { TiMessages } from 'react-icons/ti';
 import { BiLeftArrowAlt } from 'react-icons/bi';
-import { AiOutlineUser } from 'react-icons/ai'
 import './PrivateRoute.scss'
 import 'antd/dist/antd.css';
 
@@ -119,7 +116,6 @@ const PrivateRoute = () => {
     const navigate = useNavigate()
     const location = useLocation();
     const breadCrumbsPath = () => {
-        console.log("breadCrumbsPath", location.pathname);
         switch (location.pathname) {
             case "/dashboard/maindashboard": {
                 return {
@@ -225,9 +221,9 @@ const PrivateRoute = () => {
                 }
                 else {
                     item.menuItems?.map((val) => {
-                        console.log("new path", val)
+                      
                         if (val.key === e.key) {
-                            console.log("checkpath", val.key, e.key)
+                         
                             return navigate(val.layout + val.path)
                         }
                     })
@@ -243,20 +239,14 @@ const PrivateRoute = () => {
         return RouterData?.map((item) => {
             if (item.layout === '/dashboard') {
                 if (!item.submenu) {
-                    return data ? (<Route path={item.layout + item.path} element={item.component} />) : (<Navigate to="/" />)
+                    console.log(item)
+                    return <Route path={item.layout + item.path} element={item.component} />
                 }
                 if (item.submenu) {
                     return item.menuItems?.map((e: any) => {
-                        console.log("hai new e", e)
                         return <Route path={e.layout + e.path} element={e.component} />
                     })
                 }
-                // else {
-                //     item.menuItems?.map((e: any) => {
-                //         console.log("hai new e",e)
-                //         return <Route path={e.layout + e.path} element={<AddDoctor/>} />
-                //     })
-                // }
             }
             else {
                 return null;
