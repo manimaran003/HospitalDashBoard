@@ -1,4 +1,4 @@
-import LoginPage from "./Component/LoginComponent/LoginPage"
+import LoginPage from "./Component/LoginComponent/SignupPage"
 import Appointment from "./Component/Views/Appointment/Appointment"
 import MainDashboard from "./Component/Views/MainDashboard/MainDashboard"
 import Patients from "./Component/Views/Patients/Patients"
@@ -51,8 +51,8 @@ export const RouterData=[
         icon:<AiOutlineUserAdd/>,
         menuItems:[      
                 {
-                  path: "/AddDoctor",
-                  name: "Add Doctor",
+                  path: "/AllDoctor",
+                  name: "All Doctor",
                   layout: "/dashboard",
                   icon: <AiOutlineUserAdd/>,
                   key: "sub-add1",
