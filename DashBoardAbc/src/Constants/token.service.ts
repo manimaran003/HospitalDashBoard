@@ -12,13 +12,22 @@ const setAccessToken=(user:string)=>{
   const setRefreshToken=(user:string)=>{
     localStorage.setItem("RefreshToken", JSON.stringify(user));
   }
-
+  const UpdateAccessToken=(token:string)=>{
+    let user = JSON.parse(localStorage.getItem('accessToken') || '{}')
+    console.log("older access token",user)
+    user=token
+    console.log("user new access token",user)
+    localStorage.setItem("accessToken", JSON.stringify(user));
+  }
   const getAccessToken=()=>JSON.parse(localStorage.getItem('accessToken') || '{}')
+  const getRefreshToken=()=>JSON.parse(localStorage.getItem('RefreshToken') || '{}')
   
 const TokenService={
     setSignupUser,
     setAccessToken,
     setRefreshToken,
-    getAccessToken
+    getAccessToken,
+    getRefreshToken,
+    UpdateAccessToken
 }
 export default TokenService

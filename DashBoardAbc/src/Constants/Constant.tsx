@@ -6,4 +6,6 @@ export class Constants{
 export class ApiEndpoint{
     static LoginAuthentication="/authenticate/login";
     static SignupAuthentication="/authenticate/signup";
+    static getAllUser="/authenticate/getAllUser";
+    static refreshAuth="/authenticate/refresh"
 }

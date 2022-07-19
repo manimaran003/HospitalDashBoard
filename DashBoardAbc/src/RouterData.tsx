@@ -51,8 +51,8 @@ export const RouterData=[
         icon:<AiOutlineUserAdd/>,
         menuItems:[      
                 {
-                  path: "/AddDoctor",
-                  name: "Add Doctor",
+                  path: "/AllDoctor",
+                  name: "All Doctor",
                   layout: "/dashboard",
                   icon: <AiOutlineUserAdd/>,
                   key: "sub-add1",

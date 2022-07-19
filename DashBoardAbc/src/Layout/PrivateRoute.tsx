@@ -10,7 +10,7 @@ import { BiCalendar } from 'react-icons/bi'
 import { BsChat } from 'react-icons/bs'
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { IoIosLogOut } from 'react-icons/io';
-import { AiOutlineMenu,AiOutlineSearch,AiOutlineUser,AiOutlineHome } from 'react-icons/ai';
+import { AiOutlineMenu, AiOutlineSearch, AiOutlineUser, AiOutlineHome } from 'react-icons/ai';
 import { GiSettingsKnobs } from 'react-icons/gi'
 import { TiMessages } from 'react-icons/ti';
 import { BiLeftArrowAlt } from 'react-icons/bi';
@@ -43,17 +43,17 @@ const sidebarRoute = RouterData?.map((item: any) => {
             return getItem(item.name, item.key, item.icon)
         }
         else {
-            let submenu:any=[]
+            let submenu: any = []
             item.menuItems.map((e: any) => {
-              submenu.push(getItem(e.name, e.key, e.icon))
+                submenu.push(getItem(e.name, e.key, e.icon))
             })
             return getItem(item.name, item.key, item.icon, submenu)
-          
-                // return getItem(item.name, item.key, item.icon,[
-                //    getItem("AddDoctors", "sub-add1", item.icon),
-                //    getItem("EditDoctor", "sub-add2", item.icon),
-                //    getItem("DeleteDoctor", "sub-add3", item.icon),
-                // ])
+
+            // return getItem(item.name, item.key, item.icon,[
+            //    getItem("AddDoctors", "sub-add1", item.icon),
+            //    getItem("EditDoctor", "sub-add2", item.icon),
+            //    getItem("DeleteDoctor", "sub-add3", item.icon),
+            // ])
         }
     }
     else {
@@ -112,6 +112,7 @@ const Header = () => {
 }
 
 const PrivateRoute = () => {
+    console.log("private route")
     const [hideSidebar, setSidebar] = useState<Boolean>(true)
     const navigate = useNavigate()
     const location = useLocation();
@@ -133,6 +134,12 @@ const PrivateRoute = () => {
                 return {
                     path: "Taskboard",
                     route: ["taskboard"],
+                };
+            }
+            case "/dashboard/AddDoctor": {
+                return {
+                    path: "Add Doctor",
+                    route: ["Add Doctor", "Doctors"],
                 };
             }
             default:
@@ -221,9 +228,9 @@ const PrivateRoute = () => {
                 }
                 else {
                     item.menuItems?.map((val) => {
-                      
+
                         if (val.key === e.key) {
-                         
+
                             return navigate(val.layout + val.path)
                         }
                     })
@@ -285,6 +292,13 @@ const PrivateRoute = () => {
                     defaultSelectedKeys: ["Patients"],
                 };
             }
+            case "/dashboard/AllDoctor": {
+                return {
+                    defaultOpenKeys: ["sub4", "sub-add1"],
+                    defaultSelectedKeys: ["All Doctor", "Doctors"],
+                };
+            }
+
 
             default: {
                 return {

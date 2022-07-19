@@ -96,6 +96,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from 'axios';
 import { Constants, ApiEndpoint } from "../Constants/Constant";
 import TokenService from '../Constants/token.service'
+import Api from '../Constants/Instance'
 
 export const SignupAction = (data: any) => async (dispatch: (arg0: any) => void) => {
     try {
@@ -128,7 +129,6 @@ export const LoginAction = (data: any,navigate:any) => async (dispatch: (arg0: a
             method: 'POST',
             url: Constants.BaseUrl + ApiEndpoint.LoginAuthentication,
             data,
-
         }).then((res) => {
             console.log(res)
             return res.data
@@ -151,6 +151,34 @@ export const LoginAction = (data: any,navigate:any) => async (dispatch: (arg0: a
     }
 }
 
+export const getUserList = () => async (dispatch: (arg0: any) => void) => {
+    console.log("inside it")
+    try {
+        const userList = await Api({
+            method: 'GET',
+            url: Constants.BaseUrl + ApiEndpoint.getAllUser,
+            headers: {'authorization':TokenService.getAccessToken()}
+
+        }).then((res) => {
+            console.log(res)
+            return res.data
+        });
+        if (userList) {
+            dispatch(AllUserList(userList))
+        }
+    }
+    catch (err) {
+        console.log(err)
+        // const error = err as any
+        // let { message } = error?.response?.data
+        // console.log(message)
+        // dispatch(setSignupError(message))
+    }
+}
+
+
+
+
 
 const initialState = {
     SignupResponse: {
@@ -158,6 +186,9 @@ const initialState = {
     },
     LoginResponse: {
         data: {}
+    },
+    userListResponse:{
+        data:{}
     },
     signupError: ""
 }
@@ -186,10 +217,16 @@ const usersSlice = createSlice({
             console.log("reset", state)
             state.signupError = ""
         },
+        AllUserList:(state,action)=>{
+            console.log(state,action)
+            state.userListResponse={
+                data:action.payload
+            }
+        }
     },
 })
 
-export const { setSignUpSuccess, setLoginSuccess, setSignupError, tweetStoreReseted } = usersSlice.actions
+export const { setSignUpSuccess, setLoginSuccess, setSignupError, tweetStoreReseted,AllUserList } = usersSlice.actions
 
 export default usersSlice.reducer
 
