@@ -142,6 +142,12 @@ const PrivateRoute = () => {
                     route: ["Add Doctor", "Doctors"],
                 };
             }
+            case "/dashboard/AllPatients": {
+                return {
+                    path: "All Patients",
+                    route: ["All Patients", "Patients"],
+                };
+            }
             default:
                 return {
                     path: "",
@@ -286,10 +292,10 @@ const PrivateRoute = () => {
                     defaultSelectedKeys: ["Doctors"],
                 };
             }
-            case "/dashboard/patients": {
+            case "/dashboard/AllPatients": {
                 return {
-                    defaultOpenKeys: ["sub5"],
-                    defaultSelectedKeys: ["Patients"],
+                    defaultOpenKeys: ["sub-patient1"],
+                    defaultSelectedKeys: ["All Patients"],
                 };
             }
             case "/dashboard/AllDoctor": {
@@ -298,6 +304,7 @@ const PrivateRoute = () => {
                     defaultSelectedKeys: ["All Doctor", "Doctors"],
                 };
             }
+
 
 
             default: {
