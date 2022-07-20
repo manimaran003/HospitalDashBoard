@@ -78,7 +78,7 @@ const rows = [
   createData('Nigeria', 'NG', 200962417, 923768),
   createData('Brazil', 'BR', 210147125, 8515767),
 ];
-const CustomTable=()=>{
+const CustomTable = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -132,7 +132,7 @@ const CustomTable=()=>{
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5,10]}
+        rowsPerPageOptions={[5, 10]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
