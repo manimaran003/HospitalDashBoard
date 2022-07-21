@@ -1,6 +1,6 @@
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { RouterData } from '../RouterData'
-import { getStorageDetail } from '../Layout/StorageDetail'
+import { getStorageDetail } from './StorageDetail'
 import React, { useState } from "react";
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -14,7 +14,7 @@ import { AiOutlineMenu, AiOutlineSearch, AiOutlineUser, AiOutlineHome } from 're
 import { GiSettingsKnobs } from 'react-icons/gi'
 import { TiMessages } from 'react-icons/ti';
 import { BiLeftArrowAlt } from 'react-icons/bi';
-import './PrivateRoute.scss'
+import './MainLayout.scss'
 import 'antd/dist/antd.css';
 
 const drawerWidth = 240;
@@ -39,7 +39,7 @@ function getItem(
 }
 const sidebarRoute = RouterData?.map((item: any) => {
     if (item.layout === "/dashboard") {
-        if (!item.submenu) {
+        if (!item.submenu || item.visibleInMenu === false) {
             return getItem(item.name, item.key, item.icon)
         }
         else {
@@ -111,7 +111,7 @@ const Header = () => {
     )
 }
 
-const PrivateRoute = () => {
+const MainLayout = () => {
     console.log("private route")
     const [hideSidebar, setSidebar] = useState<Boolean>(true)
     const navigate = useNavigate()
@@ -146,6 +146,12 @@ const PrivateRoute = () => {
                 return {
                     path: "All Patients",
                     route: ["All Patients", "Patients"],
+                };
+            }
+            case "/dashboard/viewPatients": {
+                return {
+                    path: "View Patients",
+                    route: ["View Patients", "Patients"],
                 };
             }
             default:
@@ -305,8 +311,6 @@ const PrivateRoute = () => {
                 };
             }
 
-
-
             default: {
                 return {
                     defaultOpenKeys: [],
@@ -315,9 +319,7 @@ const PrivateRoute = () => {
             }
         }
     }
-
     let activeMenu = SideBarActiveMenu()
-
     return (
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -374,4 +376,4 @@ const PrivateRoute = () => {
     )
 }
 
-export default PrivateRoute;
+export default MainLayout;

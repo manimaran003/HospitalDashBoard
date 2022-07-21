@@ -9,6 +9,7 @@ import { BsCalendar3, BsListTask } from 'react-icons/bs'
 import EditDoctor from "./Component/Views/Doctors/EditDoctor"
 import DeleteDoctors from "./Component/Views/Doctors/DeleteDoctors"
 import AllPatientsView from "./Component/Views/Patients/AllPatientsView"
+import ViewPatients from './Component/Views/Patients/ViewPatients'
 export const RouterData = [
     {
         path: "/",
@@ -22,7 +23,9 @@ export const RouterData = [
         submenu: false,
         layout: "/dashboard",
         key: "sub1",
-        icon: <GoHome />
+        visibleInMenu:true,
+        icon: <GoHome />,
+        
     },
     {
         name: "Appointment",
@@ -31,6 +34,7 @@ export const RouterData = [
         submenu: false,
         layout: "/dashboard",
         key: "sub2",
+        visibleInMenu:true,
         icon: <BsCalendar3 />
     },
     {
@@ -40,8 +44,19 @@ export const RouterData = [
         submenu: false,
         layout: "/dashboard",
         key: "sub3",
+        visibleInMenu:true,
         icon: <BsListTask />
     },
+    {
+        path: "/viewPatients",
+        name: "All Patients",
+        layout: "/dashboard",
+        icon: <AiOutlineUserAdd />,
+        key: "sub-patient1",
+        component: <ViewPatients/>,
+        visibleInMenu:true,
+    },
+   
     {
         name: "Doctors",
         path: "",
@@ -57,6 +72,7 @@ export const RouterData = [
                 icon: <AiOutlineUserAdd />,
                 key: "sub-add1",
                 component: <AddDoctor />,
+                visibleInMenu:true,
             },
             {
                 path: "/EditDoctor",
@@ -65,6 +81,7 @@ export const RouterData = [
                 icon: <AiOutlineUserAdd />,
                 key: "sub-add2",
                 component: <EditDoctor />,
+                visibleInMenu:true,
             },
             {
                 path: "/DeleteDoctor",
@@ -73,6 +90,7 @@ export const RouterData = [
                 icon: <AiOutlineUserAdd />,
                 key: "sub-add3",
                 component: <DeleteDoctors />,
+                visibleInMenu:true,
             },
         ]
     },
@@ -92,6 +110,7 @@ export const RouterData = [
                 icon: <AiOutlineUserAdd />,
                 key: "sub-patient1",
                 component: <AllPatientsView />,
+                visibleInMenu:true,
             },
         ]
     },

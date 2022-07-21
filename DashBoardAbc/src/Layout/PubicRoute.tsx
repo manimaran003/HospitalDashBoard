@@ -10,11 +10,11 @@ const useAuth=()=>{
   }
 }
 
-const  NewPublicRoute=(props:any) =>{
+const  PublicRoute=(props:any) =>{
 
   const auth=useAuth()
 
   return auth?<Navigate to="/dashboard"/>: <Outlet/>
 }
 
-export default NewPublicRoute;
+export default PublicRoute;

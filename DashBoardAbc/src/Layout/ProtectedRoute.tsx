@@ -10,11 +10,11 @@ const useAuth = () => {
   }
 }
 
-const NewPrivatetRoute = (props: any) => {
+const ProtectedRoute = (props: any) => {
 
   const auth = useAuth()
 
   return auth ? <Outlet /> : <Navigate to="/login" />
 }
 
-export default NewPrivatetRoute;
+export default ProtectedRoute;

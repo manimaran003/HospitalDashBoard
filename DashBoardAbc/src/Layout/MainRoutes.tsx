@@ -1,24 +1,20 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import NewPublicRoute from "./NewPubicRoute";
-import NewPrivateRoute from "./NewPrivateRoute";
+import PublicRoute from "./PubicRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import SignupPage from "../Component/LoginComponent/SignupPage";
-import PrivateRoute from "./PrivateRoute";
+import MainLayout from "./MainLayout";
 import InnerContent from "./InnerContent";
 
 const MainRoutes = () => (
   <Routes>
-    {/** Protected Routes */}
-    {/** Wrap all Route under ProtectedRoutes element */}
-    <Route path="/" element={<NewPrivateRoute />}>
+    <Route path="/" element={<ProtectedRoute />}>
       <Route path="/" element={<InnerContent />}>
         <Route path="/" element={<Navigate replace to="dashboard" />} />
-        <Route path="*" element={<PrivateRoute />} />
+        <Route path="*" element={<MainLayout />} />
       </Route>
     </Route>
-    {/** Public Routes */}
-    {/** Wrap all Route under PublicRoutes element */}
-    <Route path="/" element={<NewPublicRoute />}>
+    <Route path="/" element={<PublicRoute />}>
       <Route path="/login" element={<SignupPage />} />
     </Route>
   </Routes>
