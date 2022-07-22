@@ -54,7 +54,7 @@ export const RouterData = [
         icon: <AiOutlineUserAdd />,
         key: "sub-patient1",
         component: <ViewPatients/>,
-        visibleInMenu:true,
+        visibleInMenu:false,
     },
    
     {

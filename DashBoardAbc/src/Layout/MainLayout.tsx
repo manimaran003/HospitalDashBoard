@@ -39,8 +39,8 @@ function getItem(
 }
 const sidebarRoute = RouterData?.map((item: any) => {
     if (item.layout === "/dashboard") {
-        if (!item.submenu || item.visibleInMenu === false) {
-            return getItem(item.name, item.key, item.icon)
+        if (!item.submenu) {
+            return item.visibleInMenu?getItem(item.name, item.key, item.icon):null
         }
         else {
             let submenu: any = []
@@ -48,7 +48,6 @@ const sidebarRoute = RouterData?.map((item: any) => {
                 submenu.push(getItem(e.name, e.key, e.icon))
             })
             return getItem(item.name, item.key, item.icon, submenu)
-
             // return getItem(item.name, item.key, item.icon,[
             //    getItem("AddDoctors", "sub-add1", item.icon),
             //    getItem("EditDoctor", "sub-add2", item.icon),
@@ -258,7 +257,7 @@ const MainLayout = () => {
         return RouterData?.map((item) => {
             if (item.layout === '/dashboard') {
                 if (!item.submenu) {
-                    console.log(item)
+                    console.log(item.component,"harsh")
                     return <Route path={item.layout + item.path} element={item.component} />
                 }
                 if (item.submenu) {
