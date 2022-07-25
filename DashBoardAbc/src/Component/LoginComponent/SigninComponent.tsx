@@ -1,9 +1,10 @@
 import React from 'react'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+
 interface Signin {
-    SigninPassword: string,
-    SigninEmail: string
+    email: string,
+    password: string
 }
 interface Signup {
     username: string,
@@ -11,10 +12,10 @@ interface Signup {
     email: string
 }
 const signinSchema = Yup.object().shape({
-    SigninEmail: Yup.string()
+    email: Yup.string()
         .email()
         .required('Enter valid email-id'),
-    SigninPassword: Yup.string()
+    password: Yup.string()
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
@@ -30,7 +31,7 @@ const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup
         let data: any = localStorage.getItem("signup")
         let dataStorage = JSON.parse(data)
         if (dataStorage) {
-            let filterData = dataStorage.find((val: Signup) => val.email === values.SigninEmail)
+            let filterData = dataStorage.find((val: Signup) => val.email === values.email)
             console.log(filterData)
         }
     }
@@ -41,8 +42,8 @@ const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup
         <div>
             <Formik
                 initialValues={{
-                    SigninPassword: '',
-                    SigninEmail: '',
+                    password: '',
+                    email: ''
                 }}
                 onSubmit={(values) =>
                     handleLoginSubmit(values)
@@ -56,10 +57,10 @@ const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup
                         <div className='container'>
                             <h1 className="heading mt-3 mb-4">Signin Account</h1>
                             <div className="d-flex flex-column gap-3 main--input">
-                                <input placeholder='email' id="SigninEmail" name="SigninEmail" onChange={formik.handleChange} />
-                                <p className="error-text">{formik.errors.SigninEmail}</p>
-                                <input placeholder='password' name="SigninPassword" onChange={formik.handleChange} />
-                                <p className="error-text">{formik.errors.SigninPassword}</p>
+                                <input placeholder='email' id="SigninEmail" name="email" onChange={formik.handleChange} />
+                                <p className="error-text">{formik.errors.email}</p>
+                                <input placeholder='password' name="password" onChange={formik.handleChange} />
+                                <p className="error-text">{formik.errors.password}</p>
                             </div>
                             <div className='d-flex align-items-center justify-content-center'>
                                 <button className="btn--container">
