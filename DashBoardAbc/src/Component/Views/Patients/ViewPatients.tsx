@@ -52,51 +52,56 @@ const ViewPatients = () => {
             username: "jahnwi",
             TimeLine: [
                 {
-                    admitDetails: {
-                        Date: "23232",
-                        admitHeading: "heading adminti",
-                        doctorName: "jamessdd",
-                        images: ['sjfskjfdjf'],
-                        admitCheck: true
-                    }
+                    date: "01 Jun 2018",
+                    reportHeading: "Blood Report",
+                    bloodReport: true,
+                    admitReport: false,
+                    checkupReport: false,
+                    surgeryReport: false,
+                    images: [],
+                    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    reportTable: [
+                        {
+                            tableHeader: "analysis",
+                            data: [
+                                { name: "sdsd", amount: "3223" },
+                                { name: "sdsd", amount: "3223" },
+                                { name: "sdsd", amount: "3223" },
+                                { name: "sdsd", amount: "3223" },
+                            ]
+                        },
+                        {
+                            tableHeader: "species",
+                            data: [
+                                { name: "sdsd", amount: "3223" },
+                                { name: "sdsd", amount: "3223" },
+                                { name: "sdsd", amount: "3223" },
+                                { name: "sdsd", amount: "3223" },
+                            ]
+                        }
+                    ]
                 },
                 {
-                    surgeryDetails: {
-                        date: "sdsdsd",
-                        surgeryHeading: "slfkds;lkf;lf",
-                        doctorName: "sfs;lfd",
-                        surgeryDescription: "dsgdsfg",
-                        surgeryImages: ['dsfds', 'dsfdsf'],
-                        surgeryCheck: true
-                    }
+                    date: "01 Jun 2018",
+                    reportHeading: "Blood checkup test",
+                    bloodReport: false,
+                    admitReport: false,
+                    checkupReport: true,
+                    surgeryReport: false,
+                    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    reportTable: [],
+                    images: [],
                 },
                 {
-                    bloodReportDetails: {
-                        date: "343243",
-                        bloodHeader: "dsfdsfes",
-                        bloodDescription: "dslfkdslkfdslkf",
-                        bloodReportCheck: true,
-                        reportTable: [
-                            {
-                                tableHeader: "analysis",
-                                data: [
-                                    { name: "sdsd", amount: "3223" },
-                                    { name: "sdsd", amount: "3223" },
-                                    { name: "sdsd", amount: "3223" },
-                                    { name: "sdsd", amount: "3223" },
-                                ]
-                            },
-                            {
-                                tableHeader: "species",
-                                data: [
-                                    { name: "sdsd", amount: "3223" },
-                                    { name: "sdsd", amount: "3223" },
-                                    { name: "sdsd", amount: "3223" },
-                                    { name: "sdsd", amount: "3223" },
-                                ]
-                            }
-                        ]
-                    }
+                    date: "01 Jun 2018",
+                    reportHeading: "Spinal Osteomyelitis Surgery",
+                    bloodReport: false,
+                    admitReport: false,
+                    checkupReport: false,
+                    surgeryReport: true,
+                    images: ['https://media.istockphoto.com/photos/offering-patientcentred-care-that-proves-effective-and-efficient-picture-id1301555107?k=20&m=1301555107&s=612x612&w=0&h=Cnj-PabtvN4J6xBVonpez02ub100LmbKDlNPLjy_w9Y=', 'https://media.istockphoto.com/photos/diagnostic-tools-get-a-digital-upgrade-picture-id1300505874?k=20&m=1300505874&s=612x612&w=0&h=Ev_S8Ag5Pf8LiHL-dW-N8PxgftQ4D8KK-5snYu-Bhn0='],
+                    description: "web by far While that's mock-ups and this is politics, are they really so different? I think the only card she has is the Lorem card",
+                    reportTable: []
                 },
             ]
         }

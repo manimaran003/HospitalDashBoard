@@ -40,7 +40,7 @@ function getItem(
 const sidebarRoute = RouterData?.map((item: any) => {
     if (item.layout === "/dashboard") {
         if (!item.submenu) {
-            return item.visibleInMenu?getItem(item.name, item.key, item.icon):null
+            return item.visibleInMenu ? getItem(item.name, item.key, item.icon) : null
         }
         else {
             let submenu: any = []
@@ -135,10 +135,10 @@ const MainLayout = () => {
                     route: ["taskboard"],
                 };
             }
-            case "/dashboard/AddDoctor": {
+            case "/dashboard/AllDoctor": {
                 return {
-                    path: "Add Doctor",
-                    route: ["Add Doctor", "Doctors"],
+                    path: "All Doctor",
+                    route: ["Doctors", "AllDoctor"],
                 };
             }
             case "/dashboard/AllPatients": {
@@ -151,6 +151,12 @@ const MainLayout = () => {
                 return {
                     path: "View Patients",
                     route: ["View Patients", "Patients"],
+                };
+            }
+            case "/dashboard/ViewDoctor": {
+                return {
+                    path: "View Doctor",
+                    route: ["View Doctor", "Doctor"],
                 };
             }
             default:
@@ -257,7 +263,7 @@ const MainLayout = () => {
         return RouterData?.map((item) => {
             if (item.layout === '/dashboard') {
                 if (!item.submenu) {
-                    console.log(item.component,"harsh")
+                    console.log(item.component, "harsh")
                     return <Route path={item.layout + item.path} element={item.component} />
                 }
                 if (item.submenu) {
@@ -305,8 +311,14 @@ const MainLayout = () => {
             }
             case "/dashboard/AllDoctor": {
                 return {
-                    defaultOpenKeys: ["sub4", "sub-add1"],
+                    defaultOpenKeys: ["sub4", "sub-doc1"],
                     defaultSelectedKeys: ["All Doctor", "Doctors"],
+                };
+            }
+            case "/dashboard/ViewDoctor": {
+                return {
+                    defaultOpenKeys: ["sub4", "sub-doc2"],
+                    defaultSelectedKeys: ["View Dcotor", "Doctor"],
                 };
             }
 
@@ -323,7 +335,7 @@ const MainLayout = () => {
         <div>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: "none !important" }}>
+                <AppBar position="fixed" sx={{ boxShadow: "none !important" }}>
                     <Header />
                 </AppBar>
                 {

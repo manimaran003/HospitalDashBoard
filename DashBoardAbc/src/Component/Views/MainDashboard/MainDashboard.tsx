@@ -9,7 +9,6 @@ import CustomTable from './CustomTable'
 import VisitorStatistics from './VisitorStatistics';
 import HospitalActivity from './HospitalActivity';
 const MainDashboard = () => {
-    console.log("dashboar")
     return (
         <div className="p-3">
             <div className="row">

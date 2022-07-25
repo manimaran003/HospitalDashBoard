@@ -43,66 +43,75 @@ const HospitalActivity: React.FC<{ activities: string, reportsData: any }> = (pr
                             <ul className="timeline">
                                 {
                                     props.reportsData.length > 0 && props.reportsData.map((val: any) => {
-                                        return val.TimeLine.map((it: any) => {
+                                        return val.TimeLine.map((item: any) => {
                                             return (
                                                 <>
                                                     <li className="timeline-item mb-5  d-flex align-items-start flex-column">
-                                                        <p className="text-date">20-04-2018 - Today</p>
-                                                        <h5 className="mb-2 fw-bold">A Brief History Of Anesthetics</h5>
-                                                        <p className="text-name">
+                                                        <p className="text-date">{item.date}</p>
+                                                        <h5 className="mb-2 fw-bold">{item.reportHeading}</h5>
+                                                        {/* <p className="text-name">
                                                             <span>Elisse Joson</span> San Francisco, CA
                                                         </p>
                                                         <p className="text-name">
                                                             <span>Elisse Joson</span>
-                                                        </p>
+                                                        </p> */}
                                                         <p className='text-comment'>
-                                                            I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things.
+                                                            {item.description}
                                                         </p>
+
                                                         <div className="w-100">
                                                             <div className="d-flex gap-5">
-                                                                <Card sx={{ width: 300 }}>
-                                                                    <CardMedia
-                                                                        component="img"
-                                                                        height="140"
-                                                                        image="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                                                                        alt="green iguana"
-                                                                    />
-                                                                </Card>
-                                                                <Card sx={{ width: 300 }}>
-                                                                    <CardMedia
-                                                                        component="img"
-                                                                        height="140"
-                                                                        image="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                                                                        alt="green iguana"
-                                                                    />
-                                                                </Card>
+                                                                {
+                                                                    item.images.length > 0 && (
+                                                                        item?.images?.map((val: string) => {
+                                                                            return (
+
+                                                                                <Card sx={{ width: 300 }}>
+                                                                                    <CardMedia
+                                                                                        component="img"
+                                                                                        height="140"
+                                                                                        image={val}
+                                                                                        alt="green iguana"
+                                                                                    />
+                                                                                </Card>
+
+                                                                            )
+                                                                        })
+                                                                    )
+                                                                }
                                                             </div>
-                                                            <div className="report--table w-100 d-flex gap-3 mt-4">
-                                                                <div className="reports">
-                                                                    <div className="d-flex justify-content-start">Analysis IDFB-3</div>
-                                                                    <Divider />
-                                                                    <div className="d-flex justify-content-between gap-5">
-                                                                        <span>Down Cluster</span>
-                                                                        <span>90.9%</span>
+                                                            {
+                                                                item?.reportTable.length > 0 && (
+                                                                    <div className="report--table w-100 d-flex gap-3 mt-4">
+                                                                        {
+                                                                            item?.reportTable?.map((itm: any) => {
+                                                                                return (
+                                                                                    <div className="reports">
+                                                                                        <div className="d-flex justify-content-start">{itm?.tableHeader}</div>
+                                                                                        <Divider />
+                                                                                        {
+                                                                                            itm?.data?.map((Value: any) => {
+                                                                                                return (
+                                                                                                    <div>
+                                                                                                        <div className="d-flex justify-content-between gap-5">
+                                                                                                            <span>{Value.name}</span>
+                                                                                                            <span>{Value.amount}</span>
+                                                                                                        </div>
+                                                                                                        <Divider />
+                                                                                                    </div>
+                                                                                                )
+                                                                                            })
+                                                                                        }
+
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+
                                                                     </div>
-                                                                    <Divider />
-                                                                    <div className="d-flex justify-content-between gap-5">
-                                                                        <span>Down Cluster</span>
-                                                                        <span>90.9%</span>
-                                                                    </div>
-                                                                    <Divider />
-                                                                    <div className="d-flex  justify-content-between gap-5">
-                                                                        <span>Down Cluster</span>
-                                                                        <span>90.9%</span>
-                                                                    </div>
-                                                                    <Divider />
-                                                                    <div className="d-flex justify-content-between gap-5">
-                                                                        <span>Down Cluster</span>
-                                                                        <span>90.9%</span>
-                                                                    </div>
-                                                                    <Divider />
-                                                                </div>
-                                                            </div>
+                                                                )
+                                                            }
+
 
                                                         </div>
                                                     </li>
