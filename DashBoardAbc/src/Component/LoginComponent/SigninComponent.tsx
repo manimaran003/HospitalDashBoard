@@ -71,7 +71,7 @@ const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup
                         </div>
                     </Form>
                 )}
-
+                
             </Formik>
         </div>
     )
