@@ -170,7 +170,7 @@ const MainDashboard = () => {
                                     <div className="revenueDash-font">Hospital Activities</div>
                                 </div>
                                 <div className=''>
-                                    <HospitalActivity />
+                                    <HospitalActivity activities='HospitalActivity' reportsData={[]} />
                                 </div>
                             </div>
                         </Paper>
