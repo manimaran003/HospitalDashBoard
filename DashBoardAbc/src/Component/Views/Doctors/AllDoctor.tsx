@@ -70,7 +70,7 @@ const AllDoctor = () => {
                                     </div>
                                 </div>
                             </div>
-                            <CustomAddModal id={"exampleModal"} />
+                            <CustomAddModal id={"exampleModal"}  />
                         </Grid>
                         {
                             Data?.map((item: DoctorProfile) => {

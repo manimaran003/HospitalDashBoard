@@ -38,28 +38,42 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
+const SelectInput = styled(Select)(({ theme }) => ({
+    '& .MuiInputBase-input': {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        width: '100%',
+        padding: '10px 12px',
+        transition: theme.transitions.create([
+            'border-color',
+            'background-color',
+            'box-shadow',
+        ]),
+        // Use the system font instead of the default Roboto font.
+
+    },
+}));
+
 const SelectComponent: React.FC<TextFieldProps | any> = (props) => {
-    const { options, label, ...rest } = props
-    console.log(props, "select")
+    const { options, label, error, helperText, ...rest } = props
     return (
         <>
-            <InputLabel shrink htmlFor="bootstrap-input" sx={{ display: "flex" }}>
+            <InputLabel shrink htmlFor="bootstrap-input" sx={{ display: "flex", fontSize: "1.3rem", fontWeight: "bolder" }}>
                 {label}
             </InputLabel>
-            <Select
+            <SelectInput
                 labelId="demo-customized-select-label"
                 id="demo-customized-select"
-                sx={{ width: "100%" }}
+                sx={{ width: "100%", border: `${error ? "1px solid red" : ""}` }}
                 input={<BootstrapInput />}
                 {...rest}
             >
-                {options?.map((opt: any) => {
-                    return (
-                        <MenuItem value={10}>Ten</MenuItem>
-                    )
-                })}
-
-            </Select>
+                {options?.map((opt: any) => <MenuItem value={opt.data}>{opt.key}</MenuItem>)}
+            </SelectInput>
+            <span style={{ color: "red" }}>{helperText}</span>
         </>
 
     )

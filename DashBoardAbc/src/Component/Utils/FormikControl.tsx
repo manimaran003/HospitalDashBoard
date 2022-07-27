@@ -1,6 +1,7 @@
 import React from 'react'
 import InputComponent from './InputComponent'
 import SelectComponent from './SelectComponent'
+import UploadComponent from './UploadComponent'
 
 const FormikControl = (props: any) => {
     const { control, ...rest } = props;
@@ -9,9 +10,10 @@ const FormikControl = (props: any) => {
             return <InputComponent {...rest} />;
         case "select":
             return <SelectComponent {...rest} />;
+        case "upload":
+            return <UploadComponent {...rest}/>;
         default:
             return null;
     }
 }
-
-export default FormikControl
+export default FormikControl;

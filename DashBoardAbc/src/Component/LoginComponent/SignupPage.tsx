@@ -95,6 +95,7 @@ const SignupPage = () => {
                                                 <Form onSubmit={formikSignup.handleSubmit}>
                                                     <div className='container'>
                                                         <h1 className="heading mt-3 mb-4">Create Account</h1>
+                                          
                                                         <div className="d-flex flex-column gap-1 main--input">
                                                             <input placeholder='email' id="email" name="email" onChange={formikSignup.handleChange} />
                                                             <p className="error-text">{formikSignup.errors.email}</p>

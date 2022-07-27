@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl';
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
         marginTop: theme.spacing(3),
+        fontSize: 20
     },
     '& .MuiInputBase-input': {
         borderRadius: 4,
@@ -15,7 +16,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
         border: '1px solid #ced4da',
         fontSize: 16,
-        width: 'auto',
+        width: '195px',
         padding: '10px 12px',
         transition: theme.transitions.create([
             'border-color',
@@ -43,20 +44,14 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const InputComponent: React.FC<TextFieldProps> = (props) => {
-    console.log(props)
-    const { label, name, type, onChange, error } = props
+    const { label, name, type, onChange, error, helperText } = props
     return (
         <FormControl variant="standard">
-
-            {/* <TextField
-            fullWidth
-                       {...props}
-                      /> */}
-            <InputLabel shrink htmlFor="bootstrap-input">
+            <InputLabel shrink htmlFor="bootstrap-input" sx={{ fontSize: "1.3rem", fontWeight: "bolder" }}>
                 {label}
             </InputLabel>
             <BootstrapInput id="bootstrap-input" name={name} type={type} onChange={onChange} sx={{ border: `${error ? "1px solid red" : ""}` }} />
-            <span>{error}</span>
+            <span style={{ color: "red" }}>{helperText}</span>
         </FormControl>
     )
 }

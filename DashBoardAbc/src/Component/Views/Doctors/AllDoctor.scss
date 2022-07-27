@@ -31,5 +31,9 @@
     }
 }
 .modal{
-    top:224px;
+    top:88px;
+    z-index: 1000;
+}
+.modal-backdrop {
+    z-index:800;
 }
