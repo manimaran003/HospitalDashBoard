@@ -1,6 +1,6 @@
 import React from 'react';
-import CanvasJSReact from '../../../Lib/canvasjs.react';
 import './IncomeChart.scss'
+import CanvasJSReact from '../../Lib/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

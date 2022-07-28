@@ -1,0 +1,24 @@
+.avatar--card{
+  width: 150 !important; 
+  height: 150 !important;
+}
+.content{
+    &-name{
+        font-size: 15px;
+    }
+    &-text{
+        font-size: 12px;
+    }
+}
+.cart--show{
+    &-icon{
+        font-size: 30px;
+    }
+    &-number{
+        font-size: 17px;
+        font-weight: 900;
+    }
+    &-text{
+        font-size: 10px;
+    }
+}
