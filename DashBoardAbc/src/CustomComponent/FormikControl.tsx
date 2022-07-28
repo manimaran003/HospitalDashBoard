@@ -8,7 +8,7 @@ const FormikControl = (props: any) => {
     switch (control) {
         case "input":
             return <InputComponent {...rest} />;
-        case "select":
+    case "select":
             return <SelectComponent {...rest} />;
         case "upload":
             return <UploadComponent {...rest}/>;

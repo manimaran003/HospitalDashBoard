@@ -105,7 +105,7 @@ export const SignupAction = (data: any) => async (dispatch: (arg0: any) => void)
             url: Constants.BaseUrl + ApiEndpoint.SignupAuthentication,
             data
         }).then((res) => {
-            console.log(res,"response")
+            console.log(res, "response")
             return res.data
         });
         if (SignupResponse) {
@@ -122,7 +122,7 @@ export const SignupAction = (data: any) => async (dispatch: (arg0: any) => void)
     }
 }
 
-export const LoginAction = (data: any,navigate:any) => async (dispatch: (arg0: any) => void) => {
+export const LoginAction = (data: any, navigate: any) => async (dispatch: (arg0: any) => void) => {
     console.log(data)
     try {
         const LoginResponse = await axios({
@@ -157,7 +157,7 @@ export const getUserList = () => async (dispatch: (arg0: any) => void) => {
         const userList = await Api({
             method: 'GET',
             url: Constants.BaseUrl + ApiEndpoint.getAllUser,
-            headers: {'authorization':TokenService.getAccessToken()}
+            headers: { 'authorization': TokenService.getAccessToken() }
 
         }).then((res) => {
             console.log(res)
@@ -187,8 +187,8 @@ const initialState = {
     LoginResponse: {
         data: {}
     },
-    userListResponse:{
-        data:{}
+    userListResponse: {
+        data: {}
     },
     signupError: ""
 }
@@ -217,16 +217,16 @@ const usersSlice = createSlice({
             console.log("reset", state)
             state.signupError = ""
         },
-        AllUserList:(state,action)=>{
-            console.log(state,action)
-            state.userListResponse={
-                data:action.payload
+        AllUserList: (state, action) => {
+            console.log(state, action)
+            state.userListResponse = {
+                data: action.payload
             }
         }
     },
 })
 
-export const { setSignUpSuccess, setLoginSuccess, setSignupError, tweetStoreReseted,AllUserList } = usersSlice.actions
+export const { setSignUpSuccess, setLoginSuccess, setSignupError, tweetStoreReseted, AllUserList } = usersSlice.actions
 
 export default usersSlice.reducer
 

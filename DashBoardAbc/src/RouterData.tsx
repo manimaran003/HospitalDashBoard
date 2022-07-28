@@ -1,18 +1,23 @@
-import LoginPage from "./Component/LoginComponent/SignupPage"
-import Appointment from "./Component/Views/Appointment/Appointment"
-import MainDashboard from "./Component/Views/MainDashboard/MainDashboard"
-import Taskboard from "./Component/Views/Taskboard/Taskboard"
+// import LoginPage from "./Component/Views/LoginComponent/SignupPage"
+// import Appointment from "./Component/Views/Appointment/Appointment"
+// import MainDashboard from "./Component/Views/MainDashboard/MainDashboard"
+// import Taskboard from "./Component/Views/Taskboard/Taskboard"
 import { GoHome } from 'react-icons/go'
 import { AiOutlineUserAdd } from 'react-icons/ai'
-import AllDoctor from "./Component/Views/Doctors/AllDoctor"
+// import AllDoctor from "./Component/Views/Doctors/AllDoctor"
 import { BsCalendar3, BsListTask } from 'react-icons/bs'
-import ViewDoctor from "./Component/Views/Doctors/ViewDoctor"
-import AllPatientsView from "./Component/Views/Patients/AllPatientsView"
-import ViewPatients from './Component/Views/Patients/ViewPatients'
+import AllPatientsView from './Component/Patients/AllPatientsView'
+import AllDoctor from './Component/Doctors/AllDoctor'
+import MainDashboard from './Component/MainDashboard/MainDashboard'
+import Taskboard from './Component/Taskboard/Taskboard'
+import Appointment from './Component/Appointment/Appointment'
+import ViewDoctor from './Component/Doctors/ViewDoctor'
+import ViewPatients from './Component/Patients/ViewPatients'
+import SignupPage from './Component/LoginComponent/SignupPage'
 export const RouterData = [
     {
         path: "/",
-        component: <LoginPage />,
+        component: <SignupPage />,
         layout: "/"
     },
     {

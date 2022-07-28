@@ -2,9 +2,9 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PublicRoute from "./PubicRoute";
 import ProtectedRoute from "./ProtectedRoute";
-import SignupPage from "../Component/LoginComponent/SignupPage";
 import MainLayout from "./MainLayout";
 import InnerContent from "./InnerContent";
+import SignupPage from "../Component/LoginComponent/SignupPage";
 
 const MainRoutes = () => (
   <Routes>

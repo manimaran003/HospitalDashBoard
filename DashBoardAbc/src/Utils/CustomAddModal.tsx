@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import FormikControl from './FormikControl'
 import { Grid } from '@mui/material'
-import { PostDoctorInfo } from '../../Redux/DoctorSlice'
+import FormikControl from '../CustomComponent/FormikControl';
+import { PostDoctorInfo } from '../Redux/DoctorSlice'
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store'
+import { AppDispatch, RootState } from '../store'
 interface CountryOption {
     id: string,
     key: string,
@@ -61,11 +61,11 @@ const specialistData: specialistDoctor[] = [
 
 const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
     const [img, setImg] = useState("")
+    const [checkError, setCheckError] = useState<Boolean>(false)
     const dispatch = useDispatch<AppDispatch>()
     const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse)
-    console.log(PostResponseData)
     const handleSubmit = (data: DoctorInfo) => {
-        console.log(data, "jam")
+        setCheckError(!checkError)
         dispatch(PostDoctorInfo(data))
     }
     return (
@@ -104,18 +104,18 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     name="doctorImage"
                                                     type="file"
                                                     onChange={(event: any) => {
+                                                        console.log(event.target.files)
                                                         let reader: any;
                                                         reader = new FileReader();
                                                         reader.onload = () => {
-
                                                             setImg(reader.result);
                                                         };
                                                         reader.readAsDataURL(event.target.files[0]);
-
+                                                        console.log(reader)
                                                         formik.setFieldValue("doctorImage", event.target.files[0].name);
                                                     }}
-                                                    error={Boolean(formik.errors.doctorImage)}
-                                                    helperText={formik.errors.doctorImage}
+                                                    error={formik.errors.doctorImage}
+
                                                 />
                                             </Grid>
                                         </Grid>
@@ -128,7 +128,6 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     name="doctorName"
                                                     onBlur={formik.handleBlur}
                                                     onChange={formik.handleChange}
-
                                                     error={formik.touched.doctorName && Boolean(formik.errors.doctorName)}
                                                     helperText={formik.touched.doctorName && formik.errors.doctorName}
 
@@ -207,7 +206,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                     </div>
                                     <div className='d-flex align-items-center justify-content-center gap-3 mt-4'>
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button className="btn btn-secondary">
+                                        <button className="btn btn-secondary" data-bs-dismiss={`${checkError ? "modal" : ""}`} aria-label="Close">
                                             save
                                         </button>
                                     </div>

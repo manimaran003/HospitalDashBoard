@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { Card, CardContent, Avatar, Grid, Paper, Box, CircularProgress } from '@mui/material'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -6,10 +6,28 @@ import StarPurple500OutlinedIcon from '@mui/icons-material/StarPurple500Outlined
 import AdbOutlinedIcon from '@mui/icons-material/AdbOutlined';
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
 import './ViewDoctor.scss'
+interface DoctorProfile {
+    _id: string,
+    doctorName: string,
+    doctorImage: string,
+    address: string,
+    specialist: string,
+    dob: string,
+    empId: string,
+    country: string,
+    email: string,
+    phoneNumber: string,
+    __v: number
+}
+export interface LocationParams {
+
+    state: DoctorProfile;
+
+}
 const ViewDoctor = () => {
-    const loc = useLocation()
+    const location: any = useLocation()
+    const detail = location.state
     return (
         <div className='w-100'>
             <Grid container spacing={4} >
@@ -22,13 +40,13 @@ const ViewDoctor = () => {
                                         <div className="d-flex justify-content-center p-3">
                                             <Avatar
                                                 alt="Remy Sharp"
-                                                src="https://media.istockphoto.com/photos/happy-healthcare-practitioner-picture-id138205019?k=20&m=138205019&s=612x612&w=0&h=KpsSMVsplkOqTnAJmOye4y6DcciVYIBe5dYDgYXLVW4="
+                                                src={detail.doctorImage}
                                                 sx={{ width: 150, height: 150 }}
                                             />
                                         </div>
                                         <div className="content">
-                                            <h6 className='content-name'>Chandler Bing</h6>
-                                            <span className='content-text'>Washington, d.c.</span>
+                                            <h6 className='content-name'>{detail.doctorName}</h6>
+                                            <span className='content-text'>{detail.address}</span>
                                         </div>
 
                                     </CardContent>

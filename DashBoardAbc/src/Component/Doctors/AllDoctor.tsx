@@ -1,57 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './AllDoctor.scss'
 import { Grid } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom'
-import CustomAddModal from '../../Utils/CustomAddModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store';
+import { GetDoctorInfo } from '../../Redux/DoctorSlice';
+import CustomAddModal from '../../Utils/CustomAddModal';
 interface DoctorProfile {
-    id: number,
-    name: string,
-    img: string,
+    _id: string,
+    doctorName: string,
+    doctorImage: string,
     address: string,
-    role: string
-
+    specialist: string,
+    dob: string,
+    empId: string,
+    country: string,
+    email: string,
+    phoneNumber: string,
+    __v: number
 }
-const Data: DoctorProfile[] = [
-    {
-        id: 1,
-        name: "jonas",
-        img: "https://www.felixhospital.com/sites/default/files/2022-06/Dr.%20Parag%20Agarwal.jpg",
-        address: "795 Folsom Ave, Suite 600 San Francisco, faCADGE 94107",
-        role: "Dentist"
-    },
-    {
-        id: 2,
-        name: "jonas",
-        img: "https://www.felixhospital.com/sites/default/files/2022-06/Dr.%20Parag%20Agarwal.jpg",
-        address: "795 Folsom Ave, Suite 600 San Francisco, faCADGE 94107",
-        role: "Dentist"
-    },
-    {
-        id: 3,
-        name: "jonas",
-        img: "https://www.felixhospital.com/sites/default/files/2022-06/Dr.%20Parag%20Agarwal.jpg",
-        address: "795 Folsom Ave, Suite 600 San Francisco, faCADGE 94107",
-        role: "Dentist"
-    },
-    {
-        id: 4,
-        name: "jonas",
-        img: "https://www.felixhospital.com/sites/default/files/2022-06/Dr.%20Parag%20Agarwal.jpg",
-        address: "795 Folsom Ave, Suite 600 San Francisco, faCADGE 94107",
-        role: "Dentist"
-    },
-    {
-        id: 5,
-        name: "jonas",
-        img: "https://www.felixhospital.com/sites/default/files/2022-06/Dr.%20Parag%20Agarwal.jpg",
-        address: "795 Folsom Ave, Suite 600 San Francisco, faCADGE 94107",
-        role: "Dentist"
-    }
-]
+
 
 const AllDoctor = () => {
-
+    const dispatch = useDispatch<AppDispatch>()
+    const GetDoctorData = useSelector((state: RootState) => state?.Doctors.GetDoctorResponse)
+    let reportsData = GetDoctorData?.data
+    console.log(reportsData)
+    useEffect(() => {
+        dispatch(GetDoctorInfo())
+    }, [dispatch])
     return (
         <div className="w-100 mt-3 cursor-pointer">
             <Grid container>
@@ -70,34 +48,33 @@ const AllDoctor = () => {
                                     </div>
                                 </div>
                             </div>
-                            <CustomAddModal id={"exampleModal"}  />
+                            <CustomAddModal id={"exampleModal"} />
                         </Grid>
                         {
-                            Data?.map((item: DoctorProfile) => {
+                            reportsData?.length > 0 && reportsData?.map((item: DoctorProfile) => {
                                 return (
                                     <>
                                         <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                                             <Link to={`/dashboard/ViewDoctor`}
-                                                state={{ test: item }}>
-                                                <div className='w-100'>
+                                                state={item}>
+                                                <div className='w-100' key={item.empId}>
                                                     <div className="w-48 rounded overflow-hidden shadow-lg">
                                                         <div className="d-flex justify-content-center p-3">
                                                             <div className='rounded--image'>
-                                                                <img className='' src="https://media.istockphoto.com/photos/indian-male-doctor-picture-id177373093?k=20&m=177373093&s=612x612&w=0&h=-PQwmaJszuQyxLQYuWL4VL731lr_dnhrttc4AOcB3-k=" alt="doc" />
+                                                                <img className='' src={item?.doctorImage} alt="doc" />
                                                             </div>
                                                         </div>
                                                         <div className="px-6 py-4 card--content">
-                                                            <div className="font-bold text-xl card--content-name">Dr. John Smith</div>
-                                                            <span className='card--content-role'>Dentist</span>
+                                                            <div className="font-bold text-xl card--content-name">{item?.doctorName}</div>
+                                                            <span className='card--content-role'>{item?.specialist}</span>
                                                             <div>
-                                                                <p className='card--content-address mt-2'>795 Folsom Ave, Suite 600 San Francisco, faCADGE 94107</p>
+                                                                <p className='card--content-address mt-2'>{item.address}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </Link>
                                         </Grid>
-
                                     </>
                                 )
                             })

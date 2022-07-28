@@ -4,6 +4,7 @@ import { Constants, ApiEndpoint } from "../Constants/Constant";
 import Api from '../Constants/Instance'
 
 export const PostDoctorInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
+    console.log("pst ",data)
     try {
         const PostDoctorResponse = await Api({
             method: 'POST',
@@ -14,6 +15,7 @@ export const PostDoctorInfo = (data: any) => async (dispatch: (arg0: any) => voi
         })
         if (PostDoctorResponse) {
             dispatch(setPostInfo(PostDoctorResponse))
+            dispatch(GetDoctorInfo())
         }
     }
     catch (err) {
@@ -26,9 +28,10 @@ export const GetDoctorInfo = () => async (dispatch: (arg0: any) => void) => {
             method: 'GET',
             url: Constants.BaseUrl + ApiEndpoint.GetDoctorInfo,
         }).then((res) => {
-            return res.data;
+            return res?.data?.doctorUser;
         })
         if (GetDoctorResponse) {
+            console.log(GetDoctorResponse)
             dispatch(setDoctorInfo(GetDoctorResponse))
         }
     }
@@ -38,10 +41,10 @@ export const GetDoctorInfo = () => async (dispatch: (arg0: any) => void) => {
 }
 const initialState = {
     DoctorInfoResponse: {
-        data: {}
+    data: {}
     },
     GetDoctorResponse: {
-        data: {}
+        data: []
     }
 
 }

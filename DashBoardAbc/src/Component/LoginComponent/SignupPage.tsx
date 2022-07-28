@@ -5,10 +5,10 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store'
 import {toast} from 'react-toastify'
-import { SignupAction, LoginAction } from '../../Redux/AuthenticationSlice'
 import SigninComponent from './SigninComponent';
+import { AppDispatch, RootState } from '../../store';
+import { LoginAction, SignupAction } from '../../Redux/AuthenticationSlice';
 const SignupPage = () => {
     const SignupResponseData = useSelector((state: RootState) => state?.users.SignupResponse)
     const LoginResponseData = useSelector((state: RootState) => state?.users.LoginResponse?.data)
