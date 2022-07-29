@@ -9,6 +9,7 @@ export class ApiEndpoint {
     static getAllUser = "/authenticate/getAllUser";
     static refreshAuth = "/authenticate/refresh";
     static PostDoctorInfo = "/doctor/doctorAdd";
-    static GetDoctorInfo="/doctor/getDoctor"
+    static GetDoctorInfo="/doctor/getDoctor";
+    static PostPatientInfo="/patient/patientAdd";
+    static GetPatientInfo="/patient/patientGet";
 }
-

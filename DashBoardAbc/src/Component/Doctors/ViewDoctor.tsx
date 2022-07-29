@@ -5,8 +5,13 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import StarPurple500OutlinedIcon from '@mui/icons-material/StarPurple500Outlined';
 import AdbOutlinedIcon from '@mui/icons-material/AdbOutlined';
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
+import CustomAddModal from '../../Utils/CustomAddModal';
+import { Tabs } from 'antd';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import './ViewDoctor.scss'
+import FormikControl from '../../CustomComponent/FormikControl';
+import UploadDocument from '../../Component/Doctors/UpdateDoctorComponent'
+import UpdateDoctorComponent from '../../Component/Doctors/UpdateDoctorComponent';
 interface DoctorProfile {
     _id: string,
     doctorName: string,
@@ -28,6 +33,11 @@ export interface LocationParams {
 const ViewDoctor = () => {
     const location: any = useLocation()
     const detail = location.state
+    const { TabPane } = Tabs;
+
+    const onChange = (key: string) => {
+        console.log(key);
+    };
     return (
         <div className='w-100'>
             <Grid container spacing={4} >
@@ -52,6 +62,46 @@ const ViewDoctor = () => {
                                     </CardContent>
                                 </Card>
                             </div>
+                            <Paper className="mt-4 ">
+                                <div className='d-flex p-2'>
+                                    Doctors Achievements
+                                </div>
+                                <section className='p-3 activities'>
+                                    <ul className="timeline">
+                                        <li className="timeline-item mb-5  d-flex align-items-start flex-column">
+                                            <p className="text-date">20-04-2018 - Today</p>
+                                            <h5 className="mb-2 fw-bold">A Brief History Of Anesthetics</h5>
+                                            <p className="text-name">
+                                                <span>Elisse Joson</span> San Francisco, CA
+                                            </p>
+                                            <p className='text-comment'>
+                                                I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things.
+                                            </p>
+                                        </li>
+                                        <li className="timeline-item mb-5  d-flex align-items-start flex-column">
+                                            <p className="text-date">20-04-2018 - Today</p>
+                                            <h5 className="mb-2 fw-bold">A Brief History Of Anesthetics</h5>
+                                            <p className="text-name">
+                                                <span>Elisse Joson</span> San Francisco, CA
+                                            </p>
+                                            <p className='text-comment'>
+                                                I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things.
+                                            </p>
+                                        </li>
+                                        <li className="timeline-item mb-5  d-flex align-items-start flex-column">
+                                            <p className="text-date">20-04-2018 - Today</p>
+                                            <h5 className="mb-2 fw-bold">A Brief History Of Anesthetics</h5>
+                                            <p className="text-name">
+                                                <span>Elisse Joson</span> San Francisco, CA
+                                            </p>
+                                            <p className='text-comment'>
+                                                I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things.
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </Paper>
+
                         </Grid>
                         <Grid item xs={8}>
                             <Paper elevation={1} >
@@ -96,7 +146,9 @@ const ViewDoctor = () => {
                                             </Grid>
                                         </Grid>
                                     </Grid>
+
                                 </Grid>
+
                             </Paper>
                             <Box className="mt-3">
                                 <Grid container>
@@ -158,6 +210,7 @@ const ViewDoctor = () => {
                                     </Grid>
                                 </Grid>
                             </Box>
+                            {/* <UpdateDoctorComponent/> */}
                         </Grid>
                     </Grid>
                 </Grid>

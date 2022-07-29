@@ -4,7 +4,7 @@ import { Constants, ApiEndpoint } from "../Constants/Constant";
 import Api from '../Constants/Instance'
 
 export const PostDoctorInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
-    console.log("pst ",data)
+    console.log("pst ", data)
     try {
         const PostDoctorResponse = await Api({
             method: 'POST',
@@ -41,7 +41,7 @@ export const GetDoctorInfo = () => async (dispatch: (arg0: any) => void) => {
 }
 const initialState = {
     DoctorInfoResponse: {
-    data: {}
+        data: {}
     },
     GetDoctorResponse: {
         data: []

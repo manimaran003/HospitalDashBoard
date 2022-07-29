@@ -3,9 +3,10 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Grid } from '@mui/material'
 import FormikControl from '../CustomComponent/FormikControl';
-import { PostDoctorInfo } from '../Redux/DoctorSlice'
+import { PostPatientInfo } from '../Redux/PatientSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store'
+import { Agent } from 'https';
 interface CountryOption {
     id: string,
     key: string,
@@ -18,19 +19,19 @@ interface specialistDoctor {
 }
 interface DoctorInfo {
     email: string,
-    doctorName: string,
+    patientName: string,
     address: string,
     phoneNumber: string,
     dob: string,
-    specialist: string,
+    age: number
     country: string,
-    doctorImage: string
+    patientImage: string
 }
 const signinSchema = Yup.object().shape({
     email: Yup.string()
         .email()
         .required('Enter valid email-id'),
-    doctorName: Yup.string()
+    patientName: Yup.string()
         .required("name is required"),
     address: Yup.string()
         .required("address is required"),
@@ -38,12 +39,15 @@ const signinSchema = Yup.object().shape({
         .required("phone number is required"),
     country: Yup.string()
         .required("country is required"),
-    specialist: Yup.string()
-        .required("speciality is required"),
-    doctorImage: Yup.string()
+    patientImage: Yup.string()
         .required("image is required"),
     dob: Yup.string()
-        .required("Dob is required")
+        .required("Dob is required"),
+    age: Yup.string()
+        .required("number is required"),
+    admitDate: Yup.string()
+        .required("admitDate is required"),
+
 })
 
 const CountryOptions: CountryOption[] = [
@@ -59,34 +63,35 @@ const specialistData: specialistDoctor[] = [
 ]
 
 
-const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
+const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
     const [img, setImg] = useState("")
     const [checkError, setCheckError] = useState<Boolean>(false)
     const dispatch = useDispatch<AppDispatch>()
     const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse)
     const handleSubmit = (data: DoctorInfo) => {
         setCheckError(!checkError)
-        dispatch(PostDoctorInfo(data))
+        dispatch(PostPatientInfo(data))
     }
     return (
         <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-md modal-dialog-scrollable">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Add Dcotor</h5>
+                        <h5 className="modal-title" id="exampleModalLabel">Add Patient</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body p-3">
                         <Formik
                             initialValues={{
-                                doctorName: "",
+                                patientName: "",
                                 email: '',
                                 address: "",
                                 phoneNumber: "",
-                                specialist: "",
                                 country: "",
-                                doctorImage: "",
-                                dob: ""
+                                patientImage: "",
+                                dob: "",
+                                age: 0,
+                                admitDate: ""
                             }}
                             onSubmit={(data) => handleSubmit(data)}
 
@@ -100,7 +105,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                             <Grid item xs={12}>
                                                 <FormikControl
                                                     control="upload"
-                                                    name="doctorImage"
+                                                    name="patientImage"
                                                     type="file"
                                                     onChange={(event: any) => {
                                                         console.log(event.target.files)
@@ -111,9 +116,9 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                         };
                                                         reader.readAsDataURL(event.target.files[0]);
                                                         console.log(reader)
-                                                        formik.setFieldValue("doctorImage", event.target.files[0].name);
+                                                        formik.setFieldValue("patientImage", event.target.files[0].name);
                                                     }}
-                                                    error={formik.errors.doctorImage}
+                                                    error={formik.errors.patientImage}
 
                                                 />
                                             </Grid>
@@ -124,11 +129,11 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     control="input"
                                                     type="text"
                                                     label="Name"
-                                                    name="doctorName"
+                                                    name="patientName"
                                                     onBlur={formik.handleBlur}
                                                     onChange={formik.handleChange}
-                                                    error={formik.touched.doctorName && Boolean(formik.errors.doctorName)}
-                                                    helperText={formik.touched.doctorName && formik.errors.doctorName}
+                                                    error={formik.touched.patientName && Boolean(formik.errors.patientName)}
+                                                    helperText={formik.touched.patientName && formik.errors.patientName}
 
                                                 />
                                             </Grid>
@@ -177,17 +182,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     helperText={formik.touched.country && formik.errors.country}
                                                 />
                                             </Grid>
-                                            <Grid item xs={6}>
-                                                <FormikControl
-                                                    control="select"
-                                                    label="Speciality"
-                                                    name="specialist"
-                                                    onChange={formik.handleChange}
-                                                    options={specialistData}
-                                                    error={formik.touched.specialist && Boolean(formik.errors.specialist)}
-                                                    helperText={formik.touched.specialist && formik.errors.specialist}
-                                                />
-                                            </Grid>
+
                                             <Grid item xs={6}>
                                                 <FormikControl
                                                     control="input"
@@ -197,6 +192,28 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     onChange={formik.handleChange}
                                                     error={formik.touched.dob && Boolean(formik.errors.dob)}
                                                     helperText={formik.touched.dob && formik.errors.dob}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <FormikControl
+                                                    control="input"
+                                                    label="Age"
+                                                    name="age"
+                                                    type="number"
+                                                    onChange={formik.handleChange}
+                                                    error={formik.touched.age && Boolean(formik.errors.age)}
+                                                    helperText={formik.touched.age && formik.errors.age}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <FormikControl
+                                                    control="input"
+                                                    label="AdmitDate"
+                                                    name="admitDate"
+                                                    type="date"
+                                                    onChange={formik.handleChange}
+                                                    error={formik.touched.admitDate && Boolean(formik.errors.admitDate)}
+                                                    helperText={formik.touched.admitDate && formik.errors.admitDate}
                                                 />
                                             </Grid>
                                         </Grid>
@@ -221,4 +238,4 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
         </div>
     )
 }
-export default CustomAddModal
+export default CustomPatientAddModal
