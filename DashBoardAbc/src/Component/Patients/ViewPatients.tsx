@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Paper, Card, CardMedia, CardContent, Divider } from '@mui/material'
@@ -107,7 +108,7 @@ const ViewPatients = () => {
         }
     ]
     console.log("jam", PatientActivity)
-    let location = useLocation()
+    let location: any = useLocation()
     return (
         <div className="p-3">
             <div className="row">
@@ -126,16 +127,16 @@ const ViewPatients = () => {
                                     <div>
                                         <div className='p-1 card--header'>
                                             <h6>Patient Name</h6>
-                                            <p className='text--para'>Janwi Kapoor</p>
+                                            <p className='text--para'>{location?.state?.patientName}</p>
                                         </div>
                                         <div className='p-1 card--header'>
                                             <h6>Email Id</h6>
-                                            <p className='text--para'>cmamran!234@gmail.com</p>
+                                            <p className='text--para'>{location?.state?.email}</p>
                                         </div>
                                         <Divider />
                                         <div className='p-2 card--header'>
                                             <h6>Address</h6>
-                                            <p className='text--para'>no:2 gandhinagar,Trichy</p>
+                                            <p className='text--para'>{location?.state?.address}</p>
                                         </div>
                                     </div>
                                 </CardContent>

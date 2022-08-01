@@ -1,14 +1,76 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import './MainDashboard.scss'
 import { Paper, Divider } from '@mui/material'
 import { AiOutlineMore } from 'react-icons/ai'
 import { FaUserAlt } from 'react-icons/fa';
 import { BsWallet2 } from 'react-icons/bs';
+import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import 'antd/dist/antd.css';
+import { GrView, GrFormAdd } from 'react-icons/gr'
+import { BiEdit } from 'react-icons/bi'
 import IncomeChart from './IncomeChart'
 import CustomTable from './CustomTable'
 import VisitorStatistics from './VisitorStatistics';
 import HospitalActivity from './HospitalActivity';
+import { useDispatch, useSelector } from 'react-redux';
+import {GetPatientInfo} from '../../Redux/PatientSlice'
+import { AppDispatch, RootState } from '../../store';
+
+interface DataType {
+    patientName: string;
+    age: number;
+    address: string;
+    admitDate: string;
+    country: string;
+    phoneNumber: string;
+    dob: string;
+    email: string;
+    _id: string
+}
+const getFullDate = (date: string): string => {
+    const dateAndTime = date.split('T');
+
+    return dateAndTime[0].split('-').reverse().join('-');
+};
+const columns: ColumnsType<DataType> = [
+    {
+        title: 'patientName',
+        dataIndex: 'patientName',
+        width: 150,
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        width: 100,
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        width: 150,
+    },
+    {
+        title: 'admitDate',
+        dataIndex: 'admitDate',
+        width: 150,
+        render: ((date: string) => getFullDate(date))
+    },
+    {
+        title: 'phoneNumber',
+        dataIndex: 'phoneNumber',
+        width: 140
+    }
+];
+
+
 const MainDashboard = () => {
+    const dispatch = useDispatch<AppDispatch>()
+  const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse)
+  console.log(GetResponseData)
+  useEffect(() => {
+    dispatch(GetPatientInfo())
+  }, [dispatch])
+    let reportsData = GetResponseData?.data
     return (
         <div className="p-3">
             <div className="row">
@@ -186,7 +248,8 @@ const MainDashboard = () => {
                                 <div><AiOutlineMore className='revenueDash-icon' /></div>
                             </div>
                         </div>
-                        <CustomTable />
+                        <Table columns={columns} dataSource={reportsData} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+                        {/* <CustomTable /> */}
                     </Paper>
                 </div>
             </div>

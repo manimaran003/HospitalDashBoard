@@ -24,16 +24,50 @@ export const GetPatientInfo = () => async (dispatch: (arg0: any) => void) => {
     try {
         const GetPatientResponse = await Api({
             method: 'GET',
-        url: Constants.BaseUrl + ApiEndpoint.GetPatientInfo,
+            url: Constants.BaseUrl + ApiEndpoint.GetPatientInfo,
         }).then((res) => {
-            return res.data
+            return res?.data?.patient
         })
         if (GetPatientResponse) {
             dispatch(getPatientResponse(GetPatientResponse))
         }
     }
     catch (err) {
-
+        console.log(err)
+    }
+}
+export const UpdatePatientInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
+    try {
+        const UpdatePatientResponse = await Api({
+            method: 'PATCH',
+            url: Constants.BaseUrl + ApiEndpoint.UpdatePatientInfo,
+            data
+        }).then((res) => {
+            return res?.data
+        })
+        if (UpdatePatientResponse) {
+            dispatch(updatePatientResponse(UpdatePatientResponse))
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const DeletePatientInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
+    try {
+        const DeletePatientResponse = await Api({
+            method: 'DELETE',
+            url: Constants.BaseUrl + ApiEndpoint.DeletePatientInfo,
+            data
+        }).then((res) => {
+            return res?.data
+        })
+        if (DeletePatientResponse) {
+            dispatch(DeletePatientReducer(DeletePatientResponse))
+        }
+    }
+    catch (err) {
+        console.log(err)
     }
 }
 const initialState = {
@@ -42,6 +76,12 @@ const initialState = {
     },
     GetPatientResponse: {
         data: []
+    },
+    updatePatientResponse: {
+        data: ""
+    },
+    DeletePatientResponse: {
+        data: ""
     }
 }
 const PatientSlice = createSlice({
@@ -57,8 +97,19 @@ const PatientSlice = createSlice({
             state.GetPatientResponse = {
                 data: action.payload
             }
+        },
+
+        updatePatientResponse: (state, action) => {
+            state.updatePatientResponse = {
+                data: action.payload
+            }
+        },
+        DeletePatientReducer: (state, action) => {
+            state.DeletePatientResponse = {
+                data: action.payload
+            }
         }
     }
 })
-const { setPatientInfo, getPatientResponse } = PatientSlice.actions
+const { setPatientInfo, getPatientResponse, updatePatientResponse, DeletePatientReducer } = PatientSlice.actions
 export default PatientSlice.reducer

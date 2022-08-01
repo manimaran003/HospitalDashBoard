@@ -44,13 +44,13 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const InputComponent: React.FC<TextFieldProps> = (props) => {
-    const { label, name, type, onChange, error, helperText } = props
+    const { label, name, type, value,onChange, error, helperText } = props
     return (
         <FormControl variant="standard">
             <InputLabel shrink htmlFor="bootstrap-input" sx={{ fontSize: "1.3rem", fontWeight: "bolder" }}>
                 {label}
             </InputLabel>
-            <BootstrapInput id="bootstrap-input" name={name} type={type} onChange={onChange} sx={{ border: `${error ? "1px solid red" : ""}` }} />
+            <BootstrapInput id="bootstrap-input" name={name} type={type} value={value} onChange={onChange} sx={{ border: `${error ? "1px solid red" : ""}` }} />
             <span style={{ color: "red" }}>{helperText}</span>
         </FormControl>
     )

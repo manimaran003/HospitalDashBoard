@@ -22,6 +22,7 @@ interface DoctorProfile {
     empId: string,
     country: string,
     email: string,
+    patientImage: string,
     phoneNumber: string,
     __v: number
 }
