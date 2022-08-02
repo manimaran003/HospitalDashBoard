@@ -1,26 +1,29 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
+import { createSlice } from "@reduxjs/toolkit";
 import { Constants, ApiEndpoint } from "../Constants/Constant";
 import Api from '../Constants/Instance'
+import { AppDispatch } from "../store";
+import {PatientModel} from '../TypeFile/TypeScriptType'
 
-export const PostPatientInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
-    try {
-        const PatientInfoResponse = await Api({
-            method: 'POST',
-            url: Constants.BaseUrl + ApiEndpoint.PostPatientInfo,
-            data
-        }).then((res) => {
-            return res.data
-        })
-        if (PatientInfoResponse) {
-            dispatch(setPatientInfo(PatientInfoResponse))
+export const PostPatientInfo = (data:PatientModel ) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const PatientInfoResponse = await Api({
+                method: 'POST',
+                url: Constants.BaseUrl + ApiEndpoint.PostPatientInfo,
+                data
+            }).then((res) => {
+                return res.data
+            })
+            if (PatientInfoResponse) {
+                dispatch(setPatientInfo(PatientInfoResponse))
+            }
+        }
+        catch (err) {
+            console.log(err)
         }
     }
-    catch (err) {
-        console.log(err)
-    }
 }
-export const GetPatientInfo = () => async (dispatch: (arg0: any) => void) => {
+export const GetPatientInfo = () => async (dispatch: AppDispatch) => {
     try {
         const GetPatientResponse = await Api({
             method: 'GET',
@@ -36,7 +39,7 @@ export const GetPatientInfo = () => async (dispatch: (arg0: any) => void) => {
         console.log(err)
     }
 }
-export const UpdatePatientInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
+export const UpdatePatientInfo = (data: any) => async (dispatch: AppDispatch) => {
     try {
         const UpdatePatientResponse = await Api({
             method: 'PATCH',
@@ -53,12 +56,11 @@ export const UpdatePatientInfo = (data: any) => async (dispatch: (arg0: any) => 
         console.log(err)
     }
 }
-export const DeletePatientInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
+export const DeletePatientInfo = (data: any) => async (dispatch: AppDispatch) => {
     try {
         const DeletePatientResponse = await Api({
             method: 'DELETE',
-            url: Constants.BaseUrl + ApiEndpoint.DeletePatientInfo,
-            data
+            url: Constants.BaseUrl + ApiEndpoint.DeletePatientInfo + `/:${data}`,
         }).then((res) => {
             return res?.data
         })

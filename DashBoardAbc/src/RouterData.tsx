@@ -1,12 +1,8 @@
 import { GoHome } from 'react-icons/go'
 import { AiOutlineUserAdd } from 'react-icons/ai'
-
-import { BsCalendar3, BsListTask } from 'react-icons/bs'
 import AllPatientsView from './Component/Patients/AllPatientsView'
 import AllDoctor from './Component/Doctors/AllDoctor'
 import MainDashboard from './Component/MainDashboard/MainDashboard'
-import Taskboard from './Component/Taskboard/Taskboard'
-import Appointment from './Component/Appointment/Appointment'
 import ViewDoctor from './Component/Doctors/ViewDoctor'
 import ViewPatients from './Component/Patients/ViewPatients'
 import SignupPage from './Component/LoginComponent/SignupPage'
@@ -27,26 +23,6 @@ export const RouterData = [
         icon: <GoHome />,
 
     },
-    // {
-    //     name: "Appointment",
-    //     path: "/appointment",
-    //     component: <Appointment />,
-    //     submenu: false,
-    //     layout: "/dashboard",
-    //     key: "sub2",
-    //     visibleInMenu: true,
-    //     icon: <BsCalendar3 />
-    // },
-    // {
-    //     name: "Taskboard",
-    //     path: "/taskboard",
-    //     component: <Taskboard />,
-    //     submenu: false,
-    //     layout: "/dashboard",
-    //     key: "sub3",
-    //     visibleInMenu: true,
-    //     icon: <BsListTask />
-    // },
     {
         path: "/viewPatients",
         name: "All Patients",

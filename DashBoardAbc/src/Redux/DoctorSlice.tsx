@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
+import { createSlice } from "@reduxjs/toolkit";
 import { Constants, ApiEndpoint } from "../Constants/Constant";
 import Api from '../Constants/Instance'
+import { AppDispatch } from "../store";
 
-export const PostDoctorInfo = (data: any) => async (dispatch: (arg0: any) => void) => {
-    console.log("pst ", data)
+export const PostDoctorInfo = (data: any) =>{
+   return async(dispatch:AppDispatch)=>{
     try {
         const PostDoctorResponse = await Api({
             method: 'POST',
@@ -21,8 +21,9 @@ export const PostDoctorInfo = (data: any) => async (dispatch: (arg0: any) => voi
     catch (err) {
         console.log(err)
     }
+   }
 }
-export const GetDoctorInfo = () => async (dispatch: (arg0: any) => void) => {
+export const GetDoctorInfo = () => async (dispatch:AppDispatch) => {
     try {
         const GetDoctorResponse = await Api({
             method: 'GET',

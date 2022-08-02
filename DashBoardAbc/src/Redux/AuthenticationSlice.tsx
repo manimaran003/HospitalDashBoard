@@ -97,8 +97,9 @@ import axios, { AxiosError } from 'axios';
 import { Constants, ApiEndpoint } from "../Constants/Constant";
 import TokenService from '../Constants/token.service'
 import Api from '../Constants/Instance'
+import { AppDispatch } from "../store";
 
-export const SignupAction = (data: any) => async (dispatch: (arg0: any) => void) => {
+export const SignupAction = (data: any) => async (dispatch: AppDispatch) => {
     try {
         const SignupResponse = await axios({
             method: 'POST',
@@ -122,7 +123,7 @@ export const SignupAction = (data: any) => async (dispatch: (arg0: any) => void)
     }
 }
 
-export const LoginAction = (data: any, navigate: any) => async (dispatch: (arg0: any) => void) => {
+export const LoginAction = (data: any, navigate: any) => async (dispatch: AppDispatch) => {
     console.log(data)
     try {
         const LoginResponse = await axios({
@@ -151,7 +152,7 @@ export const LoginAction = (data: any, navigate: any) => async (dispatch: (arg0:
     }
 }
 
-export const getUserList = () => async (dispatch: (arg0: any) => void) => {
+export const getUserList = () => async (dispatch:AppDispatch) => {
     console.log("inside it")
     try {
         const userList = await Api({

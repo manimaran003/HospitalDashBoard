@@ -6,6 +6,8 @@ import FormikControl from '../CustomComponent/FormikControl';
 import { UpdatePatientInfo } from '../Redux/PatientSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store'
+import { UserContextType } from '../TypeFile/TypeScriptType'
+import { userContext } from '../Context/userContext'
 interface CountryOption {
     id: string,
     key: string,
@@ -60,36 +62,21 @@ const specialistData: specialistDoctor[] = [
     { id: "2", key: "Gaselogist", data: "Gaselogist" },
     { id: "3", key: "Neuro", data: "Neuro" },
 ]
-interface DataType {
-    patientImage: string;
-    patientName: string;
-    age: number;
-    address: string;
-    admitDate: string;
-    country: string;
-    phoneNumber: string;
-    dob: string;
-    email: string;
-    _id: string
-}
 
 
-const CustomPatientEditModal: React.FC<{ id: string; editModal: DataType }> = ({ id, editModal }) => {
-    console.log("edited", editModal)
 
-    const [img, setImg] = useState("")
+const CustomPatientEditModal: React.FC<{ id: string; }> = ({ id }) => {
+    const { EditedData } = React.useContext(userContext) as UserContextType
     const [checkError, setCheckError] = useState<Boolean>(false)
     const dispatch = useDispatch<AppDispatch>()
     const UpdatePatientResponse = useSelector((state: RootState) => state?.patient.updatePatientResponse)
-    console.log("update", UpdatePatientResponse)
     const handleSubmit = (data: DoctorInfo) => {
         setCheckError(!checkError)
-        console.log(data, "jam")
+        console.log(data, "formikSubmit")
         dispatch(UpdatePatientInfo(data))
     }
-
     const [medium, setMedium] = useState({
-        patientName: editModal.patientName,
+        patientName: "",
         email: "",
         address: "",
         phoneNumber: "",
@@ -100,7 +87,7 @@ const CustomPatientEditModal: React.FC<{ id: string; editModal: DataType }> = ({
         patientImage: ""
     })
     useEffect(() => {
-        if (editModal) {
+        if (EditedData) {
             setMedium({
                 patientName: "mani",
                 email: "",
@@ -113,8 +100,7 @@ const CustomPatientEditModal: React.FC<{ id: string; editModal: DataType }> = ({
                 patientImage: ""
             })
         }
-    }, [])
-    console.log("edit patient")
+    }, [EditedData])
 
     return (
         <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -145,11 +131,9 @@ const CustomPatientEditModal: React.FC<{ id: string; editModal: DataType }> = ({
                                                         console.log(event.target.files)
                                                         let reader: any;
                                                         reader = new FileReader();
-                                                        reader.onload = () => {
-                                                            setImg(reader.result);
-                                                        };
+
                                                         reader.readAsDataURL(event.target.files[0]);
-                                                        console.log(reader)
+
                                                         formik.setFieldValue("patientImage", event.target.files[0].name);
                                                     }}
                                                     error={formik.errors.patientImage}

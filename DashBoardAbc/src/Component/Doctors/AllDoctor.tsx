@@ -6,21 +6,8 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store';
 import { GetDoctorInfo } from '../../Redux/DoctorSlice';
+import { DoctorProfile } from '../../TypeFile/TypeScriptType'
 import CustomAddModal from '../../Utils/CustomAddModal';
-interface DoctorProfile {
-    _id: string,
-    doctorName: string,
-    doctorImage: string,
-    address: string,
-    specialist: string,
-    dob: string,
-    empId: string,
-    country: string,
-    email: string,
-    phoneNumber: string,
-    __v: number
-}
-
 
 const AllDoctor = () => {
     const dispatch = useDispatch<AppDispatch>()

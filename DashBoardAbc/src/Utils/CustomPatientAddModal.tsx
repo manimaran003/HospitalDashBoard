@@ -6,7 +6,7 @@ import FormikControl from '../CustomComponent/FormikControl';
 import { PostPatientInfo } from '../Redux/PatientSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store'
-import { Agent } from 'https';
+import {PatientModel} from '../TypeFile/TypeScriptType'
 interface CountryOption {
     id: string,
     key: string,
@@ -17,16 +17,16 @@ interface specialistDoctor {
     key: string,
     data: string
 }
-interface DoctorInfo {
-    email: string,
-    patientName: string,
-    address: string,
-    phoneNumber: string,
-    dob: string,
-    age: number
-    country: string,
-    patientImage: string
-}
+// interface DoctorInfo {
+//     email: string,
+//     patientName: string,
+//     address: string,
+//     phoneNumber: string,
+//     dob: string,
+//     age: number
+//     country: string,
+//     patientImage: string
+// }
 const signinSchema = Yup.object().shape({
     email: Yup.string()
         .email()
@@ -68,7 +68,7 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
     const [checkError, setCheckError] = useState<Boolean>(false)
     const dispatch = useDispatch<AppDispatch>()
     const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse)
-    const handleSubmit = (data: DoctorInfo) => {
+    const handleSubmit = (data: PatientModel) => {
         setCheckError(!checkError)
         dispatch(PostPatientInfo(data))
     }

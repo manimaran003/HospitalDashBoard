@@ -5,69 +5,26 @@ import './AllPatientsView.scss'
 import 'antd/dist/antd.css';
 import { GrView, GrFormAdd } from 'react-icons/gr'
 import { BiEdit } from 'react-icons/bi'
-import {AiOutlineDelete} from 'react-icons/ai'
-import { Modal, Button, Typography, Box } from '@mui/material'
+import { AiOutlineDelete } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
-import CustomAddModal from '../../Utils/CustomAddModal';
 import CustomPatientAddModal from '../../Utils/CustomPatientAddModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
-import { GetPatientInfo,DeletePatientInfo } from '../../Redux/PatientSlice';
+import { GetPatientInfo, DeletePatientInfo } from '../../Redux/PatientSlice';
 import CustomPatientEditModal from '../../Utils/CustomPatientEditModal';
+import { UserContextType, DataType } from '../../TypeFile/TypeScriptType';
+import { userContext } from '../../Context/userContext';
+import CustomPatientDelete from '../../Utils/CustomPatientDelete';
 
-
-interface DataType {
-    patientName: string;
-    age: number;
-    address: string;
-    admitDate: string;
-    country: string;
-    phoneNumber: string;
-    dob: string;
-    email: string;
-    _id: string;
-    patientImage: string;
-}
-interface PatientModel {
-    address: string
-    admitDate: string
-    age: number
-    country: string
-    dob: string
-    email: string
-    patientName: string
-    phoneNumber: string
-    _id: string,
-    patientImage: string
-}
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 const AllPatientsView: React.FC = () => {
-    const [EditData, setEditData] = useState<DataType>({
-        patientName: "",
-        age: 0,
-        admitDate: "",
-        dob: "",
-        country: "",
-        email: "",
-        address: "",
-        phoneNumber: "",
-        patientImage: "",
-        _id: ""
-    })
+    const { editModal } = React.useContext(userContext) as UserContextType
     const dispatch = useDispatch<AppDispatch>()
     const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse)
-    console.log(GetResponseData, "welcome")
     let reportsData = GetResponseData?.data
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false)
+    };
     const navigate = useNavigate()
     useEffect(() => {
         dispatch(GetPatientInfo())
@@ -78,11 +35,10 @@ const AllPatientsView: React.FC = () => {
         return dateAndTime[0].split('-').reverse().join('-');
     };
     const handleEditProfile = (record: DataType) => {
-        setEditData(record)
+        editModal(record)
     }
-    const handleDeleteProfile=(record:DataType)=>{
-        console.log(record)
-        dispatch(DeletePatientInfo(record._id))
+    const handleDeleteProfile = (record: DataType) => {
+        setOpen(true)
     }
     const columns: ColumnsType<DataType> = [
         {
@@ -147,7 +103,8 @@ const AllPatientsView: React.FC = () => {
     return (
         <div className=''>
             <Table columns={columns} dataSource={reportsData} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
-            <CustomPatientEditModal id={"exampleModal"} editModal={EditData} />
+            <CustomPatientEditModal id={"exampleModal"} />
+            <CustomPatientDelete open={open} close={handleClose}/>
         </div>
     );
 }
