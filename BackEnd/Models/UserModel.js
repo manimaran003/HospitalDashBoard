@@ -16,7 +16,8 @@ const userSchema=mongoose.Schema({
         type:String,
         required:[true,"please fill the email"],
         validate:[validator.isEmail,'please provide a vaild email']
-    },role:{
+    },
+    role:{
         type: String,
         enum: ['doctor', 'admin'],
       },
