@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import './AllPatientsView.scss'
 import 'antd/dist/antd.css';
 import { GrView, GrFormAdd } from 'react-icons/gr'
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import CustomPatientAddModal from '../../Utils/CustomPatientAddModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
-import { GetPatientInfo, DeletePatientInfo } from '../../Redux/PatientSlice';
+import { GetPatientInfo } from '../../Redux/PatientSlice';
 import CustomPatientEditModal from '../../Utils/CustomPatientEditModal';
 import { UserContextType, DataType } from '../../TypeFile/TypeScriptType';
 import { userContext } from '../../Context/userContext';
@@ -26,9 +26,20 @@ const AllPatientsView: React.FC = () => {
         setOpen(false)
     };
     const navigate = useNavigate()
+    const getAllPatientProfile = useCallback(
+        async () => {
+            try {
+                dispatch(GetPatientInfo())
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }, [dispatch])
+
+
     useEffect(() => {
-        dispatch(GetPatientInfo())
-    }, [dispatch])
+        getAllPatientProfile()
+    }, [getAllPatientProfile])
     const getFullDate = (date: string): string => {
         const dateAndTime = date.split('T');
 
@@ -104,7 +115,7 @@ const AllPatientsView: React.FC = () => {
         <div className=''>
             <Table columns={columns} dataSource={reportsData} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
             <CustomPatientEditModal id={"exampleModal"} />
-            <CustomPatientDelete open={open} close={handleClose}/>
+            <CustomPatientDelete open={open} close={handleClose} />
         </div>
     );
 }

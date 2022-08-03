@@ -1,7 +1,7 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Paper, Card, CardMedia, CardContent, Divider } from '@mui/material'
+import { Paper, Card, CardMedia, CardContent, Divider, Box } from '@mui/material'
 import { Tabs } from 'antd';
 import './ViewPatients.scss'
 import HospitalActivity from '../MainDashboard/HospitalActivity'
@@ -107,7 +107,6 @@ const ViewPatients = () => {
             ]
         }
     ]
-    console.log("jam", PatientActivity)
     let location: any = useLocation()
     return (
         <div className="p-3">
@@ -119,16 +118,15 @@ const ViewPatients = () => {
                                 <CardMedia
                                     component="img"
                                     height="50%"
-
-                                    image="https://images.unsplash.com/photo-1550791871-0bcd47c97881?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGF0aWVudCUyMGluJTIwaG9zcGl0YWx8ZW58MHx8MHx8&w=1000&q=80"
+                                    image={location?.state.patientImage}
                                     alt="green iguana"
                                 />
                                 <CardContent className='d-flex flex-grow-1 flex-column p-2'>
                                     <div>
-                                        <div className='p-1 card--header'>
+                                        <Box className='p-1 card--header'>
                                             <h6>Patient Name</h6>
                                             <p className='text--para'>{location?.state?.patientName}</p>
-                                        </div>
+                                        </Box>
                                         <div className='p-1 card--header'>
                                             <h6>Email Id</h6>
                                             <p className='text--para'>{location?.state?.email}</p>

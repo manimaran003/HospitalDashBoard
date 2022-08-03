@@ -1,3 +1,13 @@
+export interface Signup {
+    username: string,
+    password: string,
+    email: string
+}
+export interface Signin {
+    email: string,
+    password: string
+}
+
 export interface DoctorProfile {
     _id: string,
     doctorName: string,
@@ -52,4 +62,6 @@ export interface PatientModel{
 export type UserContextType={
     editModal:(data:EditType)=>void;
     EditedData:EditType;
+    show:boolean;
+    AuthTool:(state:boolean)=>void;
 }

@@ -1,16 +1,13 @@
 import React from 'react'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { LoginAction } from '../../Redux/AuthenticationSlice';
+import { AppDispatch, RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { userContext } from '../../Context/userContext';
 
-interface Signin {
-    email: string,
-    password: string
-}
-interface Signup {
-    username: string,
-    password: string,
-    email: string
-}
+import { Signin, UserContextType } from '../../TypeFile/TypeScriptType';
+import { useNavigate } from 'react-router-dom';
 const signinSchema = Yup.object().shape({
     email: Yup.string()
         .email()
@@ -22,21 +19,17 @@ const signinSchema = Yup.object().shape({
         )
         .required("Password is required"),
 })
-const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup: (state: Boolean) => void }> = (props) => {
+const SigninComponent: React.FC = () => {
+    const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate()
+    const { AuthTool } = React.useContext(userContext) as UserContextType
+    const LoginResponseData = useSelector((state: RootState) => state?.users.LoginResponse?.data)
+    console.log(LoginResponseData, "login")
     const handleLoginSubmit = (values: Signin) => {
-        getLocalStorage(values)
-        props.loginData(values)
+        dispatch(LoginAction(values, navigate))
     }
-    const getLocalStorage = (values: Signin) => {
-        let data: any = localStorage.getItem("signup")
-        let dataStorage = JSON.parse(data)
-        if (dataStorage) {
-            let filterData = dataStorage.find((val: Signup) => val.email === values.email)
-            console.log(filterData)
-        }
-    }
-    const GotoSignUp = () => {
-        props.gotosignup(false)
+    const goToSignUp = () => {
+        AuthTool(false)
     }
     return (
         <div>
@@ -67,11 +60,11 @@ const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup
                                     Sign in
                                 </button>
                             </div>
-                            <p className='login--text mt-3'>Dont't have an account <span onClick={GotoSignUp}>Signup</span>?</p>
+                            <p className='login--text mt-3'>Dont't have an account <span onClick={goToSignUp}>Signup</span>?</p>
                         </div>
                     </Form>
                 )}
-                
+
             </Formik>
         </div>
     )

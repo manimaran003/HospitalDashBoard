@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { UserContextType, EditType } from '../TypeFile/TypeScriptType'
+import { UserContextType, EditType, Signin } from '../TypeFile/TypeScriptType'
 
 export const userContext = React.createContext<UserContextType | null>(null)
 
@@ -19,11 +19,15 @@ const UserProvider: React.FC<Props> = ({ children }) => {
         patientImage: "",
         _id: ""
     })
+    const [show, setShow] = useState<boolean>(false)
     const editModal = (data: EditType) => {
         console.log("data", data)
         setEdited(data)
     }
-    return <userContext.Provider value={{ EditedData, editModal }}>{children}</userContext.Provider>
+    const AuthTool = (state:boolean):void => {
+        setShow(state)
+    }
+    return <userContext.Provider value={{show, EditedData, editModal,AuthTool }}>{children}</userContext.Provider>
 }
 
 export default UserProvider

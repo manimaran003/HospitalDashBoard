@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import TokenService from '../Constants/token.service'
 const useAuth = () => {
-   const user=sessionStorage.getItem('accessToken')
-   console.log(user)
+  const user = sessionStorage.getItem('accessToken')
+  console.log(user)
   if (user) {
     return true
   } else {

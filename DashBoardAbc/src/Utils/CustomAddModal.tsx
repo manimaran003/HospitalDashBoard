@@ -6,6 +6,8 @@ import FormikControl from '../CustomComponent/FormikControl';
 import { PostDoctorInfo } from '../Redux/DoctorSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store'
+import { IoIosClose } from 'react-icons/io'
+import './CustomPatientDelete.scss'
 interface CountryOption {
     id: string,
     key: string,
@@ -40,8 +42,7 @@ const signinSchema = Yup.object().shape({
         .required("country is required"),
     specialist: Yup.string()
         .required("speciality is required"),
-    doctorImage: Yup.string()
-        .required("image is required"),
+    doctorImage: Yup.mixed().required('File is required'),
     dob: Yup.string()
         .required("Dob is required")
 })
@@ -60,11 +61,21 @@ const specialistData: specialistDoctor[] = [
 
 
 const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
-    const [img, setImg] = useState("")
+    const [image, setImg] = useState("")
     const [checkError, setCheckError] = useState<Boolean>(false)
     const dispatch = useDispatch<AppDispatch>()
     const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse)
     const handleSubmit = (data: DoctorInfo) => {
+        let formData = new FormData();
+        formData.append("doctorName", data?.doctorName)
+        formData.append("email", data?.email)
+        formData.append("phoneNumber", data?.phoneNumber)
+        formData.append("address", data?.address)
+        formData.append("specialist", data?.specialist)
+        formData.append("country", data?.country)
+        formData.append("doctorImage", data?.doctorImage)
+        formData.append("dob", data?.dob)
+        console.log(formData)
         setCheckError(!checkError)
         dispatch(PostDoctorInfo(data))
     }
@@ -74,7 +85,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel">Add Dcotor</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <IoIosClose data-bs-dismiss="modal" aria-label="Close" className="icons" />
                     </div>
                     <div className="modal-body p-3">
                         <Formik
@@ -104,6 +115,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     type="file"
                                                     onChange={(event: any) => {
                                                         console.log(event.target.files)
+                                                        formik.setFieldValue("doctorImage", event.target.files);
                                                         let reader: any;
                                                         reader = new FileReader();
                                                         reader.onload = () => {
@@ -111,10 +123,9 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                         };
                                                         reader.readAsDataURL(event.target.files[0]);
                                                         console.log(reader)
-                                                        formik.setFieldValue("doctorImage", event.target.files[0].name);
                                                     }}
                                                     error={formik.errors.doctorImage}
-
+                                                    imgData={image}
                                                 />
                                             </Grid>
                                         </Grid>

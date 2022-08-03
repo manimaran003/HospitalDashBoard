@@ -9,9 +9,11 @@ import CustomAddModal from '../../Utils/CustomAddModal';
 import { Tabs } from 'antd';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import './ViewDoctor.scss'
-import FormikControl from '../../CustomComponent/FormikControl';
-import UploadDocument from '../../Component/Doctors/UpdateDoctorComponent'
-import UpdateDoctorComponent from '../../Component/Doctors/UpdateDoctorComponent';
+import { BiEdit } from 'react-icons/bi'
+import { AiOutlineDelete } from 'react-icons/ai'
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+
 interface DoctorProfile {
     _id: string,
     doctorName: string,
@@ -34,11 +36,7 @@ export interface LocationParams {
 const ViewDoctor = () => {
     const location: any = useLocation()
     const detail = location.state
-    const { TabPane } = Tabs;
-
-    const onChange = (key: string) => {
-        console.log(key);
-    };
+  
     return (
         <div className='w-100'>
             <Grid container spacing={4} >
@@ -47,6 +45,7 @@ const ViewDoctor = () => {
                         <Grid item xs={4}>
                             <div className="w-100">
                                 <Card sx={{ minWidth: 275, backgroundColor: "#DCDCDC" }}>
+
                                     <CardContent>
                                         <div className="d-flex justify-content-center p-3">
                                             <Avatar
@@ -59,7 +58,6 @@ const ViewDoctor = () => {
                                             <h6 className='content-name'>{detail.doctorName}</h6>
                                             <span className='content-text'>{detail.address}</span>
                                         </div>
-
                                     </CardContent>
                                 </Card>
                             </div>
@@ -147,9 +145,7 @@ const ViewDoctor = () => {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-
                                 </Grid>
-
                             </Paper>
                             <Box className="mt-3">
                                 <Grid container>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import './AllDoctor.scss'
 import { Grid } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
@@ -8,15 +8,38 @@ import { AppDispatch, RootState } from '../../store';
 import { GetDoctorInfo } from '../../Redux/DoctorSlice';
 import { DoctorProfile } from '../../TypeFile/TypeScriptType'
 import CustomAddModal from '../../Utils/CustomAddModal';
-
+import { BiEdit } from 'react-icons/bi'
+import { AiOutlineDelete } from 'react-icons/ai'
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import CustomDoctorEdit from '../../Utils/CustomDoctorEdit';
+import CustomDoctorDelete from '../../Utils/CustomDoctorDelete';
 const AllDoctor = () => {
     const dispatch = useDispatch<AppDispatch>()
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false)
+    };
+    const handleDeleteProfile = () => {
+        setOpen(true)
+    }
     const GetDoctorData = useSelector((state: RootState) => state?.Doctors.GetDoctorResponse)
     let reportsData = GetDoctorData?.data
     console.log(reportsData)
+    const getAllDoctorProfiles = useCallback(
+        async () => {
+            try {
+                dispatch(GetDoctorInfo())
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }, [dispatch])
+
     useEffect(() => {
-        dispatch(GetDoctorInfo())
-    }, [dispatch])
+        getAllDoctorProfiles()
+    }, [getAllDoctorProfiles])
+
     return (
         <div className="w-100 mt-3 cursor-pointer">
             <Grid container>
@@ -42,25 +65,42 @@ const AllDoctor = () => {
                                 return (
                                     <>
                                         <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                                            <Link to={`/dashboard/ViewDoctor`}
-                                                state={item}>
-                                                <div className='w-100' key={item.empId}>
-                                                    <div className="w-48 rounded overflow-hidden shadow-lg">
-                                                        <div className="d-flex justify-content-center p-3">
-                                                            <div className='rounded--image'>
-                                                                <img className='' src={item?.doctorImage} alt="doc" />
+
+                                            <div className='w-100' key={item.empId}>
+                                                <div className="w-48 rounded overflow-hidden shadow-lg">
+                                                    <Link to={`/dashboard/ViewDoctor`}
+                                                        state={item}>
+                                                        <div>
+                                                            <div className="d-flex justify-content-center p-3">
+                                                                <div className='rounded--image'>
+                                                                    <img className='' src={item?.doctorImage} alt="doc" />
+                                                                </div>
+                                                            </div>
+                                                            <div className="px-6 py-4 card--content">
+                                                                <div className="font-bold text-xl card--content-name">{item?.doctorName}</div>
+                                                                <span className='card--content-role'>{item?.specialist}</span>
+                                                                <div>
+                                                                    <p className='card--content-address mt-2'>{item.address}</p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className="px-6 py-4 card--content">
-                                                            <div className="font-bold text-xl card--content-name">{item?.doctorName}</div>
-                                                            <span className='card--content-role'>{item?.specialist}</span>
-                                                            <div>
-                                                                <p className='card--content-address mt-2'>{item.address}</p>
-                                                            </div>
-                                                        </div>
+                                                    </Link>
+                                                    <div>
+                                                        <Tooltip title="Edit" placement="top">
+                                                            <IconButton>
+                                                                <BiEdit className="icon--edit" data-bs-toggle="modal" data-bs-target="#exampleModalEdit" />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Delete" placement="top">
+                                                            <IconButton>
+                                                                <AiOutlineDelete className="icon--delete" onClick={() => handleDeleteProfile()} />
+                                                            </IconButton>
+                                                        </Tooltip>
                                                     </div>
                                                 </div>
-                                            </Link>
+
+                                            </div>
+
                                         </Grid>
                                     </>
                                 )
@@ -69,6 +109,8 @@ const AllDoctor = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <CustomDoctorEdit id={"exampleModalEdit"} />
+            <CustomDoctorDelete open={open} close={handleClose} />
         </div>
     )
 }

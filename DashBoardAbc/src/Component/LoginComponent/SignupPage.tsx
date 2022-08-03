@@ -1,38 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './SignupPage.scss';
 import doctorImage from '../../Assets/doctor-medicine.svg';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import SigninComponent from './SigninComponent';
 import { AppDispatch, RootState } from '../../store';
-import { LoginAction, SignupAction } from '../../Redux/AuthenticationSlice';
+import { Signup, UserContextType } from '../../TypeFile/TypeScriptType';
+import { SignupAction } from '../../Redux/AuthenticationSlice';
+import { userContext } from '../../Context/userContext';
 const SignupPage = () => {
     const SignupResponseData = useSelector((state: RootState) => state?.users.SignupResponse)
-    const LoginResponseData = useSelector((state: RootState) => state?.users.LoginResponse?.data)
     const SignupError = useSelector((state: RootState) => state?.users.signupError)
     console.log(SignupResponseData, "signup")
-    console.log(LoginResponseData, "login")
     console.log(SignupError, "errpr")
     const dispatch = useDispatch<AppDispatch>()
-    interface Signup {
-        username: string,
-        password: string,
-        email: string
-    }
-    interface Signin {
-        email: string,
-        password: string
-    }
 
-    useEffect(()=>{
-        if(SignupError){
-            console.log("sign",SignupError)
+    useEffect(() => {
+        if (SignupError) {
             toast(SignupError)
         }
-    },[SignupError])
+    }, [SignupError])
 
 
     const signupSchema = Yup.object().shape({
@@ -47,22 +36,14 @@ const SignupPage = () => {
             )
             .required("Password is required"),
     })
-    const navigate = useNavigate()
 
-    const [show, setShow] = useState<Boolean>(false)
-    const GotoSignUp = (state: Boolean): void => {
-        setShow(state)
-    }
-    const GotoLogin = () => {
-        setShow(true)
-    }
-
-    const handleLoginSubmit = (data: Signin) => {
-        dispatch(LoginAction(data, navigate))
-    }
+    const { show, AuthTool } = React.useContext(userContext) as UserContextType
 
     const handleSignUpSubmit = (values: Signup) => {
         dispatch(SignupAction(values))
+    }
+    const GotoLogin = () => {
+        AuthTool(true)
     }
 
     return (
@@ -95,7 +76,7 @@ const SignupPage = () => {
                                                 <Form onSubmit={formikSignup.handleSubmit}>
                                                     <div className='container'>
                                                         <h1 className="heading mt-3 mb-4">Create Account</h1>
-                                          
+
                                                         <div className="d-flex flex-column gap-1 main--input">
                                                             <input placeholder='email' id="email" name="email" onChange={formikSignup.handleChange} />
                                                             <p className="error-text">{formikSignup.errors.email}</p>
@@ -116,7 +97,7 @@ const SignupPage = () => {
                                         }
                                     </Formik>
                                 ) : (
-                                    <SigninComponent loginData={handleLoginSubmit} gotosignup={GotoSignUp} />
+                                    <SigninComponent />
 
                                 )
                             }

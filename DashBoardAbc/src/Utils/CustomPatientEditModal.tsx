@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store'
 import { UserContextType } from '../TypeFile/TypeScriptType'
 import { userContext } from '../Context/userContext'
+import { IoIosClose } from 'react-icons/io'
+import './CustomPatientDelete.scss'
 interface CountryOption {
     id: string,
     key: string,
@@ -67,7 +69,8 @@ const specialistData: specialistDoctor[] = [
 
 const CustomPatientEditModal: React.FC<{ id: string; }> = ({ id }) => {
     const { EditedData } = React.useContext(userContext) as UserContextType
-    const [checkError, setCheckError] = useState<Boolean>(false)
+    const [checkError, setCheckError] = useState<boolean>(false)
+    const [image, setImg] = useState("")
     const dispatch = useDispatch<AppDispatch>()
     const UpdatePatientResponse = useSelector((state: RootState) => state?.patient.updatePatientResponse)
     const handleSubmit = (data: DoctorInfo) => {
@@ -103,18 +106,22 @@ const CustomPatientEditModal: React.FC<{ id: string; }> = ({ id }) => {
     }, [EditedData])
 
     return (
-        <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div className="modal-dialog modal-md modal-dialog-scrollable">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel">Edit Patient</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <IoIosClose data-bs-dismiss="modal" aria-label="Close" className="icons" />
                     </div>
                     <div className="modal-body p-3">
                         <Formik
                             initialValues={medium}
-                            onSubmit={(data) => handleSubmit(data)}
-
+                            onSubmit={(data, { resetForm }) => {
+                                setCheckError(!checkError)
+                                console.log(data, "formikSubmit")
+                                dispatch(UpdatePatientInfo(data))
+                                resetForm()
+                            }}
                             validationSchema={signinSchema}
                         >
 
@@ -131,7 +138,9 @@ const CustomPatientEditModal: React.FC<{ id: string; }> = ({ id }) => {
                                                         console.log(event.target.files)
                                                         let reader: any;
                                                         reader = new FileReader();
-
+                                                        reader.onload = () => {
+                                                            setImg(reader.result);
+                                                        };
                                                         reader.readAsDataURL(event.target.files[0]);
 
                                                         formik.setFieldValue("patientImage", event.target.files[0].name);
@@ -153,7 +162,7 @@ const CustomPatientEditModal: React.FC<{ id: string; }> = ({ id }) => {
                                                     onChange={formik.handleChange}
                                                     error={formik.touched.patientName && Boolean(formik.errors.patientName)}
                                                     helperText={formik.touched.patientName && formik.errors.patientName}
-
+                                                    imgData={image}
                                                 />
                                             </Grid>
                                             <Grid item xs={6}>

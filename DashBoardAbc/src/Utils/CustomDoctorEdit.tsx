@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Grid } from '@mui/material'
 import FormikControl from '../CustomComponent/FormikControl';
-import { PostPatientInfo } from '../Redux/PatientSlice'
+import { UpdatePatientInfo } from '../Redux/PatientSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store'
-import { PatientModel } from '../TypeFile/TypeScriptType'
-import {IoIosClose} from 'react-icons/io'
+import { UserContextType } from '../TypeFile/TypeScriptType'
+import { userContext } from '../Context/userContext'
+import { IoIosClose } from 'react-icons/io'
 import './CustomPatientDelete.scss'
 interface CountryOption {
     id: string,
@@ -19,16 +20,16 @@ interface specialistDoctor {
     key: string,
     data: string
 }
-// interface DoctorInfo {
-//     email: string,
-//     patientName: string,
-//     address: string,
-//     phoneNumber: string,
-//     dob: string,
-//     age: number
-//     country: string,
-//     patientImage: string
-// }
+interface DoctorInfo {
+    email: string,
+    patientName: string,
+    address: string,
+    phoneNumber: string,
+    dob: string,
+    age: number
+    country: string,
+    // patientImage: string
+}
 const signinSchema = Yup.object().shape({
     email: Yup.string()
         .email()
@@ -41,10 +42,11 @@ const signinSchema = Yup.object().shape({
         .required("phone number is required"),
     country: Yup.string()
         .required("country is required"),
-    patientImage: Yup.mixed().required('File is required'),
+    patientImage: Yup.string()
+        .required("image is required"),
     dob: Yup.string()
         .required("Dob is required"),
-    age: Yup.string()
+    age: Yup.number()
         .required("number is required"),
     admitDate: Yup.string()
         .required("admitDate is required"),
@@ -64,40 +66,62 @@ const specialistData: specialistDoctor[] = [
 ]
 
 
-const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
-    const [image, setImg] = useState("")
+
+const CustomDoctorEdit: React.FC<{ id: string; }> = ({ id }) => {
+    const { EditedData } = React.useContext(userContext) as UserContextType
     const [checkError, setCheckError] = useState<boolean>(false)
+    const [image, setImg] = useState("")
     const dispatch = useDispatch<AppDispatch>()
-    const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse)
-    const handleSubmit = (data: PatientModel) => {
+    const UpdatePatientResponse = useSelector((state: RootState) => state?.patient.updatePatientResponse)
+    const handleSubmit = (data: DoctorInfo) => {
         setCheckError(!checkError)
-        console.log("patientAdd", data)
-        dispatch(PostPatientInfo(data))
+        console.log(data, "formikSubmit")
+        dispatch(UpdatePatientInfo(data))
     }
-    console.log(image,"img")
+    const [medium, setMedium] = useState({
+        patientName: "",
+        email: "",
+        address: "",
+        phoneNumber: "",
+        country: "",
+        dob: "",
+        age: 0,
+        admitDate: "",
+        patientImage: ""
+    })
+    useEffect(() => {
+        if (EditedData) {
+            setMedium({
+                patientName: "mani",
+                email: "",
+                address: "",
+                phoneNumber: "",
+                country: "",
+                dob: "",
+                age: 0,
+                admitDate: "",
+                patientImage: ""
+            })
+        }
+    }, [EditedData])
+
     return (
-        <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div className="modal-dialog modal-md modal-dialog-scrollable">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Add Patient</h5>
-                        <IoIosClose data-bs-dismiss="modal" aria-label="Close" className="icons"/> 
+                        <h5 className="modal-title" id="exampleModalLabel">Edit Doctor</h5>
+                        <IoIosClose data-bs-dismiss="modal" aria-label="Close" className="icons" />
                     </div>
                     <div className="modal-body p-3">
                         <Formik
-                            initialValues={{
-                                patientName: "",
-                                email: '',
-                                address: "",
-                                phoneNumber: "",
-                                country: "",
-                                patientImage: "",
-                                dob: "",
-                                age: 0,
-                                admitDate: ""
+                            initialValues={medium}
+                            onSubmit={(data, { resetForm }) => {
+                                setCheckError(!checkError)
+                                console.log(data, "formikSubmit")
+                                dispatch(UpdatePatientInfo(data))
+                                resetForm()
                             }}
-                            onSubmit={(data) => handleSubmit(data)}
-
                             validationSchema={signinSchema}
                         >
 
@@ -112,17 +136,17 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     type="file"
                                                     onChange={(event: any) => {
                                                         console.log(event.target.files)
-                                                        formik.setFieldValue("patientImage", event.target.files);
                                                         let reader: any;
                                                         reader = new FileReader();
                                                         reader.onload = () => {
                                                             setImg(reader.result);
                                                         };
                                                         reader.readAsDataURL(event.target.files[0]);
-                                                        console.log(reader)
+
+                                                        formik.setFieldValue("patientImage", event.target.files[0].name);
                                                     }}
                                                     error={formik.errors.patientImage}
-                                                    imgData={image}
+
                                                 />
                                             </Grid>
                                         </Grid>
@@ -132,11 +156,13 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     control="input"
                                                     type="text"
                                                     label="Name"
+                                                    value={formik.values.patientName}
                                                     name="patientName"
                                                     onBlur={formik.handleBlur}
                                                     onChange={formik.handleChange}
                                                     error={formik.touched.patientName && Boolean(formik.errors.patientName)}
                                                     helperText={formik.touched.patientName && formik.errors.patientName}
+                                                    imgData={image}
                                                 />
                                             </Grid>
                                             <Grid item xs={6}>
@@ -184,7 +210,6 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                                                     helperText={formik.touched.country && formik.errors.country}
                                                 />
                                             </Grid>
-
                                             <Grid item xs={6}>
                                                 <FormikControl
                                                     control="input"
@@ -228,11 +253,8 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                                             save
                                         </button>
                                     </div>
-
-
                                 </Form>
                             )}
-
                         </Formik>
                     </div>
                 </div>
@@ -240,4 +262,4 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
         </div>
     )
 }
-export default CustomPatientAddModal
+export default CustomDoctorEdit
