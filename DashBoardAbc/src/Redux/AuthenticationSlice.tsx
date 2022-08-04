@@ -1,105 +1,14 @@
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from 'axios';
-// import { Constants, ApiEndpoint } from "../Constant";
-
-// export interface Signup {
-//     username: string,
-//     password: string,
-//     email: string
-// }
-
-// interface Signin {
-//     email: string,
-//     password: string
-// }
-
-// export const SignupAction = createAsyncThunk(
-//     'users/fetchById',
-//     async (data: Signup) => {
-//         try {
-//             const loginResponse = await axios({
-//                 method: 'POST',
-//                 url: Constants.BaseUrl + ApiEndpoint.SignupAuthentication,
-//                 data
-//             }).then((res) => {
-//                 return res.data
-//             });
-//             if (loginResponse) {
-//                 return loginResponse
-//             }
-//         }
-//         catch (err) {
-
-//         }
-//     }
-// )
-
-// export const LoginAction = createAsyncThunk(
-//     'users/signin',
-//     async (data: Signin) => {
-//         console.log("data")
-//         try {
-//             const loginResponse = await axios({
-//                 method: 'POST',
-//                 url: Constants.BaseUrl + ApiEndpoint.LoginAuthentication,
-//                 data
-//             }).then((res) => {
-//                 console.log(res)
-//                 return res.data
-//             });
-//             if (loginResponse) {
-//                 return loginResponse
-//             }
-//         }
-//         catch (err) {
-
-//         }
-//     }
-// )
-
-// const initialState = {
-//     SignupResponse: {
-//         data: {}
-//     },
-//     LoginResponse: {
-//         data: {}
-//     }
-// }
-
-// const usersSlice = createSlice({
-//     name: 'users',
-//     initialState,
-//     reducers: {
-//         LoginAction(state, action) {
-//             console.log("staes",state, action)
-//         }
-//     },
-//     extraReducers: (builder) => {
-//         builder.addCase(SignupAction.fulfilled, (state, action) => {
-//             state.SignupResponse =
-//             {
-//                 data: action.payload
-//             }
-//         })
-//         builder.addCase(LoginAction.fulfilled, (state, action) => {
-//             state.LoginResponse =
-//             {
-//                 data: action.payload
-//             }
-//         })
-//     },
-// })
-
-// export default usersSlice.reducer
-
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError } from 'axios';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from 'axios';
 import { Constants, ApiEndpoint } from "../Constants/Constant";
 import TokenService from '../Constants/token.service'
 import Api from '../Constants/Instance'
+import { toast } from 'react-toastify'
 import { AppDispatch } from "../store";
+import { Signin, Signup } from "../TypeFile/TypeScriptType";
 
-export const SignupAction = (data: any) => async (dispatch: AppDispatch) => {
+
+export const SignupAction = (data: Signup) => async (dispatch: AppDispatch) => {
     try {
         const SignupResponse = await axios({
             method: 'POST',
@@ -118,12 +27,11 @@ export const SignupAction = (data: any) => async (dispatch: AppDispatch) => {
         console.log(err)
         const error = err as any
         let { message } = error?.response?.data
-        console.log(message)
-        dispatch(setSignupError(message))
+        toast.error(message)
     }
 }
 
-export const LoginAction = (data: any, navigate: any) => async (dispatch: AppDispatch) => {
+export const LoginAction = (data: Signin, navigate: any) => async (dispatch: AppDispatch) => {
     console.log(data)
     try {
         const LoginResponse = await axios({
@@ -147,12 +55,11 @@ export const LoginAction = (data: any, navigate: any) => async (dispatch: AppDis
         console.log(err)
         const error = err as any
         let { message } = error?.response?.data
-        console.log(message)
-        dispatch(setSignupError(message))
+        toast.error(message)
     }
 }
 
-export const getUserList = () => async (dispatch:AppDispatch) => {
+export const getUserList = () => async (dispatch: AppDispatch) => {
     console.log("inside it")
     try {
         const userList = await Api({
@@ -190,8 +97,7 @@ const initialState = {
     },
     userListResponse: {
         data: {}
-    },
-    signupError: ""
+    }
 }
 
 const usersSlice = createSlice({
@@ -210,13 +116,8 @@ const usersSlice = createSlice({
                 data: action.payload
             }
         },
-        setSignupError: (state, action) => {
-            console.log(state, action)
-            state.signupError = action.payload
-        },
         tweetStoreReseted: (state) => {
             console.log("reset", state)
-            state.signupError = ""
         },
         AllUserList: (state, action) => {
             console.log(state, action)
@@ -227,7 +128,7 @@ const usersSlice = createSlice({
     },
 })
 
-export const { setSignUpSuccess, setLoginSuccess, setSignupError, tweetStoreReseted, AllUserList } = usersSlice.actions
+export const { setSignUpSuccess, setLoginSuccess, tweetStoreReseted, AllUserList } = usersSlice.actions
 
 export default usersSlice.reducer
 

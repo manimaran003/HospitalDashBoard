@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './MainDashboard.scss'
 import { Paper, Divider } from '@mui/material'
 import { AiOutlineMore } from 'react-icons/ai'
@@ -7,15 +7,15 @@ import { BsWallet2 } from 'react-icons/bs';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import 'antd/dist/antd.css';
-import { GrView, GrFormAdd } from 'react-icons/gr'
-import { BiEdit } from 'react-icons/bi'
 import IncomeChart from './IncomeChart'
-import CustomTable from './CustomTable'
+import Pagination from '@mui/material/Pagination';
 import VisitorStatistics from './VisitorStatistics';
 import HospitalActivity from './HospitalActivity';
 import { useDispatch, useSelector } from 'react-redux';
-import {GetPatientInfo} from '../../Redux/PatientSlice'
+import { GetPatientInfo } from '../../Redux/PatientSlice'
 import { AppDispatch, RootState } from '../../store';
+import PaginationHook from '../../Utils/PaginationHook';
+
 
 interface DataType {
     patientName: string;
@@ -64,13 +64,20 @@ const columns: ColumnsType<DataType> = [
 
 
 const MainDashboard = () => {
+    const [page, setPage] = useState(1)
     const dispatch = useDispatch<AppDispatch>()
-  const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse)
-  console.log(GetResponseData)
-  useEffect(() => {
-    dispatch(GetPatientInfo())
-  }, [dispatch])
+    const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse)
+    useEffect(() => {
+        dispatch(GetPatientInfo())
+    }, [dispatch])
     let reportsData = GetResponseData?.data
+    let PerPage = 5;
+    let count = Math.ceil(reportsData.length / PerPage)
+    const PaginatedData = PaginationHook(reportsData, PerPage);
+    const handleChange = (_event: React.ChangeEvent<unknown>, p: number): void => {
+        setPage(p)
+        PaginatedData.jump(p)
+    }
     return (
         <div className="p-3">
             <div className="row">
@@ -248,8 +255,8 @@ const MainDashboard = () => {
                                 <div><AiOutlineMore className='revenueDash-icon' /></div>
                             </div>
                         </div>
-                        <Table columns={columns} dataSource={reportsData} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
-                        {/* <CustomTable /> */}
+                        <Table columns={columns} dataSource={PaginatedData?.currentData()} pagination={false} scroll={{ y: 240 }} />
+                        <Pagination count={count} page={page} variant="outlined" shape="rounded" className="mt-3 d-flex justify-content-end me-2 p-3" onChange={handleChange} />
                     </Paper>
                 </div>
             </div>

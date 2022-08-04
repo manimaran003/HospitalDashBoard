@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ApiEndpoint, Constants } from './Constant';
-import TokenService from '../Constants/token.service'
+import TokenService from '../Constants/token.service';
+import { toast } from 'react-toastify'
 const instance = axios.create({
     baseURL: Constants.BaseUrl,
     headers: {
@@ -24,6 +25,7 @@ instance.interceptors.response.use(
         return response;
     },
     async (error) => {
+        toast.error(error.response.data.message)
         const originalConfig = error.config;
         console.log(originalConfig, "original")
         if (error?.response?.status === 401) {

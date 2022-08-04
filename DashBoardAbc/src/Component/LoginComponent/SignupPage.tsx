@@ -12,16 +12,9 @@ import { SignupAction } from '../../Redux/AuthenticationSlice';
 import { userContext } from '../../Context/userContext';
 const SignupPage = () => {
     const SignupResponseData = useSelector((state: RootState) => state?.users.SignupResponse)
-    const SignupError = useSelector((state: RootState) => state?.users.signupError)
     console.log(SignupResponseData, "signup")
-    console.log(SignupError, "errpr")
     const dispatch = useDispatch<AppDispatch>()
 
-    useEffect(() => {
-        if (SignupError) {
-            toast(SignupError)
-        }
-    }, [SignupError])
 
 
     const signupSchema = Yup.object().shape({

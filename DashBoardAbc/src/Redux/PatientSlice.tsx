@@ -3,6 +3,7 @@ import { Constants, ApiEndpoint } from "../Constants/Constant";
 import Api from '../Constants/Instance'
 import { AppDispatch } from "../store";
 import {PatientModel} from '../TypeFile/TypeScriptType'
+import { toast } from 'react-toastify'
 
 export const PostPatientInfo = (data:PatientModel ) => {
     return async (dispatch: AppDispatch) => {

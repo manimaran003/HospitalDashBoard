@@ -23,6 +23,7 @@ export interface DoctorProfile {
 }
 
 export interface DataType {
+    length: number;
     patientName: string;
     age: number;
     address: string;
@@ -64,4 +65,6 @@ export type UserContextType={
     EditedData:EditType;
     show:boolean;
     AuthTool:(state:boolean)=>void;
+    hideSidebar:boolean;
+    MobileDrawer:(state:boolean)=>void;
 }

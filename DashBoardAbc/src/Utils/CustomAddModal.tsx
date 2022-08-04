@@ -66,8 +66,9 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
     const dispatch = useDispatch<AppDispatch>()
     const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse)
     const handleSubmit = (data: DoctorInfo) => {
+        console.log(data)
         let formData = new FormData();
-        formData.append("doctorName", data?.doctorName)
+        formData.append("doctorName", "lksld")
         formData.append("email", data?.email)
         formData.append("phoneNumber", data?.phoneNumber)
         formData.append("address", data?.address)

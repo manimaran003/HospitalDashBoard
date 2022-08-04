@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import './AllPatientsView.scss'
 import 'antd/dist/antd.css';
 import { GrView, GrFormAdd } from 'react-icons/gr'
@@ -15,13 +15,23 @@ import CustomPatientEditModal from '../../Utils/CustomPatientEditModal';
 import { UserContextType, DataType } from '../../TypeFile/TypeScriptType';
 import { userContext } from '../../Context/userContext';
 import CustomPatientDelete from '../../Utils/CustomPatientDelete';
+import Pagination from '@mui/material/Pagination';
+import PaginationHook from '../../Utils/PaginationHook';
 
 const AllPatientsView: React.FC = () => {
+    const [page, setPage] = useState(1)
+    const [open, setOpen] = React.useState(false);
     const { editModal } = React.useContext(userContext) as UserContextType
     const dispatch = useDispatch<AppDispatch>()
     const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse)
-    let reportsData = GetResponseData?.data
-    const [open, setOpen] = React.useState(false);
+    let reportsData= GetResponseData?.data
+    let PerPage = 5;
+    let count = Math.ceil(reportsData.length / PerPage)
+    const datas = PaginationHook(reportsData, PerPage);
+    const handleChange = (event: React.ChangeEvent<unknown>, p: number): void => {
+        setPage(p)
+        datas.jump(p)
+    }
     const handleClose = () => {
         setOpen(false)
     };
@@ -105,6 +115,7 @@ const AllPatientsView: React.FC = () => {
         },
     ];
 
+
     const handleViewProfile = (record: DataType) => {
         navigate("/dashboard/viewPatients", {
             state: record
@@ -113,7 +124,8 @@ const AllPatientsView: React.FC = () => {
 
     return (
         <div className=''>
-            <Table columns={columns} dataSource={reportsData} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+            <Table columns={columns} dataSource={datas?.currentData()} scroll={{ y: 240 }} pagination={false} />
+            <Pagination count={count} page={page} variant="outlined" shape="rounded" className="mt-3 d-flex justify-content-end me-2" onChange={handleChange} />
             <CustomPatientEditModal id={"exampleModal"} />
             <CustomPatientDelete open={open} close={handleClose} />
         </div>

@@ -20,14 +20,18 @@ const UserProvider: React.FC<Props> = ({ children }) => {
         _id: ""
     })
     const [show, setShow] = useState<boolean>(false)
+    const [hideSidebar, sethideBar] = useState<boolean>(true)
     const editModal = (data: EditType) => {
         console.log("data", data)
         setEdited(data)
     }
-    const AuthTool = (state:boolean):void => {
+    const AuthTool = (state: boolean): void => {
         setShow(state)
     }
-    return <userContext.Provider value={{show, EditedData, editModal,AuthTool }}>{children}</userContext.Provider>
+    const MobileDrawer = (): void => {
+        sethideBar(!hideSidebar)
+    }
+    return <userContext.Provider value={{ show, EditedData, editModal, AuthTool, hideSidebar, MobileDrawer }}>{children}</userContext.Provider>
 }
 
 export default UserProvider
