@@ -52,8 +52,6 @@ const SelectInput = styled(Select)(({ theme }) => ({
             'background-color',
             'box-shadow',
         ]),
-        // Use the system font instead of the default Roboto font.
-
     },
 }));
 
@@ -71,7 +69,13 @@ const SelectComponent: React.FC<TextFieldProps | any> = (props) => {
                 input={<BootstrapInput />}
                 {...rest}
             >
-                {options?.map((opt: any) => <MenuItem value={opt.data}>{opt.key}</MenuItem>)}
+                {options?.map((opt: any) => {
+                    return (
+                        <div key={opt.key}>
+                            <MenuItem value={opt.data}>{opt.key}</MenuItem>
+                        </div>
+                    )
+                })}
             </SelectInput>
             <span style={{ color: "red" }}>{helperText}</span>
         </>

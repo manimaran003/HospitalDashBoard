@@ -9,7 +9,6 @@ const Input = styled('input')({
 });
 const UploadComponent: React.FC<TextFieldProps | any> = (props) => {
     const { error, imgData, ...rest } = props
-    console.log(imgData)
     return (
         <div className=''>
             <div className="d-flex justify-content-center">

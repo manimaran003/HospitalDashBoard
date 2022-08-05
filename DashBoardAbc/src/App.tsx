@@ -4,7 +4,6 @@ import {ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProvider from './Context/userContext';
 function App() {
-  console.log("hai", process.env.REACT_APP_API_URL)
   return (
     <UserProvider>
       <div className="App">

@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './SignupPage.scss';
 import doctorImage from '../../Assets/doctor-medicine.svg';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify'
 import SigninComponent from './SigninComponent';
 import { AppDispatch, RootState } from '../../store';
 import { Signup, UserContextType } from '../../TypeFile/TypeScriptType';
@@ -12,7 +11,6 @@ import { SignupAction } from '../../Redux/AuthenticationSlice';
 import { userContext } from '../../Context/userContext';
 const SignupPage = () => {
     const SignupResponseData = useSelector((state: RootState) => state?.users.SignupResponse)
-    console.log(SignupResponseData, "signup")
     const dispatch = useDispatch<AppDispatch>()
 
 
@@ -71,15 +69,15 @@ const SignupPage = () => {
                                                         <h1 className="heading mt-3 mb-4">Create Account</h1>
 
                                                         <div className="d-flex flex-column gap-1 main--input">
-                                                            <input placeholder='email' id="email" name="email" onChange={formikSignup.handleChange} />
-                                                            <p className="error-text">{formikSignup.errors.email}</p>
-                                                            <input placeholder='name' name="username" onChange={formikSignup.handleChange} />
-                                                            <p className="error-text">{formikSignup.errors.username}</p>
-                                                            <input placeholder='password' name="password" onChange={formikSignup.handleChange} />
-                                                            <p className="error-text">{formikSignup.errors.password}</p>
+                                                            <input placeholder='email' id="email" name="email" onChange={formikSignup.handleChange} data-testid="email" />
+                                                            <p className="error-text" data-testid="error-test1"  >{formikSignup.errors.email}</p>
+                                                            <input placeholder='name' name="username" onChange={formikSignup.handleChange} data-testid="username" />
+                                                            <p className="error-text" data-testid="error-test2" >{formikSignup.errors.username}</p>
+                                                            <input placeholder='password' name="password" onChange={formikSignup.handleChange} data-testid="password" />
+                                                            <p className="error-text" data-testid="error-test3">{formikSignup.errors.password}</p>
                                                         </div>
                                                         <div className='d-flex align-items-center justify-content-center'>
-                                                            <button className="btn--container">
+                                                            <button className="btn--container" type="submit">
                                                                 Sign up
                                                             </button>
                                                         </div>
@@ -102,5 +100,4 @@ const SignupPage = () => {
         </div>
     )
 }
-
 export default SignupPage

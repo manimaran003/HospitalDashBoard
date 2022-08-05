@@ -75,7 +75,6 @@ const CustomPatientEditModal: React.FC<{ id: string; }> = ({ id }) => {
     const UpdatePatientResponse = useSelector((state: RootState) => state?.patient.updatePatientResponse)
     const handleSubmit = (data: DoctorInfo) => {
         setCheckError(!checkError)
-        console.log(data, "formikSubmit")
         dispatch(UpdatePatientInfo(data))
     }
     const [medium, setMedium] = useState({

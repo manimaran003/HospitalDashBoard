@@ -24,7 +24,7 @@ const AllPatientsView: React.FC = () => {
     const { editModal } = React.useContext(userContext) as UserContextType
     const dispatch = useDispatch<AppDispatch>()
     const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse)
-    let reportsData= GetResponseData?.data
+    let reportsData = GetResponseData?.data
     let PerPage = 5;
     let count = Math.ceil(reportsData.length / PerPage)
     const datas = PaginationHook(reportsData, PerPage);
@@ -124,6 +124,7 @@ const AllPatientsView: React.FC = () => {
 
     return (
         <div className=''>
+          
             <Table columns={columns} dataSource={datas?.currentData()} scroll={{ y: 240 }} pagination={false} />
             <Pagination count={count} page={page} variant="outlined" shape="rounded" className="mt-3 d-flex justify-content-end me-2" onChange={handleChange} />
             <CustomPatientEditModal id={"exampleModal"} />

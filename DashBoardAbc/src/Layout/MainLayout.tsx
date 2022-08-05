@@ -161,7 +161,7 @@ const MainLayout = () => {
         <div>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar position="fixed" sx={{ boxShadow: "none !important" ,backgroundColor:"#fff !important"}}>
+                <AppBar position="fixed" sx={{ boxShadow: "none !important", backgroundColor: "#fff !important" }}>
                     <Header />
                 </AppBar>
                 {

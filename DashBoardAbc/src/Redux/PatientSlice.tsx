@@ -37,7 +37,7 @@ export const GetPatientInfo = () => async (dispatch: AppDispatch) => {
         }
     }
     catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 }
 export const UpdatePatientInfo = (data: any) => async (dispatch: AppDispatch) => {

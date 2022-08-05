@@ -24,7 +24,6 @@ const SigninComponent: React.FC = () => {
     const navigate = useNavigate()
     const { AuthTool } = React.useContext(userContext) as UserContextType
     const LoginResponseData = useSelector((state: RootState) => state?.users.LoginResponse?.data)
-    console.log(LoginResponseData, "login")
     const handleLoginSubmit = (values: Signin) => {
         dispatch(LoginAction(values, navigate))
     }
@@ -50,13 +49,13 @@ const SigninComponent: React.FC = () => {
                         <div className='container'>
                             <h1 className="heading mt-3 mb-4">Signin Account</h1>
                             <div className="d-flex flex-column gap-3 main--input">
-                                <input placeholder='email' id="SigninEmail" name="email" onChange={formik.handleChange} />
-                                <p className="error-text">{formik.errors.email}</p>
-                                <input placeholder='password' name="password" onChange={formik.handleChange} />
-                                <p className="error-text">{formik.errors.password}</p>
+                                <input placeholder='email' id="SigninEmail" name="email" onChange={formik.handleChange} data-testid="email" />
+                                <p className="error-text" data-testid="error-test1">{formik.errors.email}</p>
+                                <input placeholder='password' name="password" onChange={formik.handleChange} data-testid="password" />
+                                <p className="error-text" data-testid="error-test2">{formik.errors.password}</p>
                             </div>
                             <div className='d-flex align-items-center justify-content-center'>
-                                <button className="btn--container">
+                                <button className="btn--container" type="submit">
                                     Sign in
                                 </button>
                             </div>
