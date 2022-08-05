@@ -1,16 +1,27 @@
 import './App.css';
-import { getStorageDetail } from './Layout/StorageDetail';
-import PrivateRoute from './Layout/PrivateRoute';
-import PublicRoute from './Layout/PublicRoute';
-
+import MainRoutes from "./Layout/MainRoutes";
+import {ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import UserProvider from './Context/userContext';
 function App() {
-  let data = getStorageDetail();
   return (
-    <div className="App">
-     {
-      data ? <PrivateRoute/> : <PublicRoute/>
-     }
-    </div>
-  );
+    <UserProvider>
+      <div className="App">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <ToastContainer />
+        <MainRoutes />
+      </div>
+    </UserProvider>
+  )
 }
 export default App;
