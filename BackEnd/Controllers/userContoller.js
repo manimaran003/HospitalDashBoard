@@ -2,27 +2,37 @@ const User=require('../Models/UserModel')
 const jwt=require('jsonwebtoken')
 
 const SignIn=(id,expiry)=>{
-    return jwt.sign({id},process.env.JWT_SECRET,{expiresIn:`${expiry}m`})
+    console.log(id)
+    return jwt.sign({id},process.env.JWT_SECRET,{expiresIn:`${expiry}ms`})
 }
 
 
-exports.SignUpControll=async(req,res,next)=>{
+exports.SignUpControll=async(req,res)=>{
     try{
         const {username,password,email}=req.body
-        const userData=await User.create({
-            username,
-            password,
-            email
-        })
-        console.log("userdata",userData._id)
-
-        const token=SignIn(userData._id,20) 
-        res.status(200).json({
-            status:"success",
-            data:{
-                token
-            }
-        })
+        console.log("camed")
+        //check already user signup guy logged in
+        const checkPerson=await User.findOne({email})
+        console.log('yes',checkPerson)
+        if(checkPerson){
+           return  res.status(400).json({
+                status:"fail",
+                message:"email already exists"
+            })  
+        }
+        else{
+            const userData=await User.create({
+                username,
+                password,
+                email
+            })
+            console.log("userdata",userData._id)
+            const token=SignIn(userData._id,50) 
+            return res.status(200).json({
+               status:"success",
+               token
+           })
+        }
     }
     catch(err){
         res.status(404).json({
@@ -31,7 +41,7 @@ exports.SignUpControll=async(req,res,next)=>{
         })
     }
 }
-exports.LoginControll=async(req,res,next)=>{
+exports.LoginControll=async(req,res)=>{
     try{
         const {email,password}=req.body
         console.log(req.body)
@@ -43,14 +53,14 @@ exports.LoginControll=async(req,res,next)=>{
                 message:"incorrect password or email"
             })
         }
-        const token=SignIn(userData._id,2)
-        const refreshToken=SignIn(userData._id,1)
+       // const token=SignIn(userData._id,30000)
+        let tok= userData._id
+       const token=  jwt.sign({tok},process.env.JWT_SECRET,{expiresIn:'1m'})
+        const refreshToken=jwt.sign({tok},process.env.JWT_SECRET,{expiresIn:'20m'})
         res.status(200).json({
             status:"success",
-            data:{
                 token,
                 refreshToken
-            }
         })
     }
     catch(err){
@@ -95,18 +105,25 @@ const JwtCatchError=(err,res)=>{
 
 exports.ProtectedRoute=async(req,res,next)=>{
     let token;
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-        token=req.headers.authorization.split(' ')[1]
+    console.log("pro",process.env.JWT_SECRET)
+    // if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    //     token=req.headers.authorization.split(' ')[1]
+    //     console.log(token)
+    // }
+    if(req.headers.authorization){
+             token=req.headers.authorization
+        console.log(token)
     }
     if(!token){
-        res.status(401).json({
+       return res.status(401).json({
             status:"fail",
             message:"no token provided"
         })
     }
     //let decode=jwt.verify(token,process.env.JWT_SECRET)
      await jwt.verify(token, process.env.JWT_SECRET, async(err,decode) => {
-        console.log(decode)
+        console.log(err,"kelvin")
+        console.log(decode,"jam")
          const currentUser =  await User.findById(decode?.id);
        req.user=currentUser
         if (err) {
@@ -118,20 +135,25 @@ exports.ProtectedRoute=async(req,res,next)=>{
 
 
 exports.refreshController=async(req,res)=>{
+    console.log(req.headers.authorization)
     let refreshToken;
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-        refreshToken=req.headers.authorization.split(' ')[1]
+    // if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    //     refreshToken=req.headers.authorization.split(' ')[1]
+    // }
+     if(req.headers.authorization){
+        refreshToken=req.headers.authorization
     }
     let DecodeData=jwt.decode(refreshToken)
     console.log("newDecode",DecodeData)
     if(DecodeData){
-        const newAccess=SignIn(DecodeData._id,20) 
+        const id=DecodeData._id
+       const newAccess =jwt.sign({id},process.env.JWT_SECRET,{expiresIn:'1m'})
+       // const newAccess=SignIn(DecodeData._id,10) 
         return res.status(200).json({
             status:"success",
-            data:{
                 newAccess,
                 refreshToken
-            }
+            
         })
     }
 }
