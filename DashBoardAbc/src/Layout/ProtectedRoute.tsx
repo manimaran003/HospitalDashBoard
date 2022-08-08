@@ -1,20 +1,18 @@
-import { Navigate, Outlet } from 'react-router-dom'
-import TokenService from '../Constants/token.service'
+import { Navigate, Outlet } from 'react-router-dom';
 const useAuth = () => {
-  const user = sessionStorage.getItem('accessToken')
-  console.log(user)
+  const user = sessionStorage.getItem('accessToken');
+  console.log(user);
   if (user) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
-}
+};
 
 const ProtectedRoute = (props: any) => {
+  const auth = useAuth();
 
-  const auth = useAuth()
-
-  return auth ? <Outlet /> : <Navigate to="/login" />
-}
+  return auth ? <Outlet /> : <Navigate to="/login" />;
+};
 
 export default ProtectedRoute;

@@ -1,6 +1,6 @@
 import './App.css';
-import MainRoutes from "./Layout/MainRoutes";
-import {ToastContainer } from 'react-toastify';
+import MainRoutes from './Layout/MainRoutes';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProvider from './Context/userContext';
 function App() {
@@ -22,6 +22,6 @@ function App() {
         <MainRoutes />
       </div>
     </UserProvider>
-  )
+  );
 }
 export default App;

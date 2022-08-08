@@ -1,9 +1,11 @@
-import {Outlet} from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-const  InnerContent=() =>{
-  return <div className='inner-content'>
-      <Outlet/>
-  </div>;
-}
+const InnerContent = () => {
+  return (
+    <div className="inner-content">
+      <Outlet />
+    </div>
+  );
+};
 
 export default InnerContent;

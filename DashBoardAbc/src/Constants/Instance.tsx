@@ -1,53 +1,55 @@
-import axios from 'axios'
+import axios from 'axios';
 import { ApiEndpoint, Constants } from './Constant';
 import TokenService from '../Constants/token.service';
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 const instance = axios.create({
-    baseURL: Constants.BaseUrl,
-    headers: {
-        "Content-Type": "application/json",
-    },
+  baseURL: Constants.BaseUrl,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 instance.interceptors.request.use(
-    (config) => {
-
-        config.headers = { "authorization": TokenService.getAccessToken(), "Content-Type": "application/json" }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    });
+  (config) => {
+    config.headers = {
+      authorization: TokenService.getAccessToken(),
+      'Content-Type': 'application/json'
+    };
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 //instance.defaults.headers.common['Authorization'] = "Bearer " + TokenService.getAccessToken();
 instance.interceptors.response.use(
-    (response) => {
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    toast.error(error.response.data.message);
+    const originalConfig = error.config;
 
-        return response;
-    },
-    async (error) => {
-        toast.error(error.response.data.message)
-        const originalConfig = error.config;
+    if (error?.response?.status === 401) {
+      originalConfig._retry = true;
+      if (error.response.data.message === 'Unauthorized! Access Token was expired!') {
+        try {
+          const refreshToken = TokenService.getRefreshToken();
 
-        if (error?.response?.status === 401) {
-            originalConfig._retry = true;
-            if (error.response.data.message === "Unauthorized! Access Token was expired!") {
-                try {
-                    let refreshToken = TokenService.getRefreshToken()
+          const res = await instance.post(ApiEndpoint.refreshAuth, {
+            authorization: refreshToken
+          });
 
-                    const res = await instance.post(ApiEndpoint.refreshAuth, {
-                        "authorization": refreshToken,
-                    });
-
-                    TokenService.UpdateAccessToken(res?.data?.newAccess)
-                    instance.defaults.headers.common["authorization"] = res?.data?.newAccess;
-                    return instance(originalConfig);
-                }
-                catch (err) {
-                    return Promise.reject(error);
-                }
-            }
+          TokenService.UpdateAccessToken(res?.data?.newAccess);
+          instance.defaults.headers.common['authorization'] = res?.data?.newAccess;
+          return instance(originalConfig);
+        } catch (err) {
+          return Promise.reject(error);
         }
-        return Promise.reject(error);
-    });
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default instance;
