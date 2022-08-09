@@ -1,11 +1,13 @@
+import React from 'react';
 import { GoHome } from 'react-icons/go';
 import { AiOutlineUserAdd } from 'react-icons/ai';
-import AllPatientsView from './Component/Patients/AllPatientsView';
-import AllDoctor from './Component/Doctors/AllDoctor';
-import MainDashboard from './Component/MainDashboard/MainDashboard';
-import ViewDoctor from './Component/Doctors/ViewDoctor';
-import ViewPatients from './Component/Patients/ViewPatients';
-import SignupPage from './Component/LoginComponent/SignupPage';
+const AllDoctor = React.lazy(() => import('./Component/Doctors/AllDoctor'));
+const AllPatientsView = React.lazy(() => import('./Component/Patients/AllPatientsView'));
+const MainDashboard = React.lazy(() => import('./Component/MainDashboard/MainDashboard'));
+const ViewDoctor = React.lazy(() => import('./Component/Doctors/ViewDoctor'));
+const ViewPatients = React.lazy(() => import('./Component/Patients/ViewPatients'));
+const SignupPage = React.lazy(() => import('./Component/LoginComponent/SignupPage'));
+
 export const RouterData = [
   {
     path: '/',

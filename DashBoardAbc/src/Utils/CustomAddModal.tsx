@@ -68,7 +68,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
   const dispatch = useDispatch<AppDispatch>();
   const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse);
   const handleSubmit = (data: DoctorInfo) => {
-    console.log(data);
+    console.log(data, 'jam');
     const formData = new FormData();
     formData.append('doctorName', 'lksld');
     formData.append('email', data?.email);
@@ -110,8 +110,7 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                           onChange={(event: any) => {
                             console.log('event', event);
                             formik.setFieldValue('doctorImage', event.target.files);
-                            let reader: any;
-                            reader = new FileReader();
+                            const reader = new FileReader();
                             console.log(reader);
                             reader.onload = () => {
                               setImg(reader.result);

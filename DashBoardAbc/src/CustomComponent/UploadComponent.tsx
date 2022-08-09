@@ -15,8 +15,8 @@ interface FieldProps {
   type: string;
   test: string;
 }
-const UploadComponent: React.FC<TextFieldProps|any> = (props) => {
-  const { error, imgData, name, test } = props;
+const UploadComponent: React.FC<FieldProps> = (props) => {
+  const { error, imgData, name, test, ...rest } = props;
   console.log('img', imgData);
   return (
     <div className="">
@@ -32,9 +32,9 @@ const UploadComponent: React.FC<TextFieldProps|any> = (props) => {
             hidden
             accept="image/*"
             data-testid={name}
-            type="file"
             id="contained-button-file"
             multiple
+            {...rest}
           />
           <PhotoCamera className="" />
         </IconButton>

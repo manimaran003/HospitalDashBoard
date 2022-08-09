@@ -94,12 +94,10 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                           type="file"
                           name="patientImage"
                           onChange={(event: any) => {
-                            console.log('event', event);
                             formik.setFieldValue('patientImage', event.target.files);
-                            let reader: any;
-                            reader = new FileReader();
+                            const reader = new FileReader();
                             reader.onload = () => {
-                              setImg(reader.result);
+                              setImg(reader?.result);
                             };
                             if (event.target.files[0]) {
                               reader.readAsDataURL(event.target.files[0]);

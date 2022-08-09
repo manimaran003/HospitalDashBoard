@@ -64,7 +64,7 @@ interface FieldProps {
   options: CountryOption[];
 }
 
-const SelectComponent: React.FC<FieldProps> = (props) => {
+const SelectComponent: React.FC<any> = (props) => {
   const { options, label, error, helperText, name, test, ...rest } = props;
   return (
     <>
@@ -77,7 +77,6 @@ const SelectComponent: React.FC<FieldProps> = (props) => {
       <SelectInput
         labelId="demo-customized-select-label"
         id="demo-customized-select"
-        defaultValue=""
         sx={{ width: '100%', border: `${error ? '1px solid red' : ''}` }}
         input={<BootstrapInput />}
         inputProps={{ 'data-testid': name }}
