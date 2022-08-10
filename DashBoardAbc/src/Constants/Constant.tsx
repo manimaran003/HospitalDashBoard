@@ -13,4 +13,5 @@ export class ApiEndpoint {
   static GetPatientInfo = '/patient/patientGet';
   static UpdatePatientInfo = '/patient/patientUpdate';
   static DeletePatientInfo = '/patient/patientDelete';
+  static GetPatienById = 'patientFind';
 }

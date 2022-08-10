@@ -17,6 +17,7 @@ export const PostPatientInfo = (data: PatientModel) => {
       });
       if (PatientInfoResponse) {
         dispatch(setPatientInfo(PatientInfoResponse));
+        dispatch(GetPatientInfo());
       }
     } catch (err) {
       console.log(err);
@@ -35,7 +36,7 @@ export const GetPatientInfo = () => async (dispatch: AppDispatch) => {
       dispatch(getPatientResponse(GetPatientResponse));
     }
   } catch (err) {
-    // console.log(err)
+    console.log(err);
   }
 };
 export const UpdatePatientInfo = (data: any) => async (dispatch: AppDispatch) => {
@@ -69,6 +70,21 @@ export const DeletePatientInfo = (data: any) => async (dispatch: AppDispatch) =>
     console.log(err);
   }
 };
+export const GetPatientById = (data: string) => async (dispatch: AppDispatch) => {
+  try {
+    const PatientResponse = await Api({
+      method: 'PATCH',
+      url: Constants.BaseUrl + ApiEndpoint.GetPatienById + `/:${data}`
+    }).then((res) => {
+      return res?.data;
+    });
+    if (PatientResponse) {
+      dispatch(GetOnePatient(PatientResponse));
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 const initialState = {
   PatientInfoResponse: {
     data: {}
@@ -81,6 +97,9 @@ const initialState = {
   },
   DeletePatientResponse: {
     data: ''
+  },
+  GetOneResponse: {
+    data: []
   }
 };
 const PatientSlice = createSlice({
@@ -107,9 +126,19 @@ const PatientSlice = createSlice({
       state.DeletePatientResponse = {
         data: action.payload
       };
+    },
+    GetOnePatient: (state, action) => {
+      state.GetOneResponse = {
+        data: action.payload
+      };
     }
   }
 });
-const { setPatientInfo, getPatientResponse, updatePatientResponse, DeletePatientReducer } =
-  PatientSlice.actions;
+const {
+  setPatientInfo,
+  getPatientResponse,
+  updatePatientResponse,
+  DeletePatientReducer,
+  GetOnePatient
+} = PatientSlice.actions;
 export default PatientSlice.reducer;

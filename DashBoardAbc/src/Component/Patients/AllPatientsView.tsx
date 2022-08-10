@@ -66,7 +66,7 @@ const AllPatientsView: React.FC = () => {
     },
     {
       title: 'Age',
-      dataIndex: 'age',
+      dataIndex: 'ageField',
       width: 100
     },
     {
@@ -137,7 +137,7 @@ const AllPatientsView: React.FC = () => {
         className="mt-3 d-flex justify-content-end me-2"
         onChange={handleChange}
       />
-      <CustomPatientEditModal id={'exampleModal'} />
+      <CustomPatientEditModal id={'exampleModal'}/>
       <CustomPatientDelete open={open} close={handleClose} />
     </div>
   );

@@ -68,9 +68,9 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
   const dispatch = useDispatch<AppDispatch>();
   const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse);
   const handleSubmit = (data: DoctorInfo) => {
-    console.log(data, 'jam');
     const formData = new FormData();
-    formData.append('doctorName', 'lksld');
+    console.log(data?.doctorImage);
+    formData.append('doctorName', data?.doctorName);
     formData.append('email', data?.email);
     formData.append('phoneNumber', data?.phoneNumber);
     formData.append('address', data?.address);
@@ -78,9 +78,8 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
     formData.append('country', data?.country);
     formData.append('doctorImage', data?.doctorImage);
     formData.append('dob', data?.dob);
-    console.log(formData);
     setCheckError(!checkError);
-    dispatch(PostDoctorInfo(data));
+    dispatch(PostDoctorInfo(formData));
   };
   return (
     <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -108,10 +107,9 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                           name="doctorImage"
                           type="file"
                           onChange={(event: any) => {
-                            console.log('event', event);
-                            formik.setFieldValue('doctorImage', event.target.files);
+                            formik.setFieldValue('doctorImage', event.target.files[0]);
                             const reader = new FileReader();
-                            console.log(reader);
+
                             reader.onload = () => {
                               setImg(reader.result);
                             };

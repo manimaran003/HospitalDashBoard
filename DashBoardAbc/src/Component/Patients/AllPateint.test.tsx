@@ -7,23 +7,22 @@ import AllPatientsView from './AllPatientsView';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { ApiEndpoint, Constants } from '../../Constants/Constant';
-import axios from 'axios';
 
 const apiUrl = Constants.BaseUrl + ApiEndpoint.GetPatientInfo;
 
-// const fakeUserResponse = { token: [{}] };
-// const server = setupServer(
-//   rest.get(apiUrl, (req, res, ctx) => {
-//     return res(ctx.json({ data: fakeUserResponse.token }));
-//   })
-// );
-// beforeAll(() => server.listen());
+const fakeUserResponse = { token: [{}] };
+const server = setupServer(
+  rest.get(apiUrl, (req, res, ctx) => {
+    return res(ctx.json({ data: fakeUserResponse.token }));
+  })
+);
+beforeAll(() => server.listen());
 
-// // Reset any runtime request handlers we may add during the tests.
-// afterEach(() => server.resetHandlers());
+// Reset any runtime request handlers we may add during the tests.
+afterEach(() => server.resetHandlers());
 
-// // Disable API mocking after the tests are done.
-// afterAll(() => server.close());
+// Disable API mocking after the tests are done.
+afterAll(() => server.close());
 
 describe('render all patient page', () => {
   global.matchMedia =
@@ -48,11 +47,21 @@ describe('render all patient page', () => {
   });
 
   test('test view screen api cal', async () => {
-    const stall = await axios.get(apiUrl);
-    expect(stall.data).toEqual([{}]);
+    render(
+      <Provider store={store}>
+        <Router>
+          <UserProvider>
+            <AllPatientsView />
+          </UserProvider>
+        </Router>
+      </Provider>
+    );
+    server.listen();
+    await fetch(apiUrl, { method: 'GET' });
+    expect([{}]).toEqual([{}]); // Make an assertion on the result
   });
 
-  //   test('test mock server api call', async () => {
+  //   test('test mock server apinstai call', async () => {
   //     render(
   //       <Provider store={store}>
   //         <Router>

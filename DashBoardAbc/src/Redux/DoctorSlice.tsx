@@ -2,8 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Constants, ApiEndpoint } from '../Constants/Constant';
 import Api from '../Constants/Instance';
 import { AppDispatch } from '../store';
-
-export const PostDoctorInfo = (data: any) => {
+interface DoctorInfo {
+  email: string;
+  doctorName: string;
+  address: string;
+  phoneNumber: string;
+  dob: string;
+  specialist: string;
+  country: string;
+  doctorImage: string;
+}
+export const PostDoctorInfo = (data: DoctorInfo) => {
   return async (dispatch: AppDispatch) => {
     try {
       const PostDoctorResponse = await Api({

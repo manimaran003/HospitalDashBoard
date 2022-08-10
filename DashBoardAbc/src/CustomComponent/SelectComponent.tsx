@@ -77,12 +77,14 @@ const SelectComponent: React.FC<any> = (props) => {
       <SelectInput
         labelId="demo-customized-select-label"
         id="demo-customized-select"
+        defaultValue=""
         sx={{ width: '100%', border: `${error ? '1px solid red' : ''}` }}
         input={<BootstrapInput />}
+        name={name}
         inputProps={{ 'data-testid': name }}
         {...rest}>
-        {options?.map((opt: CountryOption, index: number) => (
-          <MenuItem value={opt.data} key={index}>
+        {options?.map((opt: CountryOption) => (
+          <MenuItem value={opt.data} key={opt.id}>
             {opt.key}
           </MenuItem>
         ))}

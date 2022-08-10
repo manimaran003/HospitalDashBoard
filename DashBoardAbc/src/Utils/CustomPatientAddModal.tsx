@@ -19,16 +19,7 @@ interface specialistDoctor {
   key: string;
   data: string;
 }
-// interface DoctorInfo {
-//     email: string,
-//     patientName: string,
-//     address: string,
-//     phoneNumber: string,
-//     dob: string,
-//     age: number
-//     country: string,
-//     patientImage: string
-// }
+
 const initial = {
   patientName: '',
   email: '',
@@ -37,7 +28,7 @@ const initial = {
   country: '',
   patientImage: '',
   dob: '',
-  age: 0,
+  ageField: 0,
   admitDate: ''
 };
 const signinSchema = Yup.object().shape({
@@ -48,7 +39,7 @@ const signinSchema = Yup.object().shape({
   country: Yup.string().required('country is required'),
   patientImage: Yup.mixed().required('File is required'),
   dob: Yup.string().required('Dob is required'),
-  age: Yup.string().required('number is required'),
+  ageField: Yup.number().required('number is required'),
   admitDate: Yup.string().required('admitDate is required')
 });
 
@@ -65,8 +56,18 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
   const dispatch = useDispatch<AppDispatch>();
   const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse);
   const handleSubmit = (data: PatientModel) => {
+    const formdata = new FormData();
+    formdata.append('patientImage', data?.patientImage);
+    formdata.append('dob', data?.dob);
+    formdata.append('country', data?.country);
+    formdata.append('address', data?.address);
+    formdata.append('admitDate', data?.admitDate);
+    formdata.append('phoneNumber', data?.phoneNumber);
+    formdata.append('email', data?.email);
+    formdata.append('ageField', data?.ageField);
+    formdata.append('patientName', data?.patientName);
     setCheckError(!checkError);
-    dispatch(PostPatientInfo(data));
+    dispatch(PostPatientInfo(formdata));
   };
   return (
     <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -85,7 +86,6 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
               validationSchema={signinSchema}>
               {(formik) => (
                 <Form onSubmit={formik.handleSubmit}>
-                  {/* <FormikCheckerComponent checkFormik={formik} countryData={CountryOptions} specialist={specialistData} schemaInitial={initial} patientAdder={true}/> */}
                   <div>
                     <Grid container>
                       <Grid item xs={12}>
@@ -94,7 +94,7 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                           type="file"
                           name="patientImage"
                           onChange={(event: any) => {
-                            formik.setFieldValue('patientImage', event.target.files);
+                            formik.setFieldValue('patientImage', event.target.files[0]);
                             const reader = new FileReader();
                             reader.onload = () => {
                               setImg(reader?.result);
@@ -191,8 +191,8 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                           name="ageField"
                           type="number"
                           onChange={formik.handleChange}
-                          error={formik.touched.age && Boolean(formik.errors.age)}
-                          helperText={formik.touched.age && formik.errors.age}
+                          error={formik.touched.ageField && Boolean(formik.errors.ageField)}
+                          helperText={formik.touched.ageField && formik.errors.ageField}
                           test="err7"
                         />
                       </Grid>
@@ -209,14 +209,17 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
                         />
                       </Grid>
                     </Grid>
-                    <div></div>
                   </div>
+
+                  {/* <FormikCheckerComponent checkFormik={formik} countryData={CountryOptions} specialist={specialistData} schemaInitial={initial} patientAdder={true}/> */}
+
                   <div className="d-flex align-items-center justify-content-center gap-3 mt-4">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                       Cancel
                     </button>
                     <button
                       className="btn btn-secondary"
+                      type="submit"
                       data-bs-dismiss={`${checkError ? 'modal' : ''}`}
                       aria-label="Close">
                       save

@@ -48,7 +48,7 @@ interface FieldProps {
 }
 
 const InputComponent: React.FC<any> = (props) => {
-  const { label, name, type, onChange, error, helperText, test } = props;
+  const { label, name, type, onChange, error, helperText, test,value } = props;
   return (
     <div>
       <FormControl variant="standard">
@@ -62,6 +62,7 @@ const InputComponent: React.FC<any> = (props) => {
           id="bootstrap-input"
           name={name}
           type={type}
+          value={value}
           inputProps={{ 'data-testid': name }}
           onChange={onChange}
           sx={{ border: `${error ? '1px solid red' : ''}` }}

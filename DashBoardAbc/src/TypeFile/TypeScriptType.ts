@@ -38,7 +38,7 @@ export interface DataType {
 export interface EditType {
   patientImage: string;
   patientName: string;
-  age: number;
+  ageField: number;
   address: string;
   admitDate: string;
   country: string;
@@ -51,7 +51,7 @@ export interface EditType {
 export interface PatientModel {
   patientImage: string;
   patientName: string;
-  age: number;
+  ageField: number;
   address: string;
   admitDate: string;
   country: string;

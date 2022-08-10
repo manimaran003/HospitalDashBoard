@@ -17,7 +17,6 @@ interface FieldProps {
 }
 const UploadComponent: React.FC<FieldProps> = (props) => {
   const { error, imgData, name, test, ...rest } = props;
-  console.log('img', imgData);
   return (
     <div className="">
       <div className="d-flex justify-content-center">
