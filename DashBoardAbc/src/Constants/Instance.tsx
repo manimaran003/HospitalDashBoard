@@ -29,7 +29,6 @@ instance.interceptors.response.use(
   async (error) => {
     toast.error(error.response.data.message);
     const originalConfig = error.config;
-
     if (error?.response?.status === 401) {
       originalConfig._retry = true;
       if (error.response.data.message === 'Unauthorized! Access Token was expired!') {

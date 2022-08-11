@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import './CustomPatientDelete.scss';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { DeletePatientInfo } from '../Redux/PatientSlice';
+import { DeleteDoctor } from '../Redux/DoctorSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 const style = {
@@ -19,10 +19,14 @@ const style = {
   p: 4
 };
 
-const CustomDoctorDelete: React.FC<{ open: boolean; close: any }> = ({ open, close }) => {
+const CustomDoctorDelete: React.FC<{ open: boolean; close: any; edit: string }> = ({
+  open,
+  close,
+  edit
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const handleDelete = () => {
-    //dispatch(DeletePatientInfo())
+    dispatch(DeleteDoctor(edit));
   };
   return (
     <div>

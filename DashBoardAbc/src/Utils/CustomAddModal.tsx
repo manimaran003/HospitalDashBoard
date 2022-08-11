@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Formik, Form, FormikProps } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Grid } from '@mui/material';
 import FormikControl from '../CustomComponent/FormikControl';
@@ -69,7 +69,6 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
   const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse);
   const handleSubmit = (data: DoctorInfo) => {
     const formData = new FormData();
-    console.log(data?.doctorImage);
     formData.append('doctorName', data?.doctorName);
     formData.append('email', data?.email);
     formData.append('phoneNumber', data?.phoneNumber);

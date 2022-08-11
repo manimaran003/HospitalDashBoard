@@ -70,7 +70,7 @@ const CustomPatientAddModal: React.FC<{ id: string }> = ({ id }) => {
     dispatch(PostPatientInfo(formdata));
   };
   return (
-    <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal fade" id={id} aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog modal-md modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">

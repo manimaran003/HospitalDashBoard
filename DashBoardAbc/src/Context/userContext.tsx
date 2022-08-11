@@ -21,7 +21,7 @@ const UserProvider: React.FC<Props> = ({ children }) => {
   });
   const [show, setShow] = useState<boolean>(false);
   const [hideSidebar, sethideBar] = useState<boolean>(true);
-  const editModal = (data: EditType) => {
+  const editModal = (data: any) => {
     console.log('data', data);
     setEdited(data);
   };

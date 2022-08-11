@@ -7,7 +7,7 @@ import { DeletePatientInfo } from '../Redux/PatientSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -19,10 +19,14 @@ const style = {
   p: 4
 };
 
-const CustomPatientDelete: React.FC<{ open: boolean; close: any }> = ({ open, close }) => {
+const CustomPatientDelete: React.FC<{ open: boolean; close: any; edit: string }> = ({
+  open,
+  close,
+  edit
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const handleDelete = () => {
-    //dispatch(DeletePatientInfo())
+    dispatch(DeletePatientInfo(edit));
   };
   return (
     <div>
@@ -30,8 +34,7 @@ const CustomPatientDelete: React.FC<{ open: boolean; close: any }> = ({ open, cl
         open={open}
         onClose={close}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <div className="d-flex justify-content-center mb-3">
             <AiOutlineExclamationCircle className="delete--img" />

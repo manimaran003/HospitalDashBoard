@@ -285,7 +285,7 @@ describe('test patient delete modal renders', () => {
     render(
       <Provider store={store}>
         <UserProvider>
-          <CustomPatientDelete open={true} close={handleClose} />
+          <CustomPatientDelete open={true} close={handleClose} edit={''} />
         </UserProvider>
       </Provider>
     );
@@ -296,7 +296,7 @@ describe('test patient delete modal renders', () => {
     render(
       <Provider store={store}>
         <UserProvider>
-          <CustomPatientDelete open={true} close={handleClose} />
+          <CustomPatientDelete open={true} close={handleClose} edit={''}  />
         </UserProvider>
       </Provider>
     );

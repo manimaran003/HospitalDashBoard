@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Formik, Form } from 'formik';
+import React, { useState } from 'react';
+import { Form, withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Grid } from '@mui/material';
 import FormikControl from '../CustomComponent/FormikControl';
-import { UpdatePatientInfo } from '../Redux/PatientSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
 import { UserContextType } from '../TypeFile/TypeScriptType';
 import { userContext } from '../Context/userContext';
 import { IoIosClose } from 'react-icons/io';
 import './CustomPatientDelete.scss';
+import { UpdateDoctorInfo } from '../Redux/DoctorSlice';
 interface CountryOption {
   id: string;
   key: string;
@@ -22,24 +22,23 @@ interface specialistDoctor {
 }
 interface DoctorInfo {
   email: string;
-  patientName: string;
+  doctorName: string;
   address: string;
   phoneNumber: string;
   dob: string;
-  age: number;
+  specialist: string;
   country: string;
-  // patientImage: string
+  doctorImage: string;
 }
 const signinSchema = Yup.object().shape({
   email: Yup.string().email().required('Enter valid email-id'),
-  patientName: Yup.string().required('name is required'),
+  doctorName: Yup.string().required('name is required'),
   address: Yup.string().required('address is required'),
   phoneNumber: Yup.string().required('phone number is required'),
   country: Yup.string().required('country is required'),
-  patientImage: Yup.string().required('image is required'),
-  dob: Yup.string().required('Dob is required'),
-  age: Yup.number().required('number is required'),
-  admitDate: Yup.string().required('admitDate is required')
+  specialist: Yup.string().required('speciality is required'),
+  doctorImage: Yup.mixed().required('File is required'),
+  dob: Yup.string().required('Dob is required')
 });
 
 const CountryOptions: CountryOption[] = [
@@ -59,40 +58,141 @@ const CustomDoctorEdit: React.FC<{ id: string }> = ({ id }) => {
   const [checkError, setCheckError] = useState<boolean>(false);
   const [image, setImg] = useState('');
   const dispatch = useDispatch<AppDispatch>();
-  const UpdatePatientResponse = useSelector(
-    (state: RootState) => state?.patient.updatePatientResponse
-  );
-  const handleSubmit = (data: DoctorInfo) => {
-    setCheckError(!checkError);
-    console.log(data, 'formikSubmit');
-    dispatch(UpdatePatientInfo(data));
+
+  const InnerForm = (props: FormikProps<DoctorInfo>) => {
+    const { values, touched, errors, handleBlur, handleChange, setFieldValue } = props;
+    return (
+      <Form>
+        <div>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <FormikControl
+                control="input"
+                type="text"
+                label="Name"
+                name="doctorName"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={touched.doctorName && Boolean(errors.doctorName)}
+                helperText={touched.doctorName && errors.doctorName}
+                test="err1"
+                value={values.doctorName}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormikControl
+                control="input"
+                type="email"
+                label="Email"
+                name="email"
+                onChange={handleChange}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+                test="err2"
+                value={values.email}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormikControl
+                control="input"
+                type="text"
+                label="Address"
+                name="address"
+                onChange={handleChange}
+                error={touched.address && Boolean(errors.address)}
+                helperText={touched.address && errors.address}
+                test="err3"
+                value={values.address}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormikControl
+                control="input"
+                type="text"
+                label="PhoneNumber"
+                name="phoneNumber"
+                onChange={handleChange}
+                error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                helperText={touched.phoneNumber && errors.phoneNumber}
+                test="err4"
+                value={values.phoneNumber}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormikControl
+                control="select"
+                label="Country"
+                name="country"
+                options={CountryOptions}
+                onChange={handleChange}
+                error={touched.country && Boolean(errors.country)}
+                helperText={touched.country && errors.country}
+                test="err5"
+                value={values.country}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormikControl
+                control="select"
+                label="Speciality"
+                name="specialist"
+                onChange={handleChange}
+                options={specialistData}
+                error={touched.specialist && Boolean(errors.specialist)}
+                helperText={touched.specialist && errors.specialist}
+                test="err6"
+                value={values.specialist}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormikControl
+                control="input"
+                label="Dob"
+                name="dob"
+                type="date"
+                onChange={handleChange}
+                error={touched.dob && Boolean(errors.dob)}
+                helperText={touched.dob && errors.dob}
+                test="err7"
+                value={values.dob}
+              />
+            </Grid>
+          </Grid>
+        </div>
+        <div className="d-flex align-items-center justify-content-center gap-3 mt-4">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button
+            className="btn btn-secondary"
+            data-bs-dismiss={`${checkError ? 'modal' : ''}`}
+            aria-label="Close">
+            save
+          </button>
+        </div>
+      </Form>
+    );
   };
-  const [medium, setMedium] = useState({
-    patientName: '',
-    email: '',
-    address: '',
-    phoneNumber: '',
-    country: '',
-    dob: '',
-    age: 0,
-    admitDate: '',
-    patientImage: ''
-  });
-  useEffect(() => {
-    if (EditedData) {
-      setMedium({
-        patientName: 'mani',
-        email: '',
-        address: '',
-        phoneNumber: '',
-        country: '',
-        dob: '',
-        age: 0,
-        admitDate: '',
-        patientImage: ''
-      });
+  const MyForm = withFormik({
+    mapPropsToValues: () => {
+      return {
+        email: EditedData?.email,
+        doctorName: EditedData?.doctorName,
+        address: EditedData?.address,
+        phoneNumber: EditedData?.phoneNumber,
+        dob: EditedData?.dob,
+        specialist: EditedData?.specialist,
+        country: EditedData?.country,
+        doctorImage: EditedData?.doctorImage
+      };
+    },
+    handleSubmit: (values) => {
+      console.log(values);
+      setCheckError(!checkError);
+      setCheckError(!checkError);
+      dispatch(UpdateDoctorInfo(EditedData._id, values));
     }
-  }, [EditedData]);
+  })(InnerForm);
 
   return (
     <div
@@ -101,8 +201,7 @@ const CustomDoctorEdit: React.FC<{ id: string }> = ({ id }) => {
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       data-bs-backdrop="static"
-      data-bs-keyboard="false"
-    >
+      data-bs-keyboard="false">
       <div className="modal-dialog modal-md modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
@@ -112,150 +211,7 @@ const CustomDoctorEdit: React.FC<{ id: string }> = ({ id }) => {
             <IoIosClose data-bs-dismiss="modal" aria-label="Close" className="icons" />
           </div>
           <div className="modal-body p-3">
-            <Formik
-              initialValues={medium}
-              onSubmit={(data, { resetForm }) => {
-                setCheckError(!checkError);
-                console.log(data, 'formikSubmit');
-                dispatch(UpdatePatientInfo(data));
-                resetForm();
-              }}
-              validationSchema={signinSchema}
-            >
-              {(formik) => (
-                <Form onSubmit={formik.handleSubmit}>
-                  <div>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <FormikControl
-                          control="upload"
-                          name="patientImage"
-                          type="file"
-                          onChange={(event: any) => {
-                            console.log(event.target.files);
-                            let reader: any;
-                            reader = new FileReader();
-                            reader.onload = () => {
-                              setImg(reader.result);
-                            };
-                            reader.readAsDataURL(event.target.files[0]);
-
-                            formik.setFieldValue('patientImage', event.target.files[0].name);
-                          }}
-                          error={formik.errors.patientImage}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          type="text"
-                          label="Name"
-                          value={formik.values.patientName}
-                          name="patientName"
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          error={formik.touched.patientName && Boolean(formik.errors.patientName)}
-                          helperText={formik.touched.patientName && formik.errors.patientName}
-                          imgData={image}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          type="email"
-                          label="Email"
-                          name="email"
-                          onChange={formik.handleChange}
-                          error={formik.touched.email && Boolean(formik.errors.email)}
-                          helperText={formik.touched.email && formik.errors.email}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          type="text"
-                          label="Address"
-                          name="address"
-                          onChange={formik.handleChange}
-                          error={formik.touched.address && Boolean(formik.errors.address)}
-                          helperText={formik.touched.address && formik.errors.address}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          type="text"
-                          label="PhoneNumber"
-                          name="phoneNumber"
-                          onChange={formik.handleChange}
-                          error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="select"
-                          label="Country"
-                          name="country"
-                          options={CountryOptions}
-                          onChange={formik.handleChange}
-                          error={formik.touched.country && Boolean(formik.errors.country)}
-                          helperText={formik.touched.country && formik.errors.country}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          label="Dob"
-                          name="dob"
-                          type="date"
-                          onChange={formik.handleChange}
-                          error={formik.touched.dob && Boolean(formik.errors.dob)}
-                          helperText={formik.touched.dob && formik.errors.dob}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          label="Age"
-                          name="age"
-                          type="number"
-                          onChange={formik.handleChange}
-                          error={formik.touched.age && Boolean(formik.errors.age)}
-                          helperText={formik.touched.age && formik.errors.age}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <FormikControl
-                          control="input"
-                          label="AdmitDate"
-                          name="admitDate"
-                          type="date"
-                          onChange={formik.handleChange}
-                          error={formik.touched.admitDate && Boolean(formik.errors.admitDate)}
-                          helperText={formik.touched.admitDate && formik.errors.admitDate}
-                        />
-                      </Grid>
-                    </Grid>
-                    <div></div>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-center gap-3 mt-4">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                      Cancel
-                    </button>
-                    <button
-                      className="btn btn-secondary"
-                      data-bs-dismiss={`${checkError ? 'modal' : ''}`}
-                      aria-label="Close"
-                    >
-                      save
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+            <MyForm />
           </div>
         </div>
       </div>

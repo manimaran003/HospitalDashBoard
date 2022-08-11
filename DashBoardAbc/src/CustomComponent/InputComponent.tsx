@@ -48,7 +48,7 @@ interface FieldProps {
 }
 
 const InputComponent: React.FC<any> = (props) => {
-  const { label, name, type, onChange, error, helperText, test,value } = props;
+  const { label, name, type, onChange, error, helperText, test, value } = props;
   return (
     <div>
       <FormControl variant="standard">

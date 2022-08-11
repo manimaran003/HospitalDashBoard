@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import { Constants, ApiEndpoint } from '../Constants/Constant';
 import Api from '../Constants/Instance';
 import { AppDispatch } from '../store';
@@ -27,6 +28,7 @@ export const PostDoctorInfo = (data: DoctorInfo) => {
         dispatch(GetDoctorInfo());
       }
     } catch (err) {
+      toast.error('error in api');
       console.log(err);
     }
   };
@@ -47,12 +49,50 @@ export const GetDoctorInfo = () => async (dispatch: AppDispatch) => {
     console.log(err);
   }
 };
+export const UpdateDoctorInfo = (id: string, data: any) => async (dispatch: AppDispatch) => {
+  try {
+    const UpdateDoctorResponse = await Api({
+      method: 'PATCH',
+      url: Constants.BaseUrl + ApiEndpoint.UpdateDoctorInfo + `/:${id}`,
+      data
+    }).then((res) => {
+      console.log(res, 'response');
+      toast.success(res?.data?.message);
+      return res?.data;
+    });
+    if (UpdateDoctorResponse) {
+      console.log(UpdateDoctorResponse);
+      dispatch(setUpdateResponse(UpdateDoctorResponse));
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteDoctor = (id: string) => async (dispatch: AppDispatch) => {
+  try {
+    const UpdateDoctorResponse = await Api({
+      method: 'DELETE',
+      url: Constants.BaseUrl + ApiEndpoint.DeleteDoctor + `/:${id}`
+    }).then((res) => {
+      console.log(res, 'response');
+      toast.success(res?.data?.message);
+      return res?.data;
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const initialState = {
   DoctorInfoResponse: {
     data: {}
   },
   GetDoctorResponse: {
     data: []
+  },
+  updateResponse: {
+    data: ''
   }
 };
 const DoctorSlice = createSlice({
@@ -68,8 +108,13 @@ const DoctorSlice = createSlice({
       state.GetDoctorResponse = {
         data: action.payload
       };
+    },
+    setUpdateResponse: (state, action) => {
+      state.updateResponse = {
+        data: action.payload
+      };
     }
   }
 });
-const { setDoctorInfo, setPostInfo } = DoctorSlice.actions;
+const { setDoctorInfo, setPostInfo, setUpdateResponse } = DoctorSlice.actions;
 export default DoctorSlice.reducer;

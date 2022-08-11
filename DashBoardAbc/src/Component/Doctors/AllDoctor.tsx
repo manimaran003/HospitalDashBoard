@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { GetDoctorInfo } from '../../Redux/DoctorSlice';
-import { DoctorProfile } from '../../TypeFile/TypeScriptType';
+import { DoctorProfile, UserContextType } from '../../TypeFile/TypeScriptType';
 import CustomAddModal from '../../Utils/CustomAddModal';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineDelete } from 'react-icons/ai';
@@ -14,13 +14,20 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CustomDoctorEdit from '../../Utils/CustomDoctorEdit';
 import CustomDoctorDelete from '../../Utils/CustomDoctorDelete';
+import { userContext } from '../../Context/userContext';
 const AllDoctor = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = React.useState(false);
+  const [edit, setEditId] = React.useState('');
+  const { editModal } = React.useContext(userContext) as UserContextType;
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDeleteProfile = () => {
+  const handleEditProfile = (record: any) => {
+    editModal(record);
+  };
+  const handleDeleteProfile = (record: any) => {
+    setEditId(record._id);
     setOpen(true);
   };
   const GetDoctorData = useSelector((state: RootState) => state?.Doctors.GetDoctorResponse);
@@ -90,6 +97,7 @@ const AllDoctor = () => {
                                   className="icon--edit"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModalEdit"
+                                  onClick={() => handleEditProfile(item)}
                                 />
                               </IconButton>
                             </Tooltip>
@@ -97,7 +105,7 @@ const AllDoctor = () => {
                               <IconButton>
                                 <AiOutlineDelete
                                   className="icon--delete"
-                                  onClick={() => handleDeleteProfile()}
+                                  onClick={() => handleDeleteProfile(item)}
                                 />
                               </IconButton>
                             </Tooltip>
@@ -112,7 +120,7 @@ const AllDoctor = () => {
         </Grid>
       </Grid>
       <CustomDoctorEdit id={'exampleModalEdit'} />
-      <CustomDoctorDelete open={open} close={handleClose} />
+      <CustomDoctorDelete open={open} close={handleClose} edit={edit} />
     </div>
   );
 };

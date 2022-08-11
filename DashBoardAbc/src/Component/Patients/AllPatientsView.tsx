@@ -21,6 +21,7 @@ import PaginationHook from '../../Utils/PaginationHook';
 const AllPatientsView: React.FC = () => {
   const [page, setPage] = useState(1);
   const [open, setOpen] = React.useState(false);
+  const [edit, setEditId] = React.useState('');
   const { editModal } = React.useContext(userContext) as UserContextType;
   const dispatch = useDispatch<AppDispatch>();
   const GetResponseData = useSelector((state: RootState) => state?.patient.GetPatientResponse);
@@ -56,6 +57,7 @@ const AllPatientsView: React.FC = () => {
     editModal(record);
   };
   const handleDeleteProfile = (record: DataType) => {
+    setEditId(record?._id);
     setOpen(true);
   };
   const columns: ColumnsType<DataType> = [
@@ -137,8 +139,8 @@ const AllPatientsView: React.FC = () => {
         className="mt-3 d-flex justify-content-end me-2"
         onChange={handleChange}
       />
-      <CustomPatientEditModal id={'exampleModal'}/>
-      <CustomPatientDelete open={open} close={handleClose} />
+      <CustomPatientEditModal id={'exampleModal'} />
+      <CustomPatientDelete open={open} close={handleClose} edit={edit} />
     </div>
   );
 };

@@ -39,13 +39,15 @@ export const GetPatientInfo = () => async (dispatch: AppDispatch) => {
     console.log(err);
   }
 };
-export const UpdatePatientInfo = (data: any) => async (dispatch: AppDispatch) => {
+export const UpdatePatientInfo = (id: string, data: any) => async (dispatch: AppDispatch) => {
+  console.log('update', data);
   try {
     const UpdatePatientResponse = await Api({
       method: 'PATCH',
-      url: Constants.BaseUrl + ApiEndpoint.UpdatePatientInfo,
+      url: Constants.BaseUrl + ApiEndpoint.UpdatePatientInfo + `/:${id}`,
       data
     }).then((res) => {
+      toast.success(res?.data?.message);
       return res?.data;
     });
     if (UpdatePatientResponse) {
@@ -61,10 +63,12 @@ export const DeletePatientInfo = (data: any) => async (dispatch: AppDispatch) =>
       method: 'DELETE',
       url: Constants.BaseUrl + ApiEndpoint.DeletePatientInfo + `/:${data}`
     }).then((res) => {
+      toast.success(res?.data?.message)
       return res?.data;
     });
     if (DeletePatientResponse) {
       dispatch(DeletePatientReducer(DeletePatientResponse));
+      dispatch(GetPatientInfo());
     }
   } catch (err) {
     console.log(err);

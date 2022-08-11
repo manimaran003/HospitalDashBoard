@@ -36,6 +36,9 @@ export interface DataType {
   patientImage: string;
 }
 export interface EditType {
+  doctorImage: any;
+  specialist: any;
+  doctorName: any;
   patientImage: string;
   patientName: string;
   ageField: number;
@@ -61,7 +64,7 @@ export interface PatientModel {
 }
 
 export type UserContextType = {
-  editModal: (data: EditType) => void;
+  editModal: (data: any) => void;
   EditedData: EditType;
   show: boolean;
   AuthTool: (state: boolean) => void;
