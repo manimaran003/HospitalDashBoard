@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import React from 'react';
 import { Breadcrumbs, Link, Typography } from '@mui/material';
 import '../Component/HeaderComponent/Header.scss';
@@ -83,7 +82,7 @@ const BreadCrumbComponent: React.FC<{ pathname: string }> = ({ pathname }) => {
                 <Link href="#">
                   <AiOutlineHome className="bread-icon" />
                 </Link>
-                {bread?.route?.map((val: any, index: number) => {
+                {bread?.route?.map((val: string, index: number) => {
                   return (
                     <div key={index}>
                       <Typography className="bread-name">{val}</Typography>

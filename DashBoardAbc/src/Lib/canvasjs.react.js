@@ -1,4 +1,5 @@
-﻿/*
+﻿/* eslint-disable react/prop-types */
+/*
 CanvasJS React Charts - https://canvasjs.com/
 Copyright 2022 fenopix
 
@@ -8,14 +9,17 @@ https://canvasjs.com/license/
 
 */
 
-var React = require('react');
-var CanvasJS = require('./canvasjs.min');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+let React = require('react');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+let CanvasJS = require('./canvasjs.min');
 CanvasJS = CanvasJS.Chart ? CanvasJS : window.CanvasJS;
 
 class CanvasJSChart extends React.Component {
   static _cjsContainerId = 0;
   constructor(props) {
     super(props);
+    // eslint-disable-next-line react/prop-types
     this.options = props.options ? props.options : {};
     this.containerProps = props.containerProps
       ? { ...props.containerProps }
@@ -56,7 +60,7 @@ class CanvasJSChart extends React.Component {
   }
 }
 
-var CanvasJSReact = {
+let CanvasJSReact = {
   CanvasJSChart: CanvasJSChart,
   CanvasJS: CanvasJS
 };

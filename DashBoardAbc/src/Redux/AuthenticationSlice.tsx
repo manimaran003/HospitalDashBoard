@@ -38,7 +38,11 @@ export const LoginAction = (data: Signin, navigate: any) => async (dispatch: App
       return res.data;
     });
     if (LoginResponse) {
+      console.log(LoginResponse);
       if (LoginResponse.token && LoginResponse.refreshToken) {
+        TokenService.setUserImage(
+          LoginResponse?.RoleData?.doctorImage ? LoginResponse?.RoleData?.doctorImage : ''
+        );
         TokenService.setAccessToken(LoginResponse?.token);
         TokenService.setRefreshToken(LoginResponse?.refreshToken);
         navigate('/dashboard');

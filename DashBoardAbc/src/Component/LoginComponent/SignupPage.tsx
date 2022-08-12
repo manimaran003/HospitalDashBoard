@@ -3,14 +3,13 @@ import './SignupPage.scss';
 import doctorImage from '../../Assets/doctor-medicine.svg';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import SigninComponent from './SigninComponent';
-import { AppDispatch, RootState } from '../../store';
+import { AppDispatch } from '../../store';
 import { Signup, UserContextType } from '../../TypeFile/TypeScriptType';
 import { SignupAction } from '../../Redux/AuthenticationSlice';
 import { userContext } from '../../Context/userContext';
 const SignupPage = () => {
-  const SignupResponseData = useSelector((state: RootState) => state?.users.SignupResponse);
   const dispatch = useDispatch<AppDispatch>();
 
   const signupSchema = Yup.object().shape({
@@ -21,12 +20,14 @@ const SignupPage = () => {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})/,
         'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
       )
-      .required('Password is required')
+      .required('Password is required'),
+    role: Yup.string().required('Please enter role')
   });
 
   const { show, AuthTool } = React.useContext(userContext) as UserContextType;
 
   const handleSignUpSubmit = (values: Signup) => {
+    console.log(values);
     dispatch(SignupAction(values));
   };
   const GotoLogin = () => {
@@ -50,6 +51,7 @@ const SignupPage = () => {
                   initialValues={{
                     username: '',
                     password: '',
+                    role: '',
                     email: ''
                   }}
                   onSubmit={(data) => handleSignUpSubmit(data)}
@@ -89,6 +91,19 @@ const SignupPage = () => {
                             {formikSignup.errors.password}
                           </p>
                         </div>
+                        <div className="d-flex gap-3">
+                          <select
+                            name="role"
+                            className="form-select select-container"
+                            onChange={formikSignup.handleChange}
+                            aria-label="Default select example">
+                            <option selected>select role</option>
+                            <option value="doctor">doctor</option>
+                          </select>
+                        </div>
+                        <p className="error-text" data-testid="error-test4">
+                          {formikSignup.errors.role}
+                        </p>
                         <div className="d-flex align-items-center justify-content-center">
                           <button className="btn--container" type="submit">
                             Sign up

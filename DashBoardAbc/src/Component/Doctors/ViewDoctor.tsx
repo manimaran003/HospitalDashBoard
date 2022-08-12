@@ -4,26 +4,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import StarPurple500OutlinedIcon from '@mui/icons-material/StarPurple500Outlined';
 import AdbOutlinedIcon from '@mui/icons-material/AdbOutlined';
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
-
 import './ViewDoctor.scss';
-
-interface DoctorProfile {
-  _id: string;
-  doctorName: string;
-  doctorImage: string;
-  address: string;
-  specialist: string;
-  dob: string;
-  empId: string;
-  country: string;
-  email: string;
-  patientImage: string;
-  phoneNumber: string;
-  __v: number;
-}
-export interface LocationParams {
-  state: DoctorProfile;
-}
 const ViewDoctor = () => {
   const location: any = useLocation();
   const detail = location.state;

@@ -54,13 +54,12 @@ const specialistData: specialistDoctor[] = [
 ];
 
 const CustomDoctorEdit: React.FC<{ id: string }> = ({ id }) => {
-  const { EditedData } = React.useContext(userContext) as UserContextType;
+  const { EditedDoctor } = React.useContext(userContext) as UserContextType;
   const [checkError, setCheckError] = useState<boolean>(false);
-  const [image, setImg] = useState('');
   const dispatch = useDispatch<AppDispatch>();
 
   const InnerForm = (props: FormikProps<DoctorInfo>) => {
-    const { values, touched, errors, handleBlur, handleChange, setFieldValue } = props;
+    const { values, touched, errors, handleBlur, handleChange } = props;
     return (
       <Form>
         <div>
@@ -176,22 +175,23 @@ const CustomDoctorEdit: React.FC<{ id: string }> = ({ id }) => {
   const MyForm = withFormik({
     mapPropsToValues: () => {
       return {
-        email: EditedData?.email,
-        doctorName: EditedData?.doctorName,
-        address: EditedData?.address,
-        phoneNumber: EditedData?.phoneNumber,
-        dob: EditedData?.dob,
-        specialist: EditedData?.specialist,
-        country: EditedData?.country,
-        doctorImage: EditedData?.doctorImage
+        email: EditedDoctor?.email,
+        doctorName: EditedDoctor?.doctorName,
+        address: EditedDoctor?.address,
+        phoneNumber: EditedDoctor?.phoneNumber,
+        dob: EditedDoctor?.dob,
+        specialist: EditedDoctor?.specialist,
+        country: EditedDoctor?.country,
+        doctorImage: EditedDoctor?.doctorImage
       };
     },
     handleSubmit: (values) => {
       console.log(values);
       setCheckError(!checkError);
       setCheckError(!checkError);
-      dispatch(UpdateDoctorInfo(EditedData._id, values));
-    }
+      dispatch(UpdateDoctorInfo(EditedDoctor?._id, values));
+    },
+    validationSchema: signinSchema
   })(InnerForm);
 
   return (

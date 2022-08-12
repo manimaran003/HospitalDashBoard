@@ -49,7 +49,7 @@ const CustomPatientEditModal: React.FC<{ id: string }> = ({ id }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const InnerForm = (props: FormikProps<PatientModel>) => {
-    const { values, touched, errors, handleBlur, handleChange, setFieldValue } = props;
+    const { values, touched, errors, handleBlur, handleChange } = props;
     return (
       <div className="modal-body p-3">
         <Form>
@@ -200,7 +200,8 @@ const CustomPatientEditModal: React.FC<{ id: string }> = ({ id }) => {
       console.log(values);
       setCheckError(!checkError);
       dispatch(UpdatePatientInfo(EditedData?._id, values));
-    }
+    },
+    validationSchema: signinSchema
   })(InnerForm);
 
   return (

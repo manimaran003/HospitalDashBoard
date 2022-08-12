@@ -1,43 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Paper, Card, CardMedia, CardContent, Divider, Box } from '@mui/material';
 import { Tabs } from 'antd';
 import './ViewPatients.scss';
 import HospitalActivity from '../MainDashboard/HospitalActivity';
-export interface surgeryDetails {
-  id: string;
-  date: string;
-  doctorName: string;
-  operatinolCheck: boolean;
-  surgeryHeading: string;
-  surgeryDescription: string;
-  surgeryImages: [string, string];
-}
-export interface patientAdmit {
-  id: string;
-  date: string;
-  warno: string;
-  images: [string, string];
-  Heading: string;
-  AdmitCheck: boolean;
-}
-export interface bloodReport {
-  id: string;
-  date: string;
-  heading: string;
-  bloodReportCheck: boolean;
-  surgeryDescription: string;
-  reportData: reportTable[];
-}
-export interface reportTable {
-  id: string;
-  tablename: string;
-  data: reportCheck[];
-}
-export interface reportCheck {
-  detailName: string;
-  detailAmount: string;
-}
+import { setup } from '../../TypeFile/TypeScriptType';
 
 const ViewPatients = () => {
   const { TabPane } = Tabs;
@@ -45,8 +11,9 @@ const ViewPatients = () => {
   const onChange = (key: string) => {
     console.log(key);
   };
+
   const activity = 'patientActivities';
-  const PatientActivity: any = [
+  const PatientActivity: setup[] = [
     {
       id: '21321321',
       username: 'jahnwi',

@@ -1,6 +1,6 @@
 export class Constants {
   //static BaseUrl=process.env.REACT_APP_API_URL;
-  static BaseUrl = 'http://localhost:3007';
+  static BaseUrl = 'https://abcv1rest.herokuapp.com';
 }
 export class ApiEndpoint {
   static LoginAuthentication = '/authenticate/login';

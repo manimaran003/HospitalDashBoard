@@ -49,7 +49,7 @@ export const GetDoctorInfo = () => async (dispatch: AppDispatch) => {
     console.log(err);
   }
 };
-export const UpdateDoctorInfo = (id: string, data: any) => async (dispatch: AppDispatch) => {
+export const UpdateDoctorInfo = (id: string, data: DoctorInfo) => async (dispatch: AppDispatch) => {
   try {
     const UpdateDoctorResponse = await Api({
       method: 'PATCH',
@@ -79,6 +79,9 @@ export const DeleteDoctor = (id: string) => async (dispatch: AppDispatch) => {
       toast.success(res?.data?.message);
       return res?.data;
     });
+    if (UpdateDoctorResponse) {
+      dispatch(setUpdateResponse(UpdateDoctorResponse));
+    }
   } catch (err) {
     console.log(err);
   }

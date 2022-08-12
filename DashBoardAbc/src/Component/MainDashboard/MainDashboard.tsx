@@ -18,14 +18,13 @@ import PaginationHook from '../../Utils/PaginationHook';
 
 interface DataType {
   patientName: string;
-  age: number;
+  ageField: number;
   address: string;
   admitDate: string;
   country: string;
   phoneNumber: string;
   dob: string;
   email: string;
-  _id: string;
 }
 const getFullDate = (date: string): string => {
   const dateAndTime = date.split('T');
@@ -40,7 +39,7 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: 'Age',
-    dataIndex: 'age',
+    dataIndex: 'ageField',
     width: 100
   },
   {

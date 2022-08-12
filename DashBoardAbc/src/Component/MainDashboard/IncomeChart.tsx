@@ -4,13 +4,6 @@ import CanvasJSReact from '../../Lib/canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const IncomeChart = () => {
-  const toggleDataSeries = (e: any) => {
-    if (typeof e.dataSeries.visible === 'undefined' || e.dataSeries.visible) {
-      e.dataSeries.visible = false;
-    } else {
-      e.dataSeries.visible = true;
-    }
-  };
   const options = {
     theme: 'light2',
     animationEnabled: true,

@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.scss';
 import { BiCalendar } from 'react-icons/bi';
 import { BsChat } from 'react-icons/bs';
 import { IoIosNotificationsOutline } from 'react-icons/io';
-import { IoIosLogOut } from 'react-icons/io';
 import { AiOutlineMenu, AiOutlineSearch } from 'react-icons/ai';
 import { GiSettingsKnobs } from 'react-icons/gi';
+import Avatar from '@mui/material/Avatar';
 import { TiMessages } from 'react-icons/ti';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import TokenService from '../../Constants/token.service';
 const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [image, setImage] = useState<string>('');
   const open = Boolean(anchorEl);
-  const handleClick = (event: any) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  useEffect(() => {
+    setImage(TokenService.getUserImage());
+  }, [setImage]);
   return (
     <div>
       <div className="container-fluid mainHeader d-flex ">
@@ -31,7 +36,7 @@ const Header: React.FC = () => {
           </div>
           <div className="header--logo">
             <img
-              src="https://i.pinimg.com/736x/b9/c5/34/b9c5344544ba5f44997f4190dfdf273d.jpg"
+              src="https://st2.depositphotos.com/3867453/6216/v/950/depositphotos_62165689-stock-illustration-letter-a-logo-icon-design.jpg"
               alt="logo"
             />
           </div>
@@ -62,12 +67,16 @@ const Header: React.FC = () => {
               <GiSettingsKnobs />
             </div>
             <div>
-              <IoIosLogOut
+              <Avatar
+                alt="Remy Sharp"
+                src={image}
+                sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center' }}
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
               />
+
               <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

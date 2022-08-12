@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import store from '../../store';
 import UserProvider from '../../Context/userContext';
 import userEvent from '@testing-library/user-event';
-import SigninComponent from './SigninComponent';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 describe('to test signup page', () => {
   test('render signup for text', () => {

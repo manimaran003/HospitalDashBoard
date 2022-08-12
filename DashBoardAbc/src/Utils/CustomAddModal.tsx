@@ -63,12 +63,12 @@ const specialistData: specialistDoctor[] = [
 ];
 
 const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
-  const [image, setImg] = useState('');
+  const [image, setImg] = useState<string | ArrayBuffer | null>('');
   const [checkError, setCheckError] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const PostResponseData = useSelector((state: RootState) => state?.Doctors.DoctorInfoResponse);
   const handleSubmit = (data: DoctorInfo) => {
-    const formData = new FormData();
+    const formData: any = new FormData();
     formData.append('doctorName', data?.doctorName);
     formData.append('email', data?.email);
     formData.append('phoneNumber', data?.phoneNumber);
@@ -97,7 +97,6 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
               validationSchema={signinSchema}>
               {(formik) => (
                 <Form onSubmit={formik.handleSubmit}>
-                  {/* <FormikCheckerComponent checkFormik={formik} countryData={CountryOptions} specialist={specialistData} schemaInitial={initial} patientAdder={false} /> */}
                   <div>
                     <Grid container>
                       <Grid item xs={12}>
@@ -110,7 +109,8 @@ const CustomAddModal: React.FC<{ id: string }> = ({ id }) => {
                             const reader = new FileReader();
 
                             reader.onload = () => {
-                              setImg(reader.result);
+                              const images = reader.result;
+                              setImg(images);
                             };
                             if (event.target.files[0]) {
                               reader.readAsDataURL(event.target.files[0]);

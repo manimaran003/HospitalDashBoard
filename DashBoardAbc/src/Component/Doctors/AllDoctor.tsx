@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { GetDoctorInfo } from '../../Redux/DoctorSlice';
-import { DoctorProfile, UserContextType } from '../../TypeFile/TypeScriptType';
+import { DoctorProfile, UserContextType, DoctorEditType } from '../../TypeFile/TypeScriptType';
 import CustomAddModal from '../../Utils/CustomAddModal';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineDelete } from 'react-icons/ai';
@@ -19,14 +19,14 @@ const AllDoctor = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = React.useState(false);
   const [edit, setEditId] = React.useState('');
-  const { editModal } = React.useContext(userContext) as UserContextType;
+  const { editDoctorModal } = React.useContext(userContext) as UserContextType;
   const handleClose = () => {
     setOpen(false);
   };
-  const handleEditProfile = (record: any) => {
-    editModal(record);
+  const handleEditProfile = (record: DoctorEditType) => {
+    editDoctorModal(record);
   };
-  const handleDeleteProfile = (record: any) => {
+  const handleDeleteProfile = (record: DoctorEditType) => {
     setEditId(record._id);
     setOpen(true);
   };

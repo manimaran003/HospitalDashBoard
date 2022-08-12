@@ -21,6 +21,10 @@ const UpdateAccessToken = (token: string) => {
 };
 const getAccessToken = () => JSON.parse(sessionStorage.getItem('accessToken') || '{}');
 const getRefreshToken = () => JSON.parse(sessionStorage.getItem('RefreshToken') || '{}');
+const setUserImage = (image: string) => {
+  sessionStorage.setItem('userImg', JSON.stringify(image));
+};
+const getUserImage = () => JSON.parse(sessionStorage.getItem('userImg') || '{}');
 
 const TokenService = {
   setSignupUser,
@@ -28,6 +32,8 @@ const TokenService = {
   setRefreshToken,
   getAccessToken,
   getRefreshToken,
-  UpdateAccessToken
+  UpdateAccessToken,
+  setUserImage,
+  getUserImage
 };
 export default TokenService;

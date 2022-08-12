@@ -19,7 +19,7 @@ const style = {
   p: 4
 };
 
-const CustomDoctorDelete: React.FC<{ open: boolean; close: any; edit: string }> = ({
+const CustomDoctorDelete: React.FC<{ open: boolean; close: () => void; edit: string }> = ({
   open,
   close,
   edit

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserContextType, EditType, Signin } from '../TypeFile/TypeScriptType';
+import { UserContextType, EditType, DoctorEditType } from '../TypeFile/TypeScriptType';
 
 export const userContext = React.createContext<UserContextType | null>(null);
 
@@ -9,7 +9,7 @@ interface Props {
 const UserProvider: React.FC<Props> = ({ children }) => {
   const [EditedData, setEdited] = useState<EditType>({
     patientName: '',
-    age: 0,
+    ageField: 0,
     admitDate: '',
     dob: '',
     country: '',
@@ -19,11 +19,26 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     patientImage: '',
     _id: ''
   });
-  const [show, setShow] = useState<boolean>(false);
+  const [EditedDoctor, setEditedDoctor] = useState<DoctorEditType>({
+    email: '',
+    doctorName: '',
+    address: '',
+    phoneNumber: '',
+    dob: '',
+    specialist: '',
+    country: '',
+    doctorImage: '',
+    _id: ''
+  });
+  const [show, setShow] = useState<boolean>(true);
   const [hideSidebar, sethideBar] = useState<boolean>(true);
-  const editModal = (data: any) => {
+  const editModal = (data: EditType) => {
     console.log('data', data);
     setEdited(data);
+  };
+  const editDoctorModal = (data: DoctorEditType) => {
+    console.log('data', data);
+    setEditedDoctor(data);
   };
   const AuthTool = (state: boolean): void => {
     setShow(state);
@@ -33,7 +48,16 @@ const UserProvider: React.FC<Props> = ({ children }) => {
   };
   return (
     <userContext.Provider
-      value={{ show, EditedData, editModal, AuthTool, hideSidebar, MobileDrawer }}>
+      value={{
+        show,
+        EditedData,
+        editModal,
+        EditedDoctor,
+        editDoctorModal,
+        AuthTool,
+        hideSidebar,
+        MobileDrawer
+      }}>
       {children}
     </userContext.Provider>
   );

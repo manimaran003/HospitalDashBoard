@@ -97,7 +97,8 @@ const CustomTable = () => {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
-                  className="tableCell">
+                  className="tableCell"
+                >
                   {column.label}
                 </TableCell>
               ))}

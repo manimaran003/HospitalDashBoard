@@ -41,6 +41,7 @@
     width: 100%;
 }
 
+
 .btn--container{
     margin-top: 10px;
     background-color:#5237cc ;
@@ -51,6 +52,14 @@
     border-radius: 10%;
     font-size: 1.3rem;
     font-weight: 500;
+}
+
+.select-container{
+    padding:10px;
+    font-size: 12px;
+    outline: none;
+    border: 1px solid #e4e8ed ;
+    width: 100%;
 }
 
 @media (max-width: 600px) { 
@@ -118,4 +127,8 @@
 .error-text{
     color:#5237cc;
     font-size: 14px;
+}
+
+.demo--show{
+    color:red;
 }

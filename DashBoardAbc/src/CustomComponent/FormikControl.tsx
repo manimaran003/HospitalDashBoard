@@ -2,8 +2,13 @@ import React from 'react';
 import InputComponent from './InputComponent';
 import SelectComponent from './SelectComponent';
 import UploadComponent from './UploadComponent';
+import { FieldProps } from 'formik';
+import { TextFieldProps } from '@mui/material';
+type says = {
+  control: string;
+};
 
-const FormikControl = (props: any) => {
+const FormikControl: React.FC<FieldProps & TextFieldProps & says & any> = (props) => {
   const { control, ...rest } = props;
   switch (control) {
     case 'input':
