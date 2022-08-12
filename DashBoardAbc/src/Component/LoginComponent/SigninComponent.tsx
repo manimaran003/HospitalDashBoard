@@ -1,79 +1,87 @@
-import React from 'react'
+import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-interface Signin {
-    SigninPassword: string,
-    SigninEmail: string
-}
-interface Signup {
-    username: string,
-    password: string,
-    email: string
-}
+import { LoginAction } from '../../Redux/AuthenticationSlice';
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { userContext } from '../../Context/userContext';
+
+import { Signin, UserContextType } from '../../TypeFile/TypeScriptType';
+import { useNavigate } from 'react-router-dom';
 const signinSchema = Yup.object().shape({
-    SigninEmail: Yup.string()
-        .email()
-        .required('Enter valid email-id'),
-    SigninPassword: Yup.string()
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-        )
-        .required("Password is required"),
-})
-const SigninComponent: React.FC<{ loginData: (state: Signin) => void, gotosignup: (state: Boolean) => void }> = (props) => {
-    const handleLoginSubmit = (values: Signin) => {
-        getLocalStorage(values)
-        props.loginData(values)
-    }
-    const getLocalStorage = (values: Signin) => {
-        let data: any = localStorage.getItem("signup")
-        let dataStorage = JSON.parse(data)
-        if (dataStorage) {
-            let filterData = dataStorage.find((val: Signup) => val.email === values.SigninEmail)
-            console.log(filterData)
-        }
-    }
-    const GotoSignUp = () => {
-        props.gotosignup(false)
-    }
-    return (
-        <div>
-            <Formik
-                initialValues={{
-                    SigninPassword: '',
-                    SigninEmail: '',
-                }}
-                onSubmit={(values) =>
-                    handleLoginSubmit(values)
-                }
-                validationSchema={signinSchema}
-            >
-
-                {(formik) => (
-
-                    <Form onSubmit={formik.handleSubmit}>
-                        <div className='container'>
-                            <h1 className="heading mt-3 mb-4">Signin Account</h1>
-                            <div className="d-flex flex-column gap-3 main--input">
-                                <input placeholder='email' id="SigninEmail" name="SigninEmail" onChange={formik.handleChange} />
-                                <p className="error-text">{formik.errors.SigninEmail}</p>
-                                <input placeholder='password' name="SigninPassword" onChange={formik.handleChange} />
-                                <p className="error-text">{formik.errors.SigninPassword}</p>
-                            </div>
-                            <div className='d-flex align-items-center justify-content-center'>
-                                <button className="btn--container">
-                                    Sign in
-                                </button>
-                            </div>
-                            <p className='login--text mt-3'>Dont't have an account <span onClick={GotoSignUp}>Signup</span>?</p>
-                        </div>
-                    </Form>
-                )}
-
-            </Formik>
-        </div>
+  email: Yup.string().email().required('Enter valid email-id'),
+  password: Yup.string()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
     )
-}
+    .required('Password is required')
+});
+const SigninComponent: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { AuthTool } = React.useContext(userContext) as UserContextType;
+  const handleLoginSubmit = (values: Signin) => {
+    dispatch(LoginAction(values, navigate));
+  };
+  const goToSignUp = () => {
+    AuthTool(false);
+  };
+  return (
+    <div>
+      <Formik
+        initialValues={{
+          password: '',
+          email: ''
+        }}
+        onSubmit={(values) => handleLoginSubmit(values)}
+        validationSchema={signinSchema}>
+        {(formik) => (
+          <Form onSubmit={formik.handleSubmit}>
+            <div className="container">
+              <div>
+                <div className="demo--show">please use this credential demo use</div>
+                <div>cmmaran102@gmail.com</div>
+                <div>Github@1999</div>
+              </div>
+              <h1 className="heading mt-3 mb-4">Signin Account</h1>
+              <div className="d-flex flex-column gap-3 main--input">
+                <input
+                  placeholder="email"
+                  id="SigninEmail"
+                  name="email"
+                  type="text"
+                  onChange={formik.handleChange}
+                  data-testid="email"
+                />
+                <p className="error-text" data-testid="error-test1">
+                  {formik.errors.email}
+                </p>
+                <input
+                  placeholder="password"
+                  name="password"
+                  type="text"
+                  onChange={formik.handleChange}
+                  data-testid="password"
+                />
+                <p className="error-text" data-testid="error-test2">
+                  {formik.errors.password}
+                </p>
+              </div>
+              <div className="d-flex align-items-center justify-content-center">
+                <button className="btn--container" type="submit">
+                  Sign in
+                </button>
+              </div>
+              <p className="login--text mt-3">
+                Dont&apos;t have an account <span onClick={goToSignUp}>Signup</span>?
+              </p>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
 
-export default SigninComponent
+export default SigninComponent;
